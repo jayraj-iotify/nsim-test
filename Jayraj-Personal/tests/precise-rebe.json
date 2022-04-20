@@ -1,0 +1,93 @@
+{
+  "id": "625feb529c89444567d248ea",
+  "name": "precise-rebe",
+  "tags": null,
+  "labels": null,
+  "workspaceId": "6246fbe2fdee1fd07c3bb327",
+  "version": 1,
+  "createdBy": "6246fbe2fdee1fd07c3bb324",
+  "lastUpdateBy": "6246fbe2fdee1fd07c3bb324",
+  "lastUpdatedOn": "2022-04-20T11:52:17.791Z",
+  "definition": {
+    "protocol": "http",
+    "clientId": "",
+    "additionalPackages": {},
+    "strategy": "Default",
+    "settings": {
+      "method": "GET",
+      "url": "http://httpbin.org/get",
+      "timeout": 10000,
+      "headers": {
+        "accept": "application/json"
+      }
+    },
+    "model": {
+      "currentState": "Init",
+      "stateMap": {
+        "Init": {
+          "name": "Init",
+          "isEnabled": true,
+          "sender": "\n{\n  //Please provide your logic here. \n  console.log(\"Test_After_App\")\n  //The device model state could be transitioned by calling next()\n  //To transition to a specific state pass state name as argument e.g. \n  //next('Running');\n  \n}\n",
+          "receiver": "\n{\n  //Please provide your logic here. \n  \n  //The device model state could be transitioned by calling next()\n  //To transition to a specific state pass state name as argument e.g. \n  //next('Running');\n  \n}\n",
+          "icon": "",
+          "index": 0
+        },
+        "Running": {
+          "name": "Running",
+          "isEnabled": true,
+          "sender": "\n{\n  //Please provide your logic here. \n  \n  //The device model state could be transitioned by calling next()\n  //To transition to a specific state pass state name as argument e.g. \n  //next('Running');\n  \n}\n",
+          "receiver": "\n{\n  //Please provide your logic here. \n  \n  //The device model state could be transitioned by calling next()\n  //To transition to a specific state pass state name as argument e.g. \n  //next('Running');\n  \n}\n",
+          "icon": "",
+          "index": 1
+        },
+        "Finished": {
+          "name": "Finished",
+          "isEnabled": true,
+          "sender": "\n{\n  //Please provide your logic here. \n  \n  //The device model state could be transitioned by calling next()\n  //To transition to a specific state pass state name as argument e.g. \n  //next('Running');\n  \n}\n",
+          "receiver": "\n{\n  //Please provide your logic here. \n  \n  //The device model state could be transitioned by calling next()\n  //To transition to a specific state pass state name as argument e.g. \n  //next('Running');\n  \n}\n",
+          "icon": "",
+          "index": 2
+        }
+      },
+      "setup": "",
+      "teardown": ""
+    }
+  },
+  "history": [
+    {
+      "userId": "6246fbe2fdee1fd07c3bb324",
+      "timestamp": "2022-04-20T11:15:30.893Z",
+      "description": {
+        "action": "Create"
+      }
+    },
+    {
+      "userId": "6246fbe2fdee1fd07c3bb324",
+      "timestamp": "2022-04-20T11:19:56.585Z",
+      "description": {
+        "action": "update"
+      }
+    },
+    {
+      "userId": "6246fbe2fdee1fd07c3bb324",
+      "timestamp": "2022-04-20T11:20:05.495Z",
+      "description": {
+        "action": "update"
+      }
+    },
+    {
+      "userId": "6246fbe2fdee1fd07c3bb324",
+      "timestamp": "2022-04-20T11:25:52.148Z",
+      "description": {
+        "action": "update"
+      }
+    },
+    {
+      "userId": "6246fbe2fdee1fd07c3bb324",
+      "timestamp": "2022-04-20T11:52:17.791Z",
+      "description": {
+        "action": "update"
+      }
+    }
+  ]
+}
