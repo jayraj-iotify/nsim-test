@@ -1,0 +1,121 @@
+{
+  "id": "625fe5bc9c89444567d248ce",
+  "name": "hash-test-mqtt",
+  "tags": null,
+  "labels": null,
+  "workspaceId": "6246fbe2fdee1fd07c3bb327",
+  "version": 1,
+  "createdBy": "6246fbe2fdee1fd07c3bb324",
+  "lastUpdateBy": "6246fbe2fdee1fd07c3bb324",
+  "lastUpdatedOn": "2022-04-20T11:55:30.034Z",
+  "definition": {
+    "protocol": "mqtt",
+    "clientId": "",
+    "additionalPackages": {
+      "axios": {
+        "type": "npm",
+        "content": "axios",
+        "name": "axios"
+      }
+    },
+    "strategy": "Default",
+    "settings": {
+      "url": "mqtt://broker.hivemq.com:1883",
+      "timeout": 10000,
+      "keepalive": 10000,
+      "qos": 0,
+      "reconnectPeriod": 60000,
+      "connectTimeout": 60000,
+      "retain": false,
+      "topic": "/hello/",
+      "subscriptionTopics": [
+        "/hello",
+        "/world"
+      ],
+      "username": "",
+      "password": ""
+    },
+    "model": {
+      "currentState": "Init",
+      "stateMap": {
+        "Init": {
+          "name": "Init",
+          "isEnabled": true,
+          "sender": "{\n  var checksum = '6e5afc8cda8bda420187a4c50c05fb10'\n\n\n\n  let response = await axios.request({\n    method: \"GET\",\n    url: \"https://oaks-firmware-files.s3.amazonaws.com/V3Lock/OaksV3.1_V2.13.1_20200819.zip%20?AWSAccessKeyId=AKIAT7D5SI6FGJUQ2PJD&Expires=1650461780&Signature=CtmGg4QNXYv3vAAmX8Uq9Dp4pFg%3D\",\n    responseType: \"stream\",\n  });\n\n  md5Sum = crypto.createHash('md5')\n\n  response.data.on(\"data\", function (chunk) {\n    md5Sum.update(chunk)\n  });\n\n  response.data.on(\"end\", function () {\n    var hashed = md5Sum.digest('hex')\n    console.log(\"Hash: \" + hashed)\n\n    console.log(\"Required Hash: \"+checksum)\n    console.log(\"Calculated Hash: \" + hashed)\n    \n    if (hashed == checksum) {\n      console.log(\"Firmware updated successfully\");\n    } else {\n      console.log(\"error in checksum\");\n    }\n  });\n}\n\n\n",
+          "receiver": "\n{\n  //Please provide your logic here. \n  \n  //The device model state could be transitioned by calling next()\n  //To transition to a specific state pass state name as argument e.g. \n  //next('Running');\n  \n}\n",
+          "icon": "",
+          "index": 0
+        },
+        "Running": {
+          "name": "Running",
+          "isEnabled": true,
+          "sender": "\n{\n  //Please provide your logic here. \n  \n  //The device model state could be transitioned by calling next()\n  //To transition to a specific state pass state name as argument e.g. \n  //next('Running');\n  \n}\n",
+          "receiver": "\n{\n  //Please provide your logic here. \n  \n  //The device model state could be transitioned by calling next()\n  //To transition to a specific state pass state name as argument e.g. \n  //next('Running');\n  \n}\n",
+          "icon": "",
+          "index": 1
+        },
+        "Finished": {
+          "name": "Finished",
+          "isEnabled": true,
+          "sender": "\n{\n  //Please provide your logic here. \n  \n  //The device model state could be transitioned by calling next()\n  //To transition to a specific state pass state name as argument e.g. \n  //next('Running');\n  \n}\n",
+          "receiver": "\n{\n  //Please provide your logic here. \n  \n  //The device model state could be transitioned by calling next()\n  //To transition to a specific state pass state name as argument e.g. \n  //next('Running');\n  \n}\n",
+          "icon": "",
+          "index": 2
+        }
+      },
+      "setup": "",
+      "teardown": ""
+    }
+  },
+  "history": [
+    {
+      "userId": "6246fbe2fdee1fd07c3bb324",
+      "timestamp": "2022-04-20T10:51:40.620Z",
+      "description": {
+        "action": "Create"
+      }
+    },
+    {
+      "userId": "6246fbe2fdee1fd07c3bb324",
+      "timestamp": "2022-04-20T10:51:54.072Z",
+      "description": {
+        "action": "update"
+      }
+    },
+    {
+      "userId": "6246fbe2fdee1fd07c3bb324",
+      "timestamp": "2022-04-20T10:52:28.917Z",
+      "description": {
+        "action": "update"
+      }
+    },
+    {
+      "userId": "6246fbe2fdee1fd07c3bb324",
+      "timestamp": "2022-04-20T11:12:02.867Z",
+      "description": {
+        "action": "update"
+      }
+    },
+    {
+      "userId": "6246fbe2fdee1fd07c3bb324",
+      "timestamp": "2022-04-20T11:37:26.019Z",
+      "description": {
+        "action": "update"
+      }
+    },
+    {
+      "userId": "6246fbe2fdee1fd07c3bb324",
+      "timestamp": "2022-04-20T11:50:14.915Z",
+      "description": {
+        "action": "update"
+      }
+    },
+    {
+      "userId": "6246fbe2fdee1fd07c3bb324",
+      "timestamp": "2022-04-20T11:55:30.034Z",
+      "description": {
+        "action": "update"
+      }
+    }
+  ]
+}
