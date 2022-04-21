@@ -28,7 +28,7 @@
         "Init": {
           "name": "Init",
           "isEnabled": true,
-          "sender": "{\n  // console.log(axios)\n  let response = await axios.request({\n    method: \"GET\",\n    url: \"https://filebin.net/38kkr4zci6jweim3/OaksV3.1_V2.12.1_20200430.zip\",\n    responseType: \"stream\",\n  });\n\n  md5Sum = crypto.createHash('md5')\n\n  response.data.on(\"data\", function (chunk) {\n    console.log(\"Got new data\");\n    md5Sum.update(chunk)\n  });\n\n  response.data.on(\"end\", function () {\n    console.log(\"Downloaded\");\n    console.log(md5Sum.digest('hex'))\n    metric.add(\"Download\")\n  });\n}\n",
+          "sender": "{\n  // console.log(axios)\n  let response = await axios.request({\n    method: \"GET\",\n    url: \"https://filebin.net/38kkr4zci6jweim3/OaksV3.1_V2.12.1_20200430.zip\",\n    responseType: \"stream\",\n  });\n\n  md5Sum = crypto.createHash('md5')\n\n  response.data.on(\"data\", function (chunk) {\n    console.log(\"Got new data\");\n    md5Sum.update(chunk)\n  });\n\n  response.data.on(\"end\", function () {\n    console.log(\"Downloaded\");\n    console.log(md5Sum.digest('hex'))\n    metric.add(\"Downloaded\")\n  });\n}\n",
           "receiver": "\n{\n  //Please provide your logic here. \n  \n  //The device model state could be transitioned by calling next()\n  //To transition to a specific state pass state name as argument e.g. \n  //next('Running');\n  \n}\n",
           "icon": "",
           "index": 0
