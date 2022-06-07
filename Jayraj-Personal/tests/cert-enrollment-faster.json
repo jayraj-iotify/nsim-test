@@ -1,0 +1,50 @@
+{
+  "name": "cert-enrollment-faster",
+  "version": 1,
+  "definition": {
+    "protocol": "http",
+    "clientId": "",
+    "strategy": "Default",
+    "settings": {
+      "method": "POST",
+      "url": "https://d3vcdkc3ddc0sc.cloudfront.net//api/hubs/registerSmartHomeUnit",
+      "timeout": 10000,
+      "headers": {
+        "Content-Type": "application/x-www-form-urlencoded"
+      }
+    },
+    "model": {
+      "currentState": "Init",
+      "stateMap": {
+        "Init": {
+          "name": "Init",
+          "isEnabled": true,
+          "sender": "{\n  /*\n\n      PARALLEL CERTIFICATE ENROLMENT TEMPLATE\n\n  This is a multi-purpose template that will allow you to\n  enroll any number of gateways with any number of clients\n  in parallel. \n\n  Set totalGateways to the total number of gateways you \n  wish to enroll and set totalClients to the number of parallel\n  clients you have to run. You will have to specify the number of\n  clients in the run settings also. \n\n  Ideally, if all requests are successful, the number of iterations \n  you would have to specify in the run settings would be: \n              totalGateways/totalClients.\n\n  However, to account for any failed requests that may occour, it is\n  advised to set the iterations in the run settings to 10% more than \n  this number. The template is designed to prevent over-writing. \n\n  Gateway details are stored in Glob in the format gateway_X, where\n  X ranges from client.min to client.max computed in later in this section.\n  X is kept track of in state.index. It is only incremented when a request\n  is successful.\n\n  */\n\n  let totalGateways = 20;\n  let totalClients = 10;\n\n  // If 'totalGateways' is not divisible by 'totalClients', the remainder is \n  // added to totalGateways so that it becomes divisible. \n  if (totalGateways % totalClients !== 0) {\n    console.log(totalGateways + \" is not divisible by \" + totalClients);\n    totalGateways += totalClients - (totalGateways % totalClients);\n    console.log(\"Enrolling \" + totalGateways + \" gateways\");\n  }\n  // Now we compute the Iterations required to complete the enrollment\n  let iterations = totalGateways / totalClients;\n  console.log(\"Iterations : \", iterations);\n\n  // This computes the lower and upper limits for the gateways that are to be \n  // enrolled by each client. \n  let clientLimits = {};\n  for (let i = 0; i < totalClients; i++) {\n    clientLimits[i] = { min: i * iterations, max: (i + 1) * iterations - 1 };\n  }\n  state._$clientLimits = clientLimits;\n  console.log(clientLimits)\n  state.index = clientLimits[client()].min;\n  next(\"Running\");\n}\n",
+          "receiver": "\n{\n  //Please provide your logic here. \n  \n  //The device model state could be transitioned by calling next()\n  //To transition to a specific state pass state name as argument e.g. \n  //next('Running');\n  \n}\n",
+          "icon": "",
+          "index": 0
+        },
+        "Running": {
+          "name": "Running",
+          "isEnabled": true,
+          "sender": "{\n  console.log(\"INDEX: \" + state.index);\n\n  //Check if Client is within limits.\n  if (state.index > state._$clientLimits[client()].max) {\n    console.log(\n      \"Client \" + client() + \" has completed enrolling all its gateways\"\n    );\n  } else {\n    // Check if gateway with this glob entry has already been enrolled.\n    state.serial = glob.get(\"gateway_\" + state.index + \"_serial\");\n    var scan_forward = 100;\n    while (state.serial && (--scan_forward > 0) && (state.index <= state._$clientLimits[client()].max)) {\n      //console.log(\"Cert found for index\", state.index, \"skipping\");\n      state.index++;\n      delay(10);\n      state.serial = glob.get(\"gateway_\" + state.index + \"_serial\");\n    }\n    if (!state.serial) {\n      console.log(\"Scanning cert for gateway\", state.index)\n      state.serial = \"iotify_serial_\" + chance.guid();\n      state.startTimer = Date.now();\n      return \"serial_no=\" + state.serial;\n    } \n  }\n \n}\n",
+          "receiver": "{\n\n  let data = response.body.replace(/\\\\\"/g, '\"')\n  //console.log(data);\n\n  let result = JSON.parse(data);\n \n  state.RECEIVED = result;\n  if (result.success) {\n    let gateway = { thingName: result.thing_name };\n    glob.set(\"gateway_\" + state.index + \"_cert\", result.certificate_pem);\n    glob.set(\"gateway_\" + state.index + \"_key\", result.private_key);\n    glob.set(\"gateway_\" + state.index + \"_serial\", state.serial);\n    glob.set(\"gateway_\" + state.index, gateway);\n\n    metric.add('Cert_Enrollment_responseTime', (Date.now() - state.startTimer))\n    metric.add('Cert_Enrollment_success')\n\n    state.index++; // Increment the index only if result is success\n  } else {\n    console.log(\"Failed to provision gateway\");\n    console.log(data)\n    metric.add('Cert_Enrollment_fail')\n    assert(false);\n  }\n}\n",
+          "icon": "",
+          "index": 1
+        },
+        "Finished": {
+          "name": "Finished",
+          "isEnabled": true,
+          "sender": "\n{\n  //Please provide your logic here. \n  \n  //The device model state could be transitioned by calling next()\n  //To transition to a specific state pass state name as argument e.g. \n  //next('Running');\n  \n}\n",
+          "receiver": "\n{\n  //Please provide your logic here. \n  \n  //The device model state could be transitioned by calling next()\n  //To transition to a specific state pass state name as argument e.g. \n  //next('Running');\n  \n}\n",
+          "icon": "",
+          "index": 2
+        }
+      },
+      "setup": "",
+      "teardown": ""
+    },
+    "additionalPackages": {}
+  },
+  "workspaceId": "6246fbe2fdee1fd07c3bb327"
+}
