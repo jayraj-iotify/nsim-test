@@ -1,8 +1,13 @@
 {
-  "version": 1,
-  "workspaceId": "6246fbe2fdee1fd07c3bb327",
-  "id": "",
+  "id": "627b79e55d0a2c40cc39cfad",
   "name": "collective-ange",
+  "tags": null,
+  "labels": null,
+  "workspaceId": "6246fbe2fdee1fd07c3bb327",
+  "version": 1,
+  "createdBy": "6246fbe2fdee1fd07c3bb324",
+  "lastUpdateBy": "6246fbe2fdee1fd07c3bb324",
+  "lastUpdatedOn": "2022-05-11T08:55:01.092Z",
   "definition": {
     "protocol": "mqtt",
     "clientId": "",
@@ -49,7 +54,14 @@
           "sender": "\n{\n  //Please provide your logic here. \n  \n  //The device model state could be transitioned by calling next()\n  //To transition to a specific state pass state name as argument e.g. \n  //next('Running');\n  \n}\n",
           "receiver": "\n{\n  //Please provide your logic here. \n  \n  //The device model state could be transitioned by calling next()\n  //To transition to a specific state pass state name as argument e.g. \n  //next('Running');\n  \n}\n",
           "icon": "",
-          "index": 2
+          "index": 3
+        },
+        "Running2": {
+          "index": 2,
+          "name": "Running2",
+          "isEnabled": true,
+          "sender": "\n{\n  //Please provide your logic here. \n  if (iteration() % 2 != 0) {\n    protocol.forceConnect();\n    protocol.publish(\"Hello\")\n  }\n  //The device model state could be transitioned by calling next()\n  //To transition to a specific state pass state name as argument e.g. \n  //next('Running');\n  \n}\n",
+          "receiver": "\n{\n  //Please provide your logic here. \n  \n  //The device model state could be transitioned by calling next()\n  //To transition to a specific state pass state name as argument e.g. \n  //next('Running');\n  \n}\n"
         }
       },
       "setup": "",
