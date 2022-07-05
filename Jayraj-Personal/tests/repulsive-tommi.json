@@ -1,8 +1,8 @@
 {
-  "version": 1,
+  "id": "62c424a7a3d365aa45cc8eb2",
   "workspaceId": "6246fbe2fdee1fd07c3bb327",
-  "id": "",
   "name": "repulsive-tommi",
+  "version": 1,
   "definition": {
     "protocol": "http",
     "clientId": "",
@@ -22,7 +22,7 @@
         "Init": {
           "name": "Init",
           "isEnabled": true,
-          "sender": "\n{\n  //Please provide your logic here. \n  for (i = 0; i < 100; i++){\n    let temperature = chance.integer({ min: 0, max: 100 });\n    let data = chance.sentence({ words: 5 });\n    let location = chance.city();\n\n    let objKey = \"key_\" + i;\n    let objData = {\n      location,\n      temperature,\n      data\n    }\n\n    glob.set(objKey, objData)\n  }\n  //The device model state could be transitioned by calling next()\n  //To transition to a specific state pass state name as argument e.g. \n  //next('Running');\n  \n}\n",
+          "sender": "\n{\n  //Please provide your logic here. \n  for (i = 0; i < 100; i++){\n    let temperature = chance.integer({ min: 0, max: 100 });\n    let data = chance.sentence({ words: 5 });\n    let location = chance.city();\n\n    let objKey = \"key_\" + i;\n    let objData = {\n      location,\n      temperature,\n      data\n    }\n\n    console.log(\"Key: \", objKey)\n    console.log(\"Data: \", objData)\n    glob.set(objKey, objData)\n  }\n  //The device model state could be transitioned by calling next()\n  //To transition to a specific state pass state name as argument e.g. \n  //next('Running');\n  \n}\n",
           "receiver": "\n{\n  //Please provide your logic here. \n  \n  //The device model state could be transitioned by calling next()\n  //To transition to a specific state pass state name as argument e.g. \n  //next('Running');\n  \n}\n",
           "icon": "",
           "index": 0
