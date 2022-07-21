@@ -7,7 +7,7 @@
   "version": 1,
   "createdBy": "6246fbe2fdee1fd07c3bb324",
   "lastUpdateBy": "6246fbe2fdee1fd07c3bb324",
-  "lastUpdatedOn": "2022-07-21T12:43:02.989Z",
+  "lastUpdatedOn": "2022-07-21T12:52:48.309Z",
   "definition": {
     "protocol": "mqtt",
     "clientId": "",
@@ -40,7 +40,7 @@
         "Init": {
           "name": "Init",
           "isEnabled": true,
-          "sender": "\n{\n  // Please provide your logic here.\n  var temperature = weather.temperature({ location: 'London, UK', unit: 'f' });\n\n  console.log(temperature)\n\n  var cpudata = cpu();\n  var memorydata = memory(); \n\n  console.log(cpudata)\n  console.log(memorydata)\n\n\n\n\n\n\n\n  // The device model state could be transitioned by calling next()\n  // To transition to a specific state pass state name as argument e.g.\n  // next('Running');\n\n}\n",
+          "sender": "\n{\n  // Please provide your logic here.\n\n\n  var cpudata = cpu();\n  var memorydata = memory(); \n\n  console.log(cpudata)\n  console.log(memorydata)\n\n\n\n\n\n\n\n  // The device model state could be transitioned by calling next()\n  // To transition to a specific state pass state name as argument e.g.\n  // next('Running');\n\n}\n",
           "receiver": "",
           "icon": "",
           "index": 0
