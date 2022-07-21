@@ -7,7 +7,7 @@
   "version": 1,
   "createdBy": "6246fbe2fdee1fd07c3bb324",
   "lastUpdateBy": "6246fbe2fdee1fd07c3bb324",
-  "lastUpdatedOn": "2022-07-21T12:36:08.898Z",
+  "lastUpdatedOn": "2022-07-21T12:37:48.860Z",
   "definition": {
     "protocol": "mqtt",
     "clientId": "",
@@ -40,7 +40,7 @@
         "Init": {
           "name": "Init",
           "isEnabled": true,
-          "sender": "\n{\n  // Please provide your logic here.\n  mailbox.post(\"key1\", 33)\n  mailbox.post(\"key1\", \"Hello World\")\n  mailbox.post(\"key1\", { \"Hello\": \"World\" })\n\n  console.log(\"First pop\")\n  console.log(mailbox.pop(\"key1\"))\n  console.log(\"Second pop\")\n  console.log(mailbox.pop(\"key1\"))\n\n\n\n\n  // The device model state could be transitioned by calling next()\n  // To transition to a specific state pass state name as argument e.g.\n  // next('Running');\n\n}\n",
+          "sender": "\n{\n  // Please provide your logic here.\n  mailbox.post(\"key1\", 33)\n  mailbox.post(\"key1\", \"Hello World\")\n  mailbox.post(\"key1\", { \"Hello\": \"World\" })\n\n\n  console.log(mailbox.dump(\"key1\"))\n\n\n\n\n\n  // The device model state could be transitioned by calling next()\n  // To transition to a specific state pass state name as argument e.g.\n  // next('Running');\n\n}\n",
           "receiver": "",
           "icon": "",
           "index": 0
