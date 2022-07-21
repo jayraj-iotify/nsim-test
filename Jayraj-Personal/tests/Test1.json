@@ -7,7 +7,7 @@
   "version": 1,
   "createdBy": "6246fbe2fdee1fd07c3bb324",
   "lastUpdateBy": "6246fbe2fdee1fd07c3bb324",
-  "lastUpdatedOn": "2022-07-21T12:09:35.522Z",
+  "lastUpdatedOn": "2022-07-21T12:12:03.412Z",
   "definition": {
     "protocol": "mqtt",
     "clientId": "",
@@ -40,7 +40,7 @@
         "Init": {
           "name": "Init",
           "isEnabled": true,
-          "sender": "\n{\n  // Please provide your logic here.\n  glob.set('key1', 55);\n  glob.set('key2', \"Hello World\");\n  glob.set('key3', { \"Hello\": \"World\" });\n\n  let val1 = glob.get('key1'); // val will be 55\n  let val2 = glob.get('key2'); // val will be 55\n  let val3 = glob.get('key3'); // val will be 55\n\n  console.log(\"value 1 \"+ val1)\n  console.log(\"value 2 \"+ val2)\n  console.log(\"value 3 \"+ JSON.stringify(val3))\n\n\n\n\n\n  // The device model state could be transitioned by calling next()\n  // To transition to a specific state pass state name as argument e.g.\n  // next('Running');\n\n}\n",
+          "sender": "\n{\n  // Please provide your logic here.\n  mailbox.post(\"key1\", 33)\n  mailbox.post(\"key1\", \"Hello World\")\n  mailbox.post(\"key1\", { \"Hello\": \"World\" })\n\n  console.log(mailbox.pop(\"key1\"))\n  console.log(mailbox.pop(\"key1\"))\n\n\n\n\n  // The device model state could be transitioned by calling next()\n  // To transition to a specific state pass state name as argument e.g.\n  // next('Running');\n\n}\n",
           "receiver": "",
           "icon": "",
           "index": 0
