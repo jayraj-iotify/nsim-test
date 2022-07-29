@@ -11,13 +11,7 @@
   "definition": {
     "protocol": "mqtt",
     "clientId": "",
-    "additionalPackages": {
-      "moment": {
-        "content": "moment",
-        "name": "moment",
-        "type": "npm"
-      }
-    },
+    "additionalPackages": {},
     "strategy": "Default",
     "settings": {
       "url": "mqtt://broker.hivemq.com:1883",
@@ -46,7 +40,7 @@
         "Init": {
           "name": "Init",
           "isEnabled": true,
-          "sender": "{\n  //initialize some default values for your home\n\n  state.address = chance.address();\n  // state.gps = location({ address: 'San Francisco, USA', accuracy: 500 });\n  state.alarmEnabled = false;\n  state.alarmDetected = false;\n  state.rooms = {\n    living: { name: \"Living Room\", lights: true, occupancy: true, aircondition: true, temperature: 55, alarm: false },\n    bed: { id: 2, name: \"Bed Room\", lights: false, occupancy: false, aircondition: false, temperature: 60, alarm: false },\n    kitchen: { id: 3, name: \"Kitchen\", lights: false, occupancy: false, aircondition: false, temperature: 58, alarm: false }\n  };\n\n  let currentHour = dayjs().hour()\nconsole.log(currentHour)\n  state.currentPowerConsumption = 0; // watt\n\n  next('day')\n}\n",
+          "sender": "{\n  //initialize some default values for your home\n\n  state.address = chance.address();\n  // state.gps = location({ address: 'San Francisco, USA', accuracy: 500 });\n  state.alarmEnabled = false;\n  state.alarmDetected = false;\n  state.rooms = {\n    living: { name: \"Living Room\", lights: true, occupancy: true, aircondition: true, temperature: 55, alarm: false },\n    bed: { id: 2, name: \"Bed Room\", lights: false, occupancy: false, aircondition: false, temperature: 60, alarm: false },\n    kitchen: { id: 3, name: \"Kitchen\", lights: false, occupancy: false, aircondition: false, temperature: 58, alarm: false }\n  };\n\n  state.currentPowerConsumption = 0; // watt\n\n  next('day')\n}\n",
           "receiver": "",
           "icon": "",
           "index": 0
@@ -54,7 +48,7 @@
         "Day": {
           "name": "Day",
           "isEnabled": true,
-          "sender": "\n{\n  let currentHour = dayjs().hour()\n  \n  // The device model state could be transitioned by calling next()\n  // To transition to a specific state pass state name as argument e.g.\n  // next('Running');\n\n}\n",
+          "sender": "\n{\n  let currentHour = dayjs().hour()\n  if (currentHour > 7 && currentHour < 20) //normal day\n    {\n      // Lights and airconditioning will mostly be dependent upon occupancy. \n      state.rooms.kitchen.occupancy = chance.bool();\n      state.rooms.kitchen.lights = chance.bool();\n      state.rooms.kitchen.aircondition = state.rooms.kitchen.occupancy ? true : chance.bool();\n      state.rooms.kitchen.temperature = chance.integer({ min: 45, max: 55 });\n      state.rooms.kitchen.alarm = false;\n\n      state.rooms.living.occupancy = chance.bool();\n      state.rooms.living.lights = state.rooms.living.occupancy ? true : chance.bool();\n      state.rooms.living.aircondition = state.rooms.living.occupancy ? true : chance.bool();\n      state.rooms.living.temperature = chance.integer({ min: 45, max: 55 });\n      state.rooms.living.alarm = false;\n\n      state.rooms.bed.lights = false;\n      state.rooms.bed.occupancy = false;\n      state.rooms.bed.aircondition = false;\n      state.rooms.bed.temperature = chance.integer({ min: 45, max: 55 });\n      state.rooms.bed.alarm = false;\n    }  \n  // The device model state could be transitioned by calling next()\n  // To transition to a specific state pass state name as argument e.g.\n  // next('Running');\n\n}\n",
           "receiver": "",
           "icon": "",
           "index": 1
@@ -62,7 +56,7 @@
         "Night": {
           "name": "Night",
           "isEnabled": true,
-          "sender": "\n{\n  // Please provide your logic here.\n\n  // The device model state could be transitioned by calling next()\n  // To transition to a specific state pass state name as argument e.g.\n  // next('Running');\n\n}\n",
+          "sender": "\n{\n  let currentHour = dayjs().hour()\n\n  if (currentHour < 7 || currentHour > 20) {\n    state.rooms.kitchen.lights = false;\n    state.rooms.kitchen.occupancy = false;\n    state.rooms.kitchen.aircondition = false;\n    state.rooms.kitchen.temperature = 45;\n    state.rooms.kitchen.alarm = false;\n\n    state.rooms.living.lights = false;\n    state.rooms.living.occupancy = false;\n    state.rooms.living.aircondition = false;\n    state.rooms.living.temperature = 48;\n    state.rooms.living.alarm = false;\n\n    state.rooms.bed.lights = false;\n    state.rooms.bed.occupancy = true;\n    state.rooms.bed.aircondition = true;\n    state.rooms.bed.temperature = 50;\n    state.rooms.bed.alarm = false;\n  } \n\n  else {\n    next('Day');\n  }\n  // The device model state could be transitioned by calling next()\n  // To transition to a specific state pass state name as argument e.g.\n\n}\n",
           "receiver": "",
           "index": 2,
           "icon": ""
