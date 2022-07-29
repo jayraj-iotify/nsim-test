@@ -1,0 +1,65 @@
+{
+  "version": 1,
+  "workspaceId": "6246fbe2fdee1fd07c3bb327",
+  "id": "",
+  "name": "Smart Home",
+  "definition": {
+    "protocol": "mqtt",
+    "clientId": "",
+    "additionalPackages": {},
+    "strategy": "Default",
+    "settings": {
+      "url": "mqtt://broker.hivemq.com:1883",
+      "topic": "/hello/",
+      "subscriptionTopics": [
+        "/hello",
+        "/world"
+      ],
+      "timeout": 10000,
+      "qos": 0,
+      "retain": false,
+      "keepalive": 10000,
+      "reconnectPeriod": 60000,
+      "connectTimeout": 60000,
+      "username": "",
+      "password": "",
+      "identity": "",
+      "psk": "",
+      "key": "",
+      "cert": "",
+      "ca": ""
+    },
+    "model": {
+      "currentState": "Init",
+      "stateMap": {
+        "Init": {
+          "name": "Init",
+          "isEnabled": true,
+          "sender": "{\n  //initialize some default values for your home\n\n  state.address = chance.address();\n  state.gps = location({ address: 'San Francisco, USA', accuracy: 500 });\n  state.alarmEnabled = false;\n  state.alarmDetected = false;\n  state.rooms = {\n    living: { name: \"Living Room\", lights: true, occupancy: true, aircondition: true, temperature: 55, alarm: false },\n    bed: { id: 2, name: \"Bed Room\", lights: false, occupancy: false, aircondition: false, temperature: 60, alarm: false },\n    kitchen: { id: 3, name: \"Kitchen\", lights: false, occupancy: false, aircondition: false, temperature: 58, alarm: false }\n  };\n\n\n  state.currentPowerConsumption = 0; // watt\n\n}\n",
+          "receiver": "",
+          "icon": "",
+          "index": 0
+        },
+        "Running": {
+          "name": "Running",
+          "isEnabled": true,
+          "sender": "",
+          "receiver": "",
+          "icon": "",
+          "index": 1
+        },
+        "Finished": {
+          "name": "Finished",
+          "isEnabled": true,
+          "sender": "",
+          "receiver": "",
+          "icon": "",
+          "index": 2
+        }
+      },
+      "setup": "",
+      "teardown": ""
+    }
+  },
+  "tags": {}
+}
