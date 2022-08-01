@@ -7,7 +7,7 @@
   "version": 1,
   "createdBy": "6246fbe2fdee1fd07c3bb324",
   "lastUpdateBy": "6246fbe2fdee1fd07c3bb324",
-  "lastUpdatedOn": "2022-07-29T10:29:10.104Z",
+  "lastUpdatedOn": "2022-07-29T10:58:27.482Z",
   "definition": {
     "protocol": "mqtt",
     "clientId": "",
@@ -40,7 +40,7 @@
         "Init": {
           "name": "Init",
           "isEnabled": true,
-          "sender": "{\n  //initialize some default values for your home\n\n  state.address = chance.address();\n  // state.gps = location({ address: 'San Francisco, USA', accuracy: 500 });\n  state.alarmEnabled = false;\n  state.alarmDetected = false;\n  state.rooms = {\n    living: { name: \"Living Room\", lights: true, occupancy: true, aircondition: true, temperature: 55, alarm: false },\n    bed: { id: 2, name: \"Bed Room\", lights: false, occupancy: false, aircondition: false, temperature: 60, alarm: false },\n    kitchen: { id: 3, name: \"Kitchen\", lights: false, occupancy: false, aircondition: false, temperature: 58, alarm: false }\n  };\n\n  state.currentPowerConsumption = 0; // watt\n\n  next('day')\n}\n",
+          "sender": "{\n  //initialize some default values for your home\n\n  state.address = chance.address();\n  // state.gps = location({ address: 'San Francisco, USA', accuracy: 500 });\n  state.alarmEnabled = false;\n  state.alarmDetected = false;\n  state.rooms = {\n    living: { name: \"Living Room\", lights: true, occupancy: true, aircondition: true, temperature: 55, alarm: false },\n    bed: { id: 2, name: \"Bed Room\", lights: false, occupancy: false, aircondition: false, temperature: 60, alarm: false },\n    kitchen: { id: 3, name: \"Kitchen\", lights: false, occupancy: false, aircondition: false, temperature: 58, alarm: false }\n  };\n\n  state.currentPowerConsumption = 0; // watt\n  let currentHour = dayjs().hour()\nconsole.log(currentHour)\n\n  next('day')\n}\n",
           "receiver": "",
           "icon": "",
           "index": 0
@@ -48,7 +48,7 @@
         "Day": {
           "name": "Day",
           "isEnabled": true,
-          "sender": "\n{\n  let currentHour = dayjs().hour()\n\n  if (currentHour > 7 && currentHour < 20) //normal day\n    {\n      // Lights and airconditioning will mostly be dependent upon occupancy. \n      state.rooms.kitchen.occupancy = chance.bool({ likelihood: 30 });\n      state.rooms.kitchen.lights = chance.bool({ likelihood: 30 });\n      state.rooms.kitchen.aircondition = state.rooms.kitchen.occupancy ? true : chance.bool({ likelihood: 30 });\n      state.rooms.kitchen.temperature = chance.integer({ min: 45, max: 55 });\n      state.rooms.kitchen.alarm = chance.bool({ likelihood: 30 });\n\n      state.rooms.living.occupancy = chance.bool({ likelihood: 30 });\n      state.rooms.living.lights = state.rooms.living.occupancy ? true : chance.bool({ likelihood: 30 });\n      state.rooms.living.aircondition = state.rooms.living.occupancy ? true : chance.bool({ likelihood: 30 });\n      state.rooms.living.temperature = chance.integer({ min: 45, max: 55 });\n      state.rooms.living.alarm = chance.bool({ likelihood: 30 });\n\n      state.rooms.bed.lights = chance.bool({ likelihood: 30 });\n      state.rooms.bed.occupancy = chance.bool({ likelihood: 30 });\n      state.rooms.bed.aircondition = state.rooms.bed.occupancy ? true : chance.bool({ likelihood: 30 });;\n      state.rooms.bed.temperature = chance.integer({ min: 45, max: 55 });\n      state.rooms.bed.alarm = false;\n  }  \n\n  else {\n    next('Night');\n  }\n  // The device model state could be transitioned by calling next()\n  // To transition to a specific state pass state name as argument e.g.\n\n}\n",
+          "sender": "\n{\n  // let currentHour = dayjs().hour()\n  let currentHour = dayjs().fn.hour()\n\n  if (currentHour > 7 && currentHour < 20) //normal day\n    {\n      // Lights and airconditioning will mostly be dependent upon occupancy. \n      state.rooms.kitchen.occupancy = chance.bool({ likelihood: 30 });\n      state.rooms.kitchen.lights = chance.bool({ likelihood: 30 });\n      state.rooms.kitchen.aircondition = state.rooms.kitchen.occupancy ? true : chance.bool({ likelihood: 30 });\n      state.rooms.kitchen.temperature = chance.integer({ min: 45, max: 55 });\n      state.rooms.kitchen.alarm = chance.bool({ likelihood: 30 });\n\n      state.rooms.living.occupancy = chance.bool({ likelihood: 30 });\n      state.rooms.living.lights = state.rooms.living.occupancy ? true : chance.bool({ likelihood: 30 });\n      state.rooms.living.aircondition = state.rooms.living.occupancy ? true : chance.bool({ likelihood: 30 });\n      state.rooms.living.temperature = chance.integer({ min: 45, max: 55 });\n      state.rooms.living.alarm = chance.bool({ likelihood: 30 });\n\n      state.rooms.bed.lights = chance.bool({ likelihood: 30 });\n      state.rooms.bed.occupancy = chance.bool({ likelihood: 30 });\n      state.rooms.bed.aircondition = state.rooms.bed.occupancy ? true : chance.bool({ likelihood: 30 });;\n      state.rooms.bed.temperature = chance.integer({ min: 45, max: 55 });\n      state.rooms.bed.alarm = false;\n  }  \n\n  else {\n    next('Night');\n  }\n  // The device model state could be transitioned by calling next()\n  // To transition to a specific state pass state name as argument e.g.\n\n}\n",
           "receiver": "",
           "icon": "",
           "index": 1
