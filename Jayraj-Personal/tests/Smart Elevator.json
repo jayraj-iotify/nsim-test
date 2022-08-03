@@ -40,7 +40,7 @@
         "Init": {
           "name": "Init",
           "isEnabled": true,
-          "sender": "{\n  state.floors = 10\n  state.current_floor = 0\n  state.max_passengers = 8\n  state.scheduled_maintenance_interval = 2000\n  state.maintenance_cycles = 5\n  state.call_rate = 0.1\n  state.ride_rate = 0.11\n  state.maintenance_due = false\n  state.stats = {\n    calls: 0,\n    calls_since_maintenance: 0,\n    rides: 0,\n    rides_since_maintenance: 0\n  }\n\n  next('Idle')\n}",
+          "sender": "{\n  state.floors = 10\n  state.current_floor = 0\n  state.max_passengers = 8\n  state.scheduled_maintenance_interval = 20\n  state.maintenance_cycles = 5\n  state.call_rate = 0.1\n  state.ride_rate = 0.11\n  state.maintenance_due = false\n  state.stats = {\n    calls: 0,\n    calls_since_maintenance: 0,\n    rides: 0,\n    rides_since_maintenance: 0\n  }\n\n  next('Idle')\n}",
           "receiver": "",
           "icon": "",
           "index": 0
