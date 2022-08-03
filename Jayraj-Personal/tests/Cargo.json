@@ -1,6 +1,6 @@
 {
+  "id": "62ea590a6d2a5e93299928b7",
   "name": "Cargo",
-  "version": 1,
   "tags": {
     "description": "Cargo Templates",
     "icon": "https://raw.githubusercontent.com/iotify/nsim-samples/main/cargo.png",
@@ -12,6 +12,11 @@
     "transportation",
     "logistics"
   ],
+  "workspaceId": "6246fbe2fdee1fd07c3bb327",
+  "version": 1,
+  "createdBy": "6246fbe2fdee1fd07c3bb324",
+  "lastUpdateBy": "6246fbe2fdee1fd07c3bb324",
+  "lastUpdatedOn": "2022-08-03T11:16:26.144Z",
   "definition": {
     "protocol": "none",
     "clientId": "",
@@ -34,7 +39,7 @@
         "Running": {
           "name": "Running",
           "isEnabled": true,
-          "sender": "\n{\n  //Please provide your logic here. \n  \n  //The device model state could be transitioned by calling next()\n  //To transition to a specific state pass state name as argument e.g. \n  next('Init');\n  \n}\n",
+          "sender": "{\n  //Simulate a cargo container near Amsterdam\n  state.position = {\n    longitude: 52.021252,\n    latitude: 3.986965\n  };\n\n  next('Runnnig')\n}",
           "receiver": "\n{\n  //Please provide your logic here. \n  \n  //The device model state could be transitioned by calling next()\n  //To transition to a specific state pass state name as argument e.g. \n  //next('Running');\n  \n}\n",
           "icon": "",
           "index": 1
@@ -51,6 +56,5 @@
       "setup": "",
       "teardown": ""
     }
-  },
-  "workspaceId": "6246fbe2fdee1fd07c3bb327"
+  }
 }
