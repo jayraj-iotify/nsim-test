@@ -80,7 +80,7 @@
         "On_Ride": {
           "name": "On_Ride",
           "isEnabled": true,
-          "sender": "\n{\n  var current_status = \"on ride\"\n  var now = dayjs().format()\n\n  state.stats.rides = state.stats.rides + 1\n  state.stats.rides_since_maintenance = state.stats.rides_since_maintenance + 1\n  var current_weight = 70 * chance.integer({ min: 1, max: state.max_passengers })\n  state.current_floor = chance.integer({ min: 0, max: state.floors - 1 })\n\n  var message = {\n    timestamp: now,\n    status: current_status\n  }\n\n  \n  if (chance.bool({ likelihood: 1 })) {\n    next('Fault')\n  }\n  else {\n    if (chance.bool({ likelihood: 1 })) {\n      next('On_Call')\n    }\n    else {\n      next('On_Ride')\n    }\n  }\n  return JSON.stringify(message, null, 2);\n\n}\n\n",
+          "sender": "\n{\n  var current_status = \"on ride\"\n  var now = dayjs().format()\n\n  state.stats.rides = state.stats.rides + 1\n  state.stats.rides_since_maintenance = state.stats.rides_since_maintenance + 1\n  var current_weight = 70 * chance.integer({ min: 1, max: state.max_passengers })\n  state.current_floor = chance.integer({ min: 0, max: state.floors - 1 })\n\n  var message = {\n    timestamp: now,\n    status: current_status\n  }\n\n  if (chance.bool({ likelihood: 1 })) {\n    next('Fault')\n  }\n  else {\n    if (chance.bool({ likelihood: 1 })) {\n      next('On_Call')\n    }\n    else {\n      next('On_Ride')\n    }\n  }\n  return JSON.stringify(message, null, 2);\n\n}\n\n",
           "receiver": "",
           "index": 5,
           "icon": ""
