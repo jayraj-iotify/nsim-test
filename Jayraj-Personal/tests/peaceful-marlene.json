@@ -64,7 +64,7 @@
         "Maintenance": {
           "name": "Maintenance",
           "isEnabled": true,
-          "sender": "\n{\n  // Please provide your logic here.\n\n  // The device model state could be transitioned by calling next()\n  // To transition to a specific state pass state name as argument e.g.\n  // next('Running');\n\n}\n",
+          "sender": "if (state.maintenance_due) {\n\n  var current_status = \"maintenance\"\n  var now = dayjs().format()\n  state.maintenance_due = false\n\n  state.stats.calls_since_maintenance = 0\n  state.stats.rides_since_maintenance = 0\n  \n  var message = {\n    timestamp: now,\n    status: current_status\n  }\n\n  next('Maintenance')\n  return JSON.stringify(message, null, 2);\n}\n\n\n{\n  var current_status = \"fault\"\n  var now = dayjs().format()\n\n  state.maintenance_due = true\n\n  var message = {\n    timestamp: now,\n    status: current_status\n  }\n\n  next('Maintenance')\n  return JSON.stringify(message, null, 2);\n\n}\n\n\n\n",
           "receiver": "",
           "index": 3,
           "icon": ""
