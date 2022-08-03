@@ -40,7 +40,7 @@
         "Init": {
           "name": "Init",
           "isEnabled": true,
-          "sender": "{\n  // generate a random Californian license plate number\n  state.license = 'CA ' + chance.string({ length: 6, pool: 'ABCDEFGHIJKLMNOP0123456' });\n\n  // retrieve the last odometer value from the glob, if not found then set a new one. \n  var odometer = glob.get('mycar_' + client() + \"_odo\");\n  if (!odometer) {\n    state.odometer = chance.integer({ min: 10000, max: 100000 });\n    glob.set('mycar_' + client() + \"_odo\", state.odometer);\n  }\n  else {\n    state.odometer = odometer;\n  }\n  // generate random VIN\n  state.VIN = chance.string({ length: 15, casing: 'upper', alpha: true, numeric: true });\n\n  state.remoteDisabled = false;\n\n  state.location = drive({ start: 'San Jose, CA', end: 'San Francisco, CA' })\n  console.log(state.location)\n\n  next('Running')\n}",
+          "sender": "{\n  // generate a random Californian license plate number\n  state.license = 'CA ' + chance.string({ length: 6, pool: 'ABCDEFGHIJKLMNOP0123456' });\n\n  // retrieve the last odometer value from the glob, if not found then set a new one. \n  var odometer = glob.get('mycar_' + client() + \"_odo\");\n  if (!odometer) {\n    state.odometer = chance.integer({ min: 10000, max: 100000 });\n    glob.set('mycar_' + client() + \"_odo\", state.odometer);\n  }\n  else {\n    state.odometer = odometer;\n  }\n  // generate random VIN\n  state.VIN = chance.string({ length: 15, casing: 'upper', alpha: true, numeric: true });\n\n  state.remoteDisabled = false;\n\n  next('Running')\n}",
           "receiver": "",
           "icon": "",
           "index": 0
