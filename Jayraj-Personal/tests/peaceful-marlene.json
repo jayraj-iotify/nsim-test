@@ -1,8 +1,13 @@
 {
-  "version": 1,
-  "workspaceId": "6246fbe2fdee1fd07c3bb327",
-  "id": "",
+  "id": "62ea4f5e6d2a5e9329992890",
   "name": "peaceful-marlene",
+  "tags": {},
+  "labels": [],
+  "workspaceId": "6246fbe2fdee1fd07c3bb327",
+  "version": 1,
+  "createdBy": "6246fbe2fdee1fd07c3bb324",
+  "lastUpdateBy": "6246fbe2fdee1fd07c3bb324",
+  "lastUpdatedOn": "2022-08-03T10:35:10.074Z",
   "definition": {
     "protocol": "mqtt",
     "clientId": "",
@@ -35,7 +40,7 @@
         "Init": {
           "name": "Init",
           "isEnabled": true,
-          "sender": "{\n  state.floors = 10\n  state.current_floor = 0\n  state.max_passengers = 8\n  state.scheduled_maintenance_interval = 2000\n  state.call_rate = 0.1\n  state.ride_rate = 0.11\n  state.maintenance_due = false\n  state.stats = {\n    calls: 0,\n    calls_since_maintenance: 0,\n    rides: 0,\n    rides_since_maintenance: 0\n  }\n\n  var now = dayjs()\n  console.log(now)\n\n  next('Idle')\n}",
+          "sender": "{\n  state.floors = 10\n  state.current_floor = 0\n  state.max_passengers = 8\n  state.scheduled_maintenance_interval = 2000\n  state.call_rate = 0.1\n  state.ride_rate = 0.11\n  state.maintenance_due = false\n  state.stats = {\n    calls: 0,\n    calls_since_maintenance: 0,\n    rides: 0,\n    rides_since_maintenance: 0\n  }\n\n  var now = dayjs().format()\n  console.log(now)\n\n  next('Idle')\n}",
           "receiver": "",
           "icon": "",
           "index": 0
@@ -84,6 +89,5 @@
       "setup": "",
       "teardown": ""
     }
-  },
-  "tags": {}
+  }
 }
