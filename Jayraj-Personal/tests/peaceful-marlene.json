@@ -56,7 +56,7 @@
         "Fault": {
           "name": "Fault",
           "isEnabled": true,
-          "sender": "\n{\n  // Please provide your logic here.\n\n  // The device model state could be transitioned by calling next()\n  // To transition to a specific state pass state name as argument e.g.\n  // next('Running');\n\n}\n",
+          "sender": "\n{\n  var current_status = \"fault\"\n  var now = dayjs().format()\n\n  state.maintenance_due = true\n\n  var message = {\n    timestamp: now,\n    status: current_status\n  }\n\n  next('Maintenance')\n  return JSON.stringify(message, null, 2);\n\n}\n\n",
           "receiver": "",
           "index": 2,
           "icon": ""
