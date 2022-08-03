@@ -40,7 +40,7 @@
         "Init": {
           "name": "Init",
           "isEnabled": true,
-          "sender": "{\n  state.floors = 10\n  state.current_floor = 0\n  state.max_passengers = 8\n  state.scheduled_maintenance_interval = 2000\n  state.call_rate = 0.1\n  state.ride_rate = 0.11\n  state.maintenance_due = false\n  state.stats = {\n    calls: 0,\n    calls_since_maintenance: 0,\n    rides: 0,\n    rides_since_maintenance: 0\n  }\n\n  var now = dayjs().format()\n  console.log(now)\n\n  next('Idle')\n}",
+          "sender": "{\n  state.floors = 10\n  state.current_floor = 0\n  state.max_passengers = 8\n  state.scheduled_maintenance_interval = 2000\n  state.call_rate = 0.1\n  state.ride_rate = 0.11\n  state.maintenance_due = false\n  state.stats = {\n    calls: 0,\n    calls_since_maintenance: 0,\n    rides: 0,\n    rides_since_maintenance: 0\n  }\n\n  next('Idle')\n}",
           "receiver": "",
           "icon": "",
           "index": 0
@@ -48,17 +48,25 @@
         "Idle": {
           "name": "Idle",
           "isEnabled": true,
-          "sender": "\n{\n  var current_status = \"idle\"\n\n  var message = {\n    timestamp: moment.now(),\n    status: current_status\n  }\n  // The device model state could be transitioned by calling next()\n  // To transition to a specific state pass state name as argument e.g.\n  // next('Running');\n\n}\n",
+          "sender": "\n{\n  var current_status = \"idle\"\n  var now = dayjs().format()\n\n  var message = {\n    timestamp: now,\n    status: current_status\n  }\n\n  if (chance.bool({ likelihood: 1 })) {\n    next('Fault')\n  }\n  else {\n    if (chance.bool({ likelihood: 1 })) {\n      next('On_Call')\n    }\n    else {\n      next('On_Ride')\n    }\n  }\n  \n  return JSON.stringify(message, null, 2);\n}\n",
           "receiver": "",
           "icon": "",
           "index": 1
+        },
+        "Fault": {
+          "name": "Fault",
+          "isEnabled": true,
+          "sender": "\n{\n  // Please provide your logic here.\n\n  // The device model state could be transitioned by calling next()\n  // To transition to a specific state pass state name as argument e.g.\n  // next('Running');\n\n}\n",
+          "receiver": "",
+          "index": 2,
+          "icon": ""
         },
         "Maintenance": {
           "name": "Maintenance",
           "isEnabled": true,
           "sender": "\n{\n  // Please provide your logic here.\n\n  // The device model state could be transitioned by calling next()\n  // To transition to a specific state pass state name as argument e.g.\n  // next('Running');\n\n}\n",
           "receiver": "",
-          "index": 2,
+          "index": 3,
           "icon": ""
         },
         "On_Call": {
@@ -66,7 +74,7 @@
           "isEnabled": true,
           "sender": "\n{\n  // Please provide your logic here.\n\n  // The device model state could be transitioned by calling next()\n  // To transition to a specific state pass state name as argument e.g.\n  // next('Running');\n\n}\n",
           "receiver": "",
-          "index": 3,
+          "index": 4,
           "icon": ""
         },
         "On_Ride": {
@@ -74,7 +82,7 @@
           "isEnabled": true,
           "sender": "\n{\n  // Please provide your logic here.\n\n  // The device model state could be transitioned by calling next()\n  // To transition to a specific state pass state name as argument e.g.\n  // next('Running');\n\n}\n",
           "receiver": "",
-          "index": 4,
+          "index": 5,
           "icon": ""
         },
         "Finished": {
@@ -83,7 +91,7 @@
           "sender": "",
           "receiver": "",
           "icon": "",
-          "index": 5
+          "index": 6
         }
       },
       "setup": "",
