@@ -16,11 +16,17 @@
   "version": 1,
   "createdBy": "6246fbe2fdee1fd07c3bb324",
   "lastUpdateBy": "6246fbe2fdee1fd07c3bb324",
-  "lastUpdatedOn": "2022-08-03T11:16:26.144Z",
+  "lastUpdatedOn": "2022-08-03T11:20:26.231Z",
   "definition": {
     "protocol": "none",
     "clientId": "",
-    "additionalPackages": {},
+    "additionalPackages": {
+      "geolib": {
+        "content": "geolib",
+        "name": "geolib",
+        "type": "npm"
+      }
+    },
     "strategy": "Default",
     "settings": {
       "loopback": true
@@ -31,7 +37,7 @@
         "Init": {
           "name": "Init",
           "isEnabled": true,
-          "sender": "\n{\n  //Simulate a cargo container near Amsterdam\n  state.position = {\n    longitude: 52.021252,\n    latitude: 3.986965\n  };\n\n  next('Runnnig')  \n}\n",
+          "sender": "\n{\n  //Simulate a cargo container near Amsterdam\n  state.position = {\n    longitude: 52.021252,\n    latitude: 3.986965\n  };\n\n  state.position2 = geolib.computeDestinationPoint(state.position, 1000, 270);\n  console.log(state.position2)\n\n\n  next('Runnnig')  \n}\n",
           "receiver": "\n{\n  //Please provide your logic here. \n  \n  //The device model state could be transitioned by calling next()\n  //To transition to a specific state pass state name as argument e.g. \n  //next('Running');\n  \n}\n",
           "icon": "",
           "index": 0
