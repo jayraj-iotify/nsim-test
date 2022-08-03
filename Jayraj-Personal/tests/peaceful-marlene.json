@@ -1,0 +1,89 @@
+{
+  "version": 1,
+  "workspaceId": "6246fbe2fdee1fd07c3bb327",
+  "id": "",
+  "name": "peaceful-marlene",
+  "definition": {
+    "protocol": "mqtt",
+    "clientId": "",
+    "additionalPackages": {},
+    "strategy": "Default",
+    "settings": {
+      "url": "mqtt://broker.hivemq.com:1883",
+      "topic": "/hello/",
+      "subscriptionTopics": [
+        "/hello",
+        "/world"
+      ],
+      "timeout": 10000,
+      "qos": 0,
+      "retain": false,
+      "keepalive": 10000,
+      "reconnectPeriod": 60000,
+      "connectTimeout": 60000,
+      "username": "",
+      "password": "",
+      "identity": "",
+      "psk": "",
+      "key": "",
+      "cert": "",
+      "ca": ""
+    },
+    "model": {
+      "currentState": "Init",
+      "stateMap": {
+        "Init": {
+          "name": "Init",
+          "isEnabled": true,
+          "sender": "{\n  state.floors = 10\n  state.current_floor = 0\n  state.max_passengers = 8\n  state.scheduled_maintenance_interval = 2000\n  state.call_rate = 0.1\n  state.ride_rate = 0.11\n  state.maintenance_due = false\n  state.stats = {\n    calls: 0,\n    calls_since_maintenance: 0,\n    rides: 0,\n    rides_since_maintenance: 0\n  }\n\n  var now = dayjs()\n  console.log(now)\n\n  next('Idle')\n}",
+          "receiver": "",
+          "icon": "",
+          "index": 0
+        },
+        "Idle": {
+          "name": "Idle",
+          "isEnabled": true,
+          "sender": "\n{\n  var current_status = \"idle\"\n\n  var message = {\n    timestamp: moment.now(),\n    status: current_status\n  }\n  // The device model state could be transitioned by calling next()\n  // To transition to a specific state pass state name as argument e.g.\n  // next('Running');\n\n}\n",
+          "receiver": "",
+          "icon": "",
+          "index": 1
+        },
+        "Maintenance": {
+          "name": "Maintenance",
+          "isEnabled": true,
+          "sender": "\n{\n  // Please provide your logic here.\n\n  // The device model state could be transitioned by calling next()\n  // To transition to a specific state pass state name as argument e.g.\n  // next('Running');\n\n}\n",
+          "receiver": "",
+          "index": 2,
+          "icon": ""
+        },
+        "On_Call": {
+          "name": "On_Call",
+          "isEnabled": true,
+          "sender": "\n{\n  // Please provide your logic here.\n\n  // The device model state could be transitioned by calling next()\n  // To transition to a specific state pass state name as argument e.g.\n  // next('Running');\n\n}\n",
+          "receiver": "",
+          "index": 3,
+          "icon": ""
+        },
+        "On_Ride": {
+          "name": "On_Ride",
+          "isEnabled": true,
+          "sender": "\n{\n  // Please provide your logic here.\n\n  // The device model state could be transitioned by calling next()\n  // To transition to a specific state pass state name as argument e.g.\n  // next('Running');\n\n}\n",
+          "receiver": "",
+          "index": 4,
+          "icon": ""
+        },
+        "Finished": {
+          "name": "Finished",
+          "isEnabled": true,
+          "sender": "",
+          "receiver": "",
+          "icon": "",
+          "index": 5
+        }
+      },
+      "setup": "",
+      "teardown": ""
+    }
+  },
+  "tags": {}
+}
