@@ -40,7 +40,7 @@
         "Init": {
           "name": "Init",
           "isEnabled": true,
-          "sender": "{\n  state.floors = 10\n  state.current_floor = 0\n  state.max_passengers = 8\n  state.scheduled_maintenance_interval = 2000\n  state.call_rate = 0.1\n  state.ride_rate = 0.11\n  state.maintenance_due = false\n  state.stats = {\n    calls: 0,\n    calls_since_maintenance: 0,\n    rides: 0,\n    rides_since_maintenance: 0\n  }\n\n  next('Idle')\n}",
+          "sender": "{\n  state.floors = 10\n  state.current_floor = 0\n  state.max_passengers = 8\n  state.scheduled_maintenance_interval = 2000\n  state.maintenance_cycles = 5\n  state.call_rate = 0.1\n  state.ride_rate = 0.11\n  state.maintenance_due = false\n  state.stats = {\n    calls: 0,\n    calls_since_maintenance: 0,\n    rides: 0,\n    rides_since_maintenance: 0\n  }\n\n  next('Idle')\n}",
           "receiver": "",
           "icon": "",
           "index": 0
@@ -64,7 +64,7 @@
         "Maintenance": {
           "name": "Maintenance",
           "isEnabled": true,
-          "sender": "if (state.maintenance_due) {\n\n  var current_status = \"maintenance\"\n  var now = dayjs().format()\n  state.maintenance_due = false\n\n  state.stats.calls_since_maintenance = 0\n  state.stats.rides_since_maintenance = 0\n  \n  var message = {\n    timestamp: now,\n    status: current_status\n  }\n\n  next('Maintenance')\n  return JSON.stringify(message, null, 2);\n}\n\n\n{\n  var current_status = \"fault\"\n  var now = dayjs().format()\n\n  state.maintenance_due = true\n\n  var message = {\n    timestamp: now,\n    status: current_status\n  }\n\n  next('Maintenance')\n  return JSON.stringify(message, null, 2);\n\n}\n\n\n\n",
+          "sender": "if (state.maintenance_due) {\n\n  var current_status = \"maintenance\"\n  var now = dayjs().format()\n  state.maintenance_due = false\n\n  state.stats.calls_since_maintenance = 0\n  state.stats.rides_since_maintenance = 0\n  \n  var message = {\n    timestamp: now,\n    status: current_status\n  }\n\n  if (--state.maintenance_cycles <= 0) {\n    state.maintenance_cycles = 5\n    next('On_Ride')\n\n  }\n\n  return JSON.stringify(message, null, 2);\n}\n\n\n\n\n",
           "receiver": "",
           "index": 3,
           "icon": ""
@@ -72,7 +72,7 @@
         "On_Call": {
           "name": "On_Call",
           "isEnabled": true,
-          "sender": "\n{\n  // Please provide your logic here.\n\n  // The device model state could be transitioned by calling next()\n  // To transition to a specific state pass state name as argument e.g.\n  // next('Running');\n\n}\n",
+          "sender": "\n{\n  var current_status = \"on call\"\n  var now = dayjs().format()\n\n  state.stats.calls = state.stats.calls + 1\n  state.stats.calls_since_maintenance = state.stats.calls_since_maintenance + 1\n  state.current_floor = chance.integer({ min: 0, max: state.floors - 1 })\n\n  var message = {\n    timestamp: now,\n    status: current_status\n  }\n\n  next('On_Ride')\n  return JSON.stringify(message, null, 2);\n\n}\n\n",
           "receiver": "",
           "index": 4,
           "icon": ""
