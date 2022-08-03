@@ -7,7 +7,7 @@
   "version": 1,
   "createdBy": "6246fbe2fdee1fd07c3bb324",
   "lastUpdateBy": "6246fbe2fdee1fd07c3bb324",
-  "lastUpdatedOn": "2022-08-03T11:04:30.358Z",
+  "lastUpdatedOn": "2022-08-03T11:14:55.890Z",
   "definition": {
     "protocol": "mqtt",
     "clientId": "",
