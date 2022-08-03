@@ -31,7 +31,7 @@
         "Init": {
           "name": "Init",
           "isEnabled": true,
-          "sender": "\n{\n  //Please provide your logic here. \n  \n  //The device model state could be transitioned by calling next()\n  //To transition to a specific state pass state name as argument e.g. \n  next('Running');\n  \n}\n",
+          "sender": "\n{\n  //Simulate a cargo container near Amsterdam\n  state.position = {\n    longitude: 52.021252,\n    latitude: 3.986965\n  };\n\n  next('Runnnig')  \n}\n",
           "receiver": "\n{\n  //Please provide your logic here. \n  \n  //The device model state could be transitioned by calling next()\n  //To transition to a specific state pass state name as argument e.g. \n  //next('Running');\n  \n}\n",
           "icon": "",
           "index": 0
@@ -39,7 +39,7 @@
         "Running": {
           "name": "Running",
           "isEnabled": true,
-          "sender": "{\n  //Simulate a cargo container near Amsterdam\n  state.position = {\n    longitude: 52.021252,\n    latitude: 3.986965\n  };\n\n  next('Runnnig')\n}",
+          "sender": "{\n  //Increment location linearly at 270 degree bearing and 1km distance from last\n  state.position = geolib.computeDestinationPoint(state.position, 1000, 270);\n\n  // Simulated cargo temperature\n  state.temperature = volatile({\n    min: 10,\n    max: 70,\n    delta: 2,\n    key: \"cargotemp\",\n  });\n\n  //Use client() to find the current client ID\n  state.myid = \"Container_\" + client();\n\n  //return a string value which will be sent as the message payload\n  return JSON.stringify(state, null, 2);\n}\n",
           "receiver": "\n{\n  //Please provide your logic here. \n  \n  //The device model state could be transitioned by calling next()\n  //To transition to a specific state pass state name as argument e.g. \n  //next('Running');\n  \n}\n",
           "icon": "",
           "index": 1
