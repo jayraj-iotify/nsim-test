@@ -40,7 +40,7 @@
         "Init": {
           "name": "Init",
           "isEnabled": true,
-          "sender": "{\n  state.position = {\n    lat: 47.3769,\n    lon: 8.5417\n  }\n\n  state.step_count = 0\n  state.heart_rate = 70\n\n  next(\"Walking\")\n}",
+          "sender": "{\n  state.position = {\n    lat: 47.3769,\n    lon: 8.5417\n  }\n\n  state.step_count = 0\n\n  next(\"Walking\")\n}",
           "receiver": "",
           "icon": "",
           "index": 0
