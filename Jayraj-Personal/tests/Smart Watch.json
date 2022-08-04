@@ -7,7 +7,7 @@
   "version": 1,
   "createdBy": "6246fbe2fdee1fd07c3bb324",
   "lastUpdateBy": "6246fbe2fdee1fd07c3bb324",
-  "lastUpdatedOn": "2022-08-04T11:11:10.552Z",
+  "lastUpdatedOn": "2022-08-04T11:57:14.109Z",
   "definition": {
     "protocol": "mqtt",
     "clientId": "",
@@ -56,7 +56,7 @@
         "Walking": {
           "name": "Walking",
           "isEnabled": true,
-          "sender": "{\n  var now = dayjs().format()\n\n  var steps = chance.integer({ min: 0, max: 15 })\n  state.step_count = state.step_count + steps\n  \n  state.position.lat = state.position.lat + steps * chance.floating({ min: -0.00001, max: 0.00001 })\n  state.position.lon = state.position.lon + steps * chance.floating({ min: -0.00001, max: 0.00001 })\n\n  var message = {\n    timestamp: now,\n    position: state.position,\n    step_count: state.step_count,\n    body_temperature: 36 + chance.floating({ min: -0.5, max: 0.5 }),\n    heart_rate: volatile({ min: 60, max: 120, delta: 2, key: \"heartRate\", }),\n    blood_oxygen: volatile({ min: 97, max: 100, delta: 1, key: \"bloodOxygen\", }),\n  }\n\n  if (chance.bool({ likelihood: 5 })) {\n    next('Resting')\n  }\n  else {\n    if (chance.bool({ likelihood: 90 })) {\n      next('Walking')\n    }\n    else {\n      next('Running')\n    }\n  }\n  \n  metric.add('Heart_Rate_' + client(), message.heart_rate)\n  metric.add('Steps_' + client(), state.step_count)\n\n  return JSON.stringify(message, null, 2);\n}",
+          "sender": "{\n  var now = dayjs().format()\n\n  var steps = chance.integer({ min: 0, max: 15 })\n  state.step_count = state.step_count + steps\n  \n  state.position.lat = state.position.lat + steps * chance.floating({ min: -0.00001, max: 0.00001 })\n  state.position.lon = state.position.lon + steps * chance.floating({ min: -0.00001, max: 0.00001 })\n\n  var message = {\n    timestamp: now,\n    position: state.position,\n    step_count: state.step_count,\n    body_temperature: 36 + chance.floating({ min: -0.5, max: 0.5 }),\n    heart_rate: volatile({ min: 60, max: 90, delta: 2, key: \"heartRate\", }),\n    blood_oxygen: volatile({ min: 97, max: 100, delta: 1, key: \"bloodOxygen\", }),\n  }\n\n  if (chance.bool({ likelihood: 5 })) {\n    next('Resting')\n  }\n  else {\n    if (chance.bool({ likelihood: 90 })) {\n      next('Walking')\n    }\n    else {\n      next('Running')\n    }\n  }\n  \n  metric.add('Heart_Rate_' + client(), message.heart_rate)\n  metric.add('Steps_' + client(), state.step_count)\n\n  return JSON.stringify(message, null, 2);\n}",
           "receiver": "",
           "index": 2,
           "icon": ""
