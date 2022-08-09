@@ -56,7 +56,7 @@
         "Active": {
           "name": "Active",
           "isEnabled": true,
-          "sender": "{\n  // simulate a connected data logger device\n  state.battery = state.battery - 2\n  var now = dayjs().format()\n\n  var message = {\n    timestamp: now,\n    battery: state.battery,\n    cpu_usage: cpu(),\n    ram_usage: memory(),\n    cpu_temperature: 50 + chance.integer({ min: -10, max: 30 }),\n    air_temperature: weather.temperature({ location: 'Switzerland', unit: 'c' }),\n    humidity: weather.humidity({ location: 'Switzerland'})\n\n  }\n\n  if (state.battery < 5) {\n    next('Charging')\n  }\n\n  return JSON.stringify(message, null, 2)\n}",
+          "sender": "{\n  // simulate a connected data logger device\n  state.battery = state.battery - 2;\n  var now = dayjs().format();\n\n  var message = {\n    timestamp: now,\n    battery: state.battery,\n    cpu_usage: cpu(),\n    ram_usage: memory(),\n    cpu_temperature: 70 + chance.integer({ min: -10, max: 30 }),\n    air_temperature: weather.temperature({ location: \"Switzerland\", unit: \"c\", }),\n    humidity: weather.humidity({ location: \"Switzerland\" }),\n  };\n\n  if (state.battery < 5) {\n    next(\"Charging\");\n  }\n\n  if (chance.bool({ likelihood: 5 })) {\n    next(\"Idle\");\n  } else {\n    next(\"Active\");\n  }\n\n  return JSON.stringify(message, null, 2);\n}\n",
           "receiver": "",
           "index": 2,
           "icon": ""
