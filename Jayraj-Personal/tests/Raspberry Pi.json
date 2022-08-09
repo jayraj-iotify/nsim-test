@@ -48,7 +48,7 @@
         "Idle": {
           "name": "Idle",
           "isEnabled": true,
-          "sender": "{\n  // simulate a connected data logger device\n  state.battery = state.battery - 1\n  var now = dayjs().format()\n\n  var message = {\n    timestamp: now,\n    battery: state.battery,\n    cpu_usage: cpu(),\n    ram_usage: memory(),\n    cpu_temperature: 50 + chance.integer({ min: -10, max: 30 }),\n  }\n\n  if (state.battery < 5) {\n    next('Charging')\n  }\n  \n  if (chance.bool({ likelihood: 5 })) {\n    next(\"Active\");\n  } else {\n    next(\"Idle\");\n  }\n\n  return JSON.stringify(message, null, 2)\n}",
+          "sender": "{\n  // simulate a connected data logger device\n  state.battery = state.battery - 1\n  var now = dayjs().format()\n\n  var message = {\n    timestamp: now,\n    battery: state.battery,\n    cpu_usage: cpu(),\n    ram_usage: memory(),\n    cpu_temperature: 50 + chance.integer({ min: -10, max: 30 }),\n  }\n\n  if (state.battery < 5) {\n    next('Charging')\n  }\n  else {\n    if (chance.bool({ likelihood: 5 })) {\n      next(\"Active\");\n    } else {\n      next(\"Idle\");\n    }\n  }\n\n  return JSON.stringify(message, null, 2)\n}",
           "receiver": "",
           "icon": "",
           "index": 1
