@@ -1,0 +1,65 @@
+{
+  "version": 1,
+  "workspaceId": "6246fbe2fdee1fd07c3bb327",
+  "id": "",
+  "name": "Raspberry Pi",
+  "definition": {
+    "protocol": "mqtt",
+    "clientId": "",
+    "additionalPackages": {},
+    "strategy": "Default",
+    "settings": {
+      "url": "mqtt://broker.hivemq.com:1883",
+      "topic": "/hello/",
+      "subscriptionTopics": [
+        "/hello",
+        "/world"
+      ],
+      "timeout": 10000,
+      "qos": 0,
+      "retain": false,
+      "keepalive": 10000,
+      "reconnectPeriod": 60000,
+      "connectTimeout": 60000,
+      "username": "",
+      "password": "",
+      "identity": "",
+      "psk": "",
+      "key": "",
+      "cert": "",
+      "ca": ""
+    },
+    "model": {
+      "currentState": "Init",
+      "stateMap": {
+        "Init": {
+          "name": "Init",
+          "isEnabled": true,
+          "sender": "{\n  state.battery = 100\n}",
+          "receiver": "",
+          "icon": "",
+          "index": 0
+        },
+        "Running": {
+          "name": "Running",
+          "isEnabled": true,
+          "sender": "{\n  // simulate a connected data logger device\n  state.battery = state.battery - 1\n  var now = dayjs().format()\n\n\n  var message = {\n    timestamp: now,\n    battery: state.battery,\n    cpu_usage: cpu(),\n    ram_usage: memory(),\n    cpu_temperature: 50 + chance.integer({ min: -10, max: 30 }),\n\n  }\n\n  return JSON.stringify(message, null, 2)\n}",
+          "receiver": "",
+          "icon": "",
+          "index": 1
+        },
+        "Finished": {
+          "name": "Finished",
+          "isEnabled": true,
+          "sender": "",
+          "receiver": "",
+          "icon": "",
+          "index": 2
+        }
+      },
+      "setup": "",
+      "teardown": ""
+    }
+  },
+  "tags": {}
+}
