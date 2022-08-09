@@ -40,7 +40,7 @@
         "Init": {
           "name": "Init",
           "isEnabled": true,
-          "sender": "{\n  state.moisture = 50\n  state.air_temperature = state.soil_temperature = 20\n  state.water_tank_level = 100\n  state.water_pump = \"off\"\n}",
+          "sender": "{\n  state.moisture = 50\n  state.air_temperature = state.soil_temperature = 20\n  state.water_tank_level = 100\n  state.water_pump = \"off\"\n\n  next('Day')\n}",
           "receiver": "",
           "icon": "",
           "index": 0
