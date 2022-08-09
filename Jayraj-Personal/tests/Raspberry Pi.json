@@ -1,8 +1,13 @@
 {
-  "version": 1,
-  "workspaceId": "6246fbe2fdee1fd07c3bb327",
-  "id": "",
+  "id": "62f256286d2a5e9329992956",
   "name": "Raspberry Pi",
+  "tags": {},
+  "labels": [],
+  "workspaceId": "6246fbe2fdee1fd07c3bb327",
+  "version": 1,
+  "createdBy": "6246fbe2fdee1fd07c3bb324",
+  "lastUpdateBy": "6246fbe2fdee1fd07c3bb324",
+  "lastUpdatedOn": "2022-08-09T12:42:16.792Z",
   "definition": {
     "protocol": "mqtt",
     "clientId": "",
@@ -40,10 +45,10 @@
           "icon": "",
           "index": 0
         },
-        "Running": {
-          "name": "Running",
+        "Idle": {
+          "name": "Idle",
           "isEnabled": true,
-          "sender": "{\n  // simulate a connected data logger device\n  state.battery = state.battery - 1\n  var now = dayjs().format()\n\n\n  var message = {\n    timestamp: now,\n    battery: state.battery,\n    cpu_usage: cpu(),\n    ram_usage: memory(),\n    cpu_temperature: 50 + chance.integer({ min: -10, max: 30 }),\n\n  }\n\n  return JSON.stringify(message, null, 2)\n}",
+          "sender": "{\n  // simulate a connected data logger device\n  state.battery = state.battery - 1\n  var now = dayjs().format()\n\n\n  var message = {\n    timestamp: now,\n    battery: state.battery,\n    cpu_usage: cpu(),\n    ram_usage: memory(),\n    cpu_temperature: 50 + chance.integer({ min: -10, max: 30 }),\n  }\n\n  if (state.battery < 5) {\n    next('Charging')\n  }\n\n  return JSON.stringify(message, null, 2)\n}",
           "receiver": "",
           "icon": "",
           "index": 1
@@ -60,6 +65,5 @@
       "setup": "",
       "teardown": ""
     }
-  },
-  "tags": {}
+  }
 }
