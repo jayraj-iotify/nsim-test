@@ -1,13 +1,17 @@
 {
-  "id": "62eba9b86d2a5e93299928d4",
   "name": "Plant Sensor",
-  "tags": {},
-  "labels": [],
-  "workspaceId": "6246fbe2fdee1fd07c3bb327",
+  "tags": {
+    "description": "Plant Sensor Template",
+    "icon": "",
+    "attribution": "public"
+  },
+  "labels": [
+    "smarthome",
+    "advanced",
+    "plants",
+    "water"
+  ],
   "version": 1,
-  "createdBy": "6246fbe2fdee1fd07c3bb324",
-  "lastUpdateBy": "6246fbe2fdee1fd07c3bb324",
-  "lastUpdatedOn": "2022-08-09T12:28:11.144Z",
   "definition": {
     "protocol": "mqtt",
     "clientId": "",
@@ -81,5 +85,6 @@
       "setup": "",
       "teardown": ""
     }
-  }
+  },
+  "workspaceId": "6246fbe2fdee1fd07c3bb327"
 }
