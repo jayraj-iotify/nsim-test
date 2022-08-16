@@ -1,0 +1,81 @@
+{
+  "version": 1,
+  "workspaceId": "6246fbe2fdee1fd07c3bb327",
+  "id": "",
+  "name": "senior-danice",
+  "definition": {
+    "protocol": "mqtt",
+    "clientId": "",
+    "additionalPackages": {},
+    "strategy": "Default",
+    "settings": {
+      "url": "mqtt://broker.hivemq.com:1883",
+      "topic": "/hello/",
+      "subscriptionTopics": [
+        "/hello",
+        "/world"
+      ],
+      "timeout": 10000,
+      "qos": 0,
+      "retain": false,
+      "keepalive": 10000,
+      "reconnectPeriod": 60000,
+      "connectTimeout": 60000,
+      "username": "",
+      "password": "",
+      "identity": "",
+      "psk": "",
+      "key": "",
+      "cert": "",
+      "ca": ""
+    },
+    "model": {
+      "currentState": "Init",
+      "stateMap": {
+        "Init": {
+          "name": "Init",
+          "isEnabled": true,
+          "sender": "{\n  state.target_fridge_temperature = 4\n  state.fridge_temperature = state.target_fridge_temperature\n  state.target_freezer_temperature = -20\n  state.freezer_temperature = state.target_freezer_temperature\n\n  next('Closed')\n}",
+          "receiver": "",
+          "icon": "",
+          "index": 0
+        },
+        "Closed": {
+          "name": "Closed",
+          "isEnabled": true,
+          "sender": "{\n  var fridge_door_opened\n  var freezer_door_opened\n\n  if (chance.floating({ min: 0, max: 1 }) < 0.2) {\n    fridge_door_opened = false\n    freezer_door_opened = true\n\n    if (state.freezer_temperature > state.target_freezer_temperature) {\n      state.freezer_temperature = state.freezer_temperature + (state.target_freezer_temperature - state.freezer_temperature) / 2\n    }\n    if (state.fridge_temperature > state.target_fridge_temperature){\n      state.fridge_temperature = state.fridge_temperature + (state.target_fridge_temperature - state.fridge_temperature) / 2\n    }\n  }\n  else {\n    if (chance.floating({ min: 0, max: 1 }) < 0.5) {\n      freezer_door_opened = true\n      state.freezer_temperature = state.freezer_temperature + 5\n    }\n    else {\n      freezer_door_opened = false\n      if (state.freezer_temperature > state.target_freezer_temperature)\n        state.freezer_temperature = state.freezer_temperature + (state.target_freezer_temperature - state.freezer_temperature) / 2\n    }\n  }\n  \n  var message = {\n    fridge_temperature: state.fridge_temperature,\n    target_fridge_temperature: state.target_fridge_temperature,\n    freezer_temperature: state.freezer_temperature,\n    target_freezer_temperature: state.target_freezer_temperature,\n    fridge_door_opened: fridge_door_opened,\n    freezer_door_opened: freezer_door_opened,\n  }\n  return JSON.stringify(message, null, 2);\n}",
+          "receiver": "",
+          "icon": "",
+          "index": 1
+        },
+        "Fridge_Open": {
+          "name": "Fridge_Open",
+          "isEnabled": true,
+          "sender": "{\n  var fridge_door_opened\n  var freezer_door_opened\n  if (chance.floating({ min: 0, max: 1 }) < 0.1) {\n    fridge_door_opened = true\n    state.fridge_temperature = state.fridge_temperature + 2\n  }\n  else {\n    fridge_door_opened = false\n    if (state.fridge_temperature > state.target_fridge_temperature)\n      state.fridge_temperature = state.fridge_temperature + (state.target_fridge_temperature - state.fridge_temperature) / 2\n  }\n\n  var message = {\n    fridge_temperature: state.fridge_temperature,\n    target_fridge_temperature: state.target_fridge_temperature,\n    freezer_temperature: state.freezer_temperature,\n    target_freezer_temperature: state.target_freezer_temperature,\n    fridge_door_opened: fridge_door_opened,\n    freezer_door_opened: freezer_door_opened,\n  }\n  return JSON.stringify(message, null, 2);\n}",
+          "receiver": "",
+          "index": 2,
+          "icon": ""
+        },
+        "Freezer_Open": {
+          "name": "Freezer_Open",
+          "isEnabled": true,
+          "sender": "\n{\n  if (chance.floating({ min: 0, max: 1 }) < 0.02) {\n    freezer_door_opened = true\n    state.freezer_temperature = state.freezer_temperature + 5\n  }\n  else {\n    freezer_door_opened = false\n    if (state.freezer_temperature > state.target_freezer_temperature)\n      state.freezer_temperature = state.freezer_temperature + (state.target_freezer_temperature - state.freezer_temperature) / 2\n  }\n  var message = {\n    fridge_temperature: state.fridge_temperature,\n    target_fridge_temperature: state.target_fridge_temperature,\n    freezer_temperature: state.freezer_temperature,\n    target_freezer_temperature: state.target_freezer_temperature,\n    fridge_door_opened: fridge_door_opened,\n    freezer_door_opened: freezer_door_opened,\n  }\n  return JSON.stringify(message, null, 2);\n\n}\n",
+          "receiver": "",
+          "index": 3,
+          "icon": ""
+        },
+        "Finished": {
+          "name": "Finished",
+          "isEnabled": true,
+          "sender": "",
+          "receiver": "",
+          "icon": "",
+          "index": 4
+        }
+      },
+      "setup": "",
+      "teardown": ""
+    }
+  },
+  "tags": {}
+}
