@@ -64,7 +64,7 @@
         "Delayed": {
           "name": "Delayed",
           "isEnabled": true,
-          "sender": "\n{\n  var spin_speed\n\n  if (index() == state.start_time) {\n    state.status = \"started\"\n    state.start_time = index()\n    state.load = chance.floating({ min: 2, max: 4 })\n    state.door = \"locked\"\n    spin_speed = 0\n    \n    next('Started')\n  }\n\n  var message = {\n    timestamp: now,\n    status: state.status,\n    door_state: state.door,\n    program: state.programs[state.current_program].name,\n    temperature: state.programs[state.current_program].temperature,\n    duration: state.programs[state.current_program].duration,\n    load: state.load,\n    spin_speed: spin_speed\n  }\n\n  return JSON.stringify(message, null, 2);\n}\n",
+          "sender": "\n{\n  var spin_speed\n  var now = dayjs().format()\n\n  if (index() == state.start_time) {\n    state.status = \"started\"\n    state.start_time = index()\n    state.load = chance.floating({ min: 2, max: 4 })\n    state.door = \"locked\"\n    spin_speed = 0\n    \n    next('Started')\n  }\n\n  var message = {\n    timestamp: now,\n    status: state.status,\n    door_state: state.door,\n    program: state.programs[state.current_program].name,\n    temperature: state.programs[state.current_program].temperature,\n    duration: state.programs[state.current_program].duration,\n    load: state.load,\n    spin_speed: spin_speed\n  }\n\n  return JSON.stringify(message, null, 2);\n}\n",
           "receiver": "",
           "index": 3,
           "icon": ""
