@@ -1,8 +1,13 @@
 {
-  "version": 1,
-  "workspaceId": "6246fbe2fdee1fd07c3bb327",
-  "id": "",
+  "id": "62fb9114cd6226ee9a1eaedb",
   "name": "senior-danice",
+  "tags": {},
+  "labels": [],
+  "workspaceId": "6246fbe2fdee1fd07c3bb327",
+  "version": 1,
+  "createdBy": "6246fbe2fdee1fd07c3bb324",
+  "lastUpdateBy": "6246fbe2fdee1fd07c3bb324",
+  "lastUpdatedOn": "2022-08-16T12:44:04.137Z",
   "definition": {
     "protocol": "mqtt",
     "clientId": "",
@@ -35,7 +40,7 @@
         "Init": {
           "name": "Init",
           "isEnabled": true,
-          "sender": "{\n  state.target_fridge_temperature = 4\n  state.fridge_temperature = state.target_fridge_temperature\n  state.target_freezer_temperature = -20\n  state.freezer_temperature = state.target_freezer_temperature\n\n  next('Closed')\n}",
+          "sender": "{\n  \n  state.target_fridge_temperature = 4\n  state.fridge_temperature = state.target_fridge_temperature\n  state.target_freezer_temperature = -20\n  state.freezer_temperature = state.target_freezer_temperature\n\n  next('Closed')\n}",
           "receiver": "",
           "icon": "",
           "index": 0
@@ -76,6 +81,5 @@
       "setup": "",
       "teardown": ""
     }
-  },
-  "tags": {}
+  }
 }
