@@ -80,7 +80,7 @@
         "Foam": {
           "name": "Foam",
           "isEnabled": true,
-          "sender": "{\n  var now = dayjs().format()\n\n  if (--state.froth_milk <= 0) {\n    console.log(\"Froth created\")\n    state.froth_milk = 2\n\n    console.log(state.options[state.current_brew].name + \" is complete\")\n    next('Start')\n  }\n  \n\n  var message = {\n    timestamp: now,\n    current_brew: state.current_brew,\n    usage_count: state.usage_count,\n    bean_level: state.bean_level,\n    water_level: state.water_level,\n    milk_level: state.milk_level,\n    chocolate_level: state.chocolate_level,\n  };\n\n  return JSON.stringify(message, null, 2);\n}",
+          "sender": "{\n  var now = dayjs().format()\n\n  if (--state.froth_milk <= 0) {\n    console.log(\"Froth created\")\n    state.froth_milk = 2\n\n    console.log(state.options[state.current_brew].name + \" is complete\")\n    next('Start')\n  }\n  \n  var message = {\n    timestamp: now,\n    current_brew: state.current_brew,\n    usage_count: state.usage_count,\n    bean_level: state.bean_level,\n    water_level: state.water_level,\n    milk_level: state.milk_level,\n    chocolate_level: state.chocolate_level,\n  };\n\n  return JSON.stringify(message, null, 2);\n}",
           "receiver": "",
           "index": 5,
           "icon": ""
