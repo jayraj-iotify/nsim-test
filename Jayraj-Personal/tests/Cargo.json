@@ -1,9 +1,8 @@
 {
-  "id": "62ea590a6d2a5e93299928b7",
   "name": "Cargo",
   "tags": {
     "description": "Cargo Templates",
-    "icon": "https://raw.githubusercontent.com/iotify/nsim-samples/main/cargo.png",
+    "icon": "https://raw.githubusercontent.com/iotify/nsim-samples/main/Images/cargo.png",
     "attribution": "public"
   },
   "labels": [
@@ -12,11 +11,7 @@
     "transportation",
     "logistics"
   ],
-  "workspaceId": "6246fbe2fdee1fd07c3bb327",
   "version": 1,
-  "createdBy": "6246fbe2fdee1fd07c3bb324",
-  "lastUpdateBy": "6246fbe2fdee1fd07c3bb324",
-  "lastUpdatedOn": "2022-08-03T11:25:48.241Z",
   "definition": {
     "protocol": "none",
     "clientId": "",
@@ -68,5 +63,6 @@
       "setup": "",
       "teardown": ""
     }
-  }
+  },
+  "workspaceId": "6246fbe2fdee1fd07c3bb327"
 }
