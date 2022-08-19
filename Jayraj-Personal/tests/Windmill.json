@@ -64,7 +64,7 @@
         "Maintenance": {
           "name": "Maintenance",
           "isEnabled": true,
-          "sender": "if (state.maintenance_due) {\n\n  var now = dayjs().format()\n  state.maintenance_due = false\n\n  state.stats.calls_since_maintenance = 0\n  state.stats.rides_since_maintenance = 0\n\n  var message = {\n    timestamp: now,\n    status: \"Under maintenance\"\n  }\n\n  if (--state.maintenance_cycles <= 0) {\n    state.maintenance_cycles = 5\n    next('On_Ride')\n\n  }\n\n  return JSON.stringify(message, null, 2);\n}\n\n\n\n\n",
+          "sender": "if (state.maintenance_due) {\n\n  var now = dayjs().format()\n  state.maintenance_due = false\n\n  var message = {\n    timestamp: now,\n    status: \"Under maintenance\"\n  }\n\n  if (--state.maintenance_cycles <= 0) {\n    state.maintenance_cycles = 5\n    next('On_Ride')\n\n  }\n\n  return JSON.stringify(message, null, 2);\n}\n\n\n\n\n",
           "receiver": "",
           "index": 3,
           "icon": ""
