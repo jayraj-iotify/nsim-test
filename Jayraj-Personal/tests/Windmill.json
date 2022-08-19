@@ -1,8 +1,13 @@
 {
-  "version": 1,
-  "workspaceId": "6246fbe2fdee1fd07c3bb327",
-  "id": "",
+  "id": "62ff67dab1ba9b9d9d2a8fe3",
   "name": "Windmill",
+  "tags": {},
+  "labels": [],
+  "workspaceId": "6246fbe2fdee1fd07c3bb327",
+  "version": 1,
+  "createdBy": "6246fbe2fdee1fd07c3bb324",
+  "lastUpdateBy": "6246fbe2fdee1fd07c3bb324",
+  "lastUpdatedOn": "2022-08-19T10:37:14.601Z",
   "definition": {
     "protocol": "mqtt",
     "clientId": "",
@@ -35,18 +40,26 @@
         "Init": {
           "name": "Init",
           "isEnabled": true,
-          "sender": "\n{\n  state.current_energy_output = 0\n  state.total_energy_output = 0\n  state.rpm = 0\n\n  state.scheduled_maintenance_interval = 20\n  state.maintenance_cycles = 5\n  state.maintenance_due = false\n\n\n}\n",
+          "sender": "\n{\n  state.current_energy_output = 0\n  state.total_energy_output = 0\n  state.rpm = 0\n\n  state.scheduled_maintenance_interval = 20\n  state.maintenance_cycles = 5\n  state.maintenance_due = false\n\n  \n}\n",
           "receiver": "",
           "icon": "",
           "index": 0
         },
+        "Windy": {
+          "name": "Windy",
+          "isEnabled": true,
+          "sender": "\n{\n  // Please provide your logic here.\n\n  // The device model state could be transitioned by calling next()\n  // To transition to a specific state pass state name as argument e.g.\n  // next('Running');\n\n}\n",
+          "receiver": "",
+          "index": 1,
+          "icon": ""
+        },
         "Running": {
           "name": "Running",
           "isEnabled": true,
-          "sender": "",
+          "sender": "\n{\n  // Please provide your logic here.\n\n  // The device model state could be transitioned by calling next()\n  // To transition to a specific state pass state name as argument e.g.\n  // next('Running');\n\n}\n",
           "receiver": "",
           "icon": "",
-          "index": 1
+          "index": 2
         },
         "Finished": {
           "name": "Finished",
@@ -54,12 +67,11 @@
           "sender": "",
           "receiver": "",
           "icon": "",
-          "index": 2
+          "index": 3
         }
       },
       "setup": "",
       "teardown": ""
     }
-  },
-  "tags": {}
+  }
 }
