@@ -1,8 +1,13 @@
 {
-  "version": 1,
-  "workspaceId": "6246fbe2fdee1fd07c3bb327",
-  "id": "",
+  "id": "62ff4350b1ba9b9d9d2a8fa2",
   "name": "Coffee Maker",
+  "tags": {},
+  "labels": [],
+  "workspaceId": "6246fbe2fdee1fd07c3bb327",
+  "version": 1,
+  "createdBy": "6246fbe2fdee1fd07c3bb324",
+  "lastUpdateBy": "6246fbe2fdee1fd07c3bb324",
+  "lastUpdatedOn": "2022-08-19T08:01:20.354Z",
   "definition": {
     "protocol": "mqtt",
     "clientId": "",
@@ -35,7 +40,7 @@
         "Init": {
           "name": "Init",
           "isEnabled": true,
-          "sender": "{\n  state.usage_count = 0\n  state.bean_level = 100\n  state.water_level = 100\n}",
+          "sender": "{\n  state.usage_count = 0\n  state.bean_level = 100\n  state.water_level = 100\n\n  state.options = [\n    {\n      espresso: true,\n      milk: true,\n      name: 'Latte',\n    },\n    {\n      espresso: true,\n      milk: true,\n      foam: true,\n      name: 'Cappucino',\n    },\n    {\n      espresso: true,\n      water: true,\n      name: 'Americano',\n    },\n    {\n      espresso: true,\n      foam: true,\n      name: 'Macchiato',\n    },\n    {\n      espresso: true,\n      milk: true,\n      chocolate: true,\n      name: 'Mocha',\n    },\n  ];\n}",
           "receiver": "",
           "icon": "",
           "index": 0
@@ -60,6 +65,5 @@
       "setup": "",
       "teardown": ""
     }
-  },
-  "tags": {}
+  }
 }
