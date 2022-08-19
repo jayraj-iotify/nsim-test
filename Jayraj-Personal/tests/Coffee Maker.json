@@ -56,7 +56,7 @@
         "Espresso": {
           "name": "Espresso",
           "isEnabled": true,
-          "sender": "{ \n  var now = dayjs().format()\n\n  while (state.refilling_coffee) {\n    console.log(\"Refilling Beans\")\n    if (state.bean_level < 80) {\n      state.bean_level += 20\n    }\n    else {\n      state.bean_level = 100\n      state.refilling_coffee = false\n    }\n  }\n\n  if (state.bean_level <= 20) {\n    state.refilling_coffee = true\n  }\n  else {\n    if (--state.grind_coffee <= 0) {\n      console.log(\"Coffee beans grinded\")\n\n      if (--state.extract_coffee <= 0) {\n        console.log(\"Espresso Made\")\n\n        if (state.options[state.current_brew].milk) {\n          next('Milk')\n        }\n        else if (state.options[state.current_brew].foam) {\n          next('Foam')\n        }\n      }\n    }\n    \n  }\n\n\n  var message = {\n    timestamp: now,\n    current_brew: state.current_brew,\n    usage_count: state.usage_count,\n    bean_level: state.bean_level,\n    water_level: state.water_level,\n    milk_level: state.milk_level,\n    chocolate_level: state.chocolate_level,\n  };\n\n  return JSON.stringify(message, null, 2);\n}",
+          "sender": "{ \n  var now = dayjs().format()\n\n  while (state.refilling_coffee) {\n    console.log(\"Refilling Beans\")\n    if (state.bean_level < 80) {\n      state.bean_level += 20\n    }\n    else {\n      state.bean_level = 100\n      state.refilling_coffee = false\n    }\n  }\n\n  if (state.bean_level <= 20) {\n    state.refilling_coffee = true\n  }\n  else {\n    if (--state.grind_coffee <= 0) {\n      console.log(\"Coffee beans grinded\")\n\n      if (--state.extract_coffee <= 0) {\n        console.log(\"Espresso Made\")\n\n        if (state.options[state.current_brew].milk) {\n          next('Milk')\n        }\n        else if (state.options[state.current_brew].water) {\n          next('Water')\n        }\n        else if (state.options[state.current_brew].foam) {\n          next('Foam')\n        }\n      }\n    }\n  }\n\n  var message = {\n    timestamp: now,\n    current_brew: state.current_brew,\n    usage_count: state.usage_count,\n    bean_level: state.bean_level,\n    water_level: state.water_level,\n    milk_level: state.milk_level,\n    chocolate_level: state.chocolate_level,\n  };\n\n  return JSON.stringify(message, null, 2);\n}",
           "receiver": "",
           "icon": "",
           "index": 2
@@ -69,12 +69,20 @@
           "index": 3,
           "icon": ""
         },
+        "Water": {
+          "name": "Water",
+          "isEnabled": true,
+          "sender": "\n{\n  // Please provide your logic here.\n\n  // The device model state could be transitioned by calling next()\n  // To transition to a specific state pass state name as argument e.g.\n  // next('Running');\n\n}\n",
+          "receiver": "",
+          "index": 4,
+          "icon": ""
+        },
         "Foam": {
           "name": "Foam",
           "isEnabled": true,
           "sender": "\n{\n  // Please provide your logic here.\n\n  // The device model state could be transitioned by calling next()\n  // To transition to a specific state pass state name as argument e.g.\n  // next('Running');\n\n}\n",
           "receiver": "",
-          "index": 4,
+          "index": 5,
           "icon": ""
         },
         "Chocolate": {
@@ -82,13 +90,13 @@
           "isEnabled": true,
           "sender": "\n{\n  // Please provide your logic here.\n\n  // The device model state could be transitioned by calling next()\n  // To transition to a specific state pass state name as argument e.g.\n  // next('Running');\n\n}\n",
           "receiver": "",
-          "index": 5,
+          "index": 6,
           "icon": ""
         },
         "Finished": {
           "name": "Finished",
           "isEnabled": true,
-          "sender": "",
+          "sender": "\n{\n  // Please provide your logic here.\n\n  // The device model state could be transitioned by calling next()\n  // To transition to a specific state pass state name as argument e.g.\n  // next('Running');\n\n}\n",
           "receiver": "",
           "icon": "",
           "index": 7
