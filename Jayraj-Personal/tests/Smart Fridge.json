@@ -7,7 +7,7 @@
   "version": 1,
   "createdBy": "6246fbe2fdee1fd07c3bb324",
   "lastUpdateBy": "6246fbe2fdee1fd07c3bb324",
-  "lastUpdatedOn": "2022-08-16T13:19:13.749Z",
+  "lastUpdatedOn": "2022-08-16T13:23:35.493Z",
   "definition": {
     "protocol": "mqtt",
     "clientId": "",
@@ -48,7 +48,7 @@
         "Closed": {
           "name": "Closed",
           "isEnabled": true,
-          "sender": "{\n  if (chance.floating({ min: 0, max: 1 }) < 0.2) {\n    state.fridge_door_opened = false\n    state.freezer_door_opened = false\n    \n\n    if (state.freezer_temperature > state.target_freezer_temperature) {\n      state.freezer_temperature = state.freezer_temperature + (state.target_freezer_temperature - state.freezer_temperature) / 2\n    }\n    if (state.fridge_temperature > state.target_fridge_temperature){\n      state.fridge_temperature = state.fridge_temperature + (state.target_fridge_temperature - state.fridge_temperature) / 2\n    }\n  }\n  else {\n    if (chance.floating({ min: 0, max: 1 }) < 0.5) {\n      state.fridge_door_opened = true\n      next('Fridge_Open')\n    }\n    else {\n      state.freezer_door_opened = true\n      next('Freezer_Open')\n    }\n  }\n  \n  var message = {\n    fridge_temperature: state.fridge_temperature,\n    target_fridge_temperature: state.target_fridge_temperature,\n    freezer_temperature: state.freezer_temperature,\n    target_freezer_temperature: state.target_freezer_temperature,\n    fridge_door_opened: fridge_door_opened,\n    freezer_door_opened: freezer_door_opened,\n    fridge_alert: state.fridge_alert,\n    freezer_alert: state.freezer_alert,\n  }\n  \n  return JSON.stringify(message, null, 2);\n}",
+          "sender": "{\n  if (chance.floating({ min: 0, max: 1 }) < 0.5) {\n    state.fridge_door_opened = false\n    state.freezer_door_opened = false\n    \n\n    if (state.freezer_temperature > state.target_freezer_temperature) {\n      state.freezer_temperature = state.freezer_temperature + (state.target_freezer_temperature - state.freezer_temperature) / 2\n    }\n    if (state.fridge_temperature > state.target_fridge_temperature){\n      state.fridge_temperature = state.fridge_temperature + (state.target_fridge_temperature - state.fridge_temperature) / 2\n    }\n  }\n  else {\n    if (chance.floating({ min: 0, max: 1 }) < 0.5) {\n      state.fridge_door_opened = true\n      next('Fridge_Open')\n    }\n    else {\n      state.freezer_door_opened = true\n      next('Freezer_Open')\n    }\n  }\n  \n  var message = {\n    fridge_temperature: state.fridge_temperature,\n    target_fridge_temperature: state.target_fridge_temperature,\n    freezer_temperature: state.freezer_temperature,\n    target_freezer_temperature: state.target_freezer_temperature,\n    fridge_door_opened: state.fridge_door_opened,\n    freezer_door_opened: state.freezer_door_opened,\n    fridge_alert: state.fridge_alert,\n    freezer_alert: state.freezer_alert,\n  }\n  \n  return JSON.stringify(message, null, 2);\n}",
           "receiver": "",
           "icon": "",
           "index": 1
