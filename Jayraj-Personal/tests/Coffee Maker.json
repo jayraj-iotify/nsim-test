@@ -7,7 +7,7 @@
   "version": 1,
   "createdBy": "6246fbe2fdee1fd07c3bb324",
   "lastUpdateBy": "6246fbe2fdee1fd07c3bb324",
-  "lastUpdatedOn": "2022-08-19T08:21:25.867Z",
+  "lastUpdatedOn": "2022-08-19T08:24:44.421Z",
   "definition": {
     "protocol": "mqtt",
     "clientId": "",
@@ -48,7 +48,7 @@
         "Start": {
           "name": "Start",
           "isEnabled": true,
-          "sender": "{ \n  \n  if (chance.bool({ likelihood: 10 })) {\n    state.last_coffe = {\n      temperature: chance.pickone([60, 70, 80]),\n      bean_amount: chance.pickone([1, 2, 3]),\n      fill_quantity: chance.pickone([1, 2, 3]),\n    }\n    state.bean_level = state.bean_level - state.last_coffe.bean_amount\n    state.water_level = state.water_level - state.last_coffe.fill_quantity\n    state.usage_count = state.usage_count + 1\n  }\n  var message = {\n    timestamp: moment.now(),\n    last_coffe: state.last_coffe,\n    usage_count: state.usage_count,\n    bean_level: state.bean_level,\n    water_level: state.water_level\n  };\n\n  return JSON.stringify(message, null, 2);\n}",
+          "sender": "{ \n  state.current_brew = chance.integer({ min: 0, max: 4 })\n\n\n  if (chance.bool({ likelihood: 10 })) {\n    state.current_program = chance.integer({ min: 0, max: 4 })\n    if (chance.integer({ min: 0, max: 100 }) > 60) {\n      state.status = \"delayed_start\"\n      state.start_time = index() + 5\n      state.load = chance.floating({ min: 2, max: 4 })\n      state.door = \"closed\"\n      next('Delayed')\n    }\n    else {\n      state.status = \"started\"\n      state.start_time = index()\n      state.door = \"locked\"\n      spin_speed = 0\n      next('Started')\n    }\n  }\n\n  \n  if (chance.bool({ likelihood: 10 })) {\n    state.last_coffe = {\n      temperature: chance.pickone([60, 70, 80]),\n      bean_amount: chance.pickone([1, 2, 3]),\n      fill_quantity: chance.pickone([1, 2, 3]),\n    }\n    state.bean_level = state.bean_level - state.last_coffe.bean_amount\n    state.water_level = state.water_level - state.last_coffe.fill_quantity\n    state.usage_count = state.usage_count + 1\n  }\n  var message = {\n    timestamp: moment.now(),\n    last_coffe: state.last_coffe,\n    usage_count: state.usage_count,\n    bean_level: state.bean_level,\n    water_level: state.water_level\n  };\n\n  return JSON.stringify(message, null, 2);\n}",
           "receiver": "",
           "index": 1,
           "icon": ""
