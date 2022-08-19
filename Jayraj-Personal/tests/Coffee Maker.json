@@ -7,7 +7,7 @@
   "version": 1,
   "createdBy": "6246fbe2fdee1fd07c3bb324",
   "lastUpdateBy": "6246fbe2fdee1fd07c3bb324",
-  "lastUpdatedOn": "2022-08-19T08:01:20.354Z",
+  "lastUpdatedOn": "2022-08-19T08:21:25.867Z",
   "definition": {
     "protocol": "mqtt",
     "clientId": "",
@@ -40,18 +40,50 @@
         "Init": {
           "name": "Init",
           "isEnabled": true,
-          "sender": "{\n  state.usage_count = 0\n  state.bean_level = 100\n  state.water_level = 100\n\n  state.options = [\n    {\n      espresso: true,\n      milk: true,\n      name: 'Latte',\n    },\n    {\n      espresso: true,\n      milk: true,\n      foam: true,\n      name: 'Cappucino',\n    },\n    {\n      espresso: true,\n      water: true,\n      name: 'Americano',\n    },\n    {\n      espresso: true,\n      foam: true,\n      name: 'Macchiato',\n    },\n    {\n      espresso: true,\n      milk: true,\n      chocolate: true,\n      name: 'Mocha',\n    },\n  ];\n}",
+          "sender": "{\n  state.usage_count = 0\n  state.bean_level = 100\n  state.water_level = 100\n  state.milk_level = 100\n\n  state.options = [\n    {\n      espresso: true,\n      milk: true,\n      name: 'Latte',\n    },\n    {\n      espresso: true,\n      milk: true,\n      foam: true,\n      name: 'Cappucino',\n    },\n    {\n      espresso: true,\n      water: true,\n      name: 'Americano',\n    },\n    {\n      espresso: true,\n      foam: true,\n      name: 'Macchiato',\n    },\n    {\n      espresso: true,\n      milk: true,\n      chocolate: true,\n      name: 'Mocha',\n    },\n  ];\n}",
           "receiver": "",
           "icon": "",
           "index": 0
         },
-        "Running": {
-          "name": "Running",
+        "Start": {
+          "name": "Start",
+          "isEnabled": true,
+          "sender": "{ \n  \n  if (chance.bool({ likelihood: 10 })) {\n    state.last_coffe = {\n      temperature: chance.pickone([60, 70, 80]),\n      bean_amount: chance.pickone([1, 2, 3]),\n      fill_quantity: chance.pickone([1, 2, 3]),\n    }\n    state.bean_level = state.bean_level - state.last_coffe.bean_amount\n    state.water_level = state.water_level - state.last_coffe.fill_quantity\n    state.usage_count = state.usage_count + 1\n  }\n  var message = {\n    timestamp: moment.now(),\n    last_coffe: state.last_coffe,\n    usage_count: state.usage_count,\n    bean_level: state.bean_level,\n    water_level: state.water_level\n  };\n\n  return JSON.stringify(message, null, 2);\n}",
+          "receiver": "",
+          "index": 1,
+          "icon": ""
+        },
+        "Espresso": {
+          "name": "Espresso",
           "isEnabled": true,
           "sender": "{\n  if (chance.bool({ likelihood: 10 })) {\n    state.last_coffe = {\n      temperature: chance.pickone([60, 70, 80]),\n      bean_amount: chance.pickone([1, 2, 3]),\n      fill_quantity: chance.pickone([1, 2, 3]),\n    }\n    state.bean_level = state.bean_level - state.last_coffe.bean_amount\n    state.water_level = state.water_level - state.last_coffe.fill_quantity\n    state.usage_count = state.usage_count + 1\n  }\n  var message = {\n    timestamp: moment.now(),\n    last_coffe: state.last_coffe,\n    usage_count: state.usage_count,\n    bean_level: state.bean_level,\n    water_level: state.water_level\n  };\n\n  return JSON.stringify(message, null, 2);\n}",
           "receiver": "",
           "icon": "",
-          "index": 1
+          "index": 2
+        },
+        "Milk": {
+          "name": "Milk",
+          "isEnabled": true,
+          "sender": "\n{\n  // Please provide your logic here.\n\n  // The device model state could be transitioned by calling next()\n  // To transition to a specific state pass state name as argument e.g.\n  // next('Running');\n\n}\n",
+          "receiver": "",
+          "index": 3,
+          "icon": ""
+        },
+        "Foam": {
+          "name": "Foam",
+          "isEnabled": true,
+          "sender": "\n{\n  // Please provide your logic here.\n\n  // The device model state could be transitioned by calling next()\n  // To transition to a specific state pass state name as argument e.g.\n  // next('Running');\n\n}\n",
+          "receiver": "",
+          "index": 4,
+          "icon": ""
+        },
+        "Chocolate": {
+          "name": "Chocolate",
+          "isEnabled": true,
+          "sender": "\n{\n  // Please provide your logic here.\n\n  // The device model state could be transitioned by calling next()\n  // To transition to a specific state pass state name as argument e.g.\n  // next('Running');\n\n}\n",
+          "receiver": "",
+          "index": 5,
+          "icon": ""
         },
         "Finished": {
           "name": "Finished",
@@ -59,7 +91,7 @@
           "sender": "",
           "receiver": "",
           "icon": "",
-          "index": 2
+          "index": 7
         }
       },
       "setup": "",
