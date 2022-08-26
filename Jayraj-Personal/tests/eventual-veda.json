@@ -1,8 +1,13 @@
 {
-  "version": 1,
-  "workspaceId": "6246fbe2fdee1fd07c3bb327",
-  "id": "",
+  "id": "6308b316f1203707c9d93da6",
   "name": "eventual-veda",
+  "tags": {},
+  "labels": [],
+  "workspaceId": "6246fbe2fdee1fd07c3bb327",
+  "version": 1,
+  "createdBy": "6246fbe2fdee1fd07c3bb324",
+  "lastUpdateBy": "6246fbe2fdee1fd07c3bb324",
+  "lastUpdatedOn": "2022-08-26T11:48:38.967Z",
   "definition": {
     "protocol": "mqtt",
     "clientId": "",
@@ -41,7 +46,7 @@
         "Init": {
           "name": "Init",
           "isEnabled": true,
-          "sender": "\n{\n  // Please provide your logic here.\n  var lat1 = chance.floating({ min: 12.8, max: 13.1, fixed: 6 });\n  var lat2 = chance.floating({ min: 12.8, max: 13.1, fixed: 6 });\n  var long1 = chance.floating({ min: 77.5, max: 77.8, fixed: 6 });\n  var long2 = chance.floating({ min: 77.5, max: 77.8, fixed: 6 });\n\n  var change = geolib.getDistance(\n    { latitude: lat_1, longitude: long_1 },\n    { latitude: lat_2, longitude: long_2 }\n  );\n\n  console.log(change)\n}\n",
+          "sender": "\n{\n  // Please provide your logic here.\n  var lat_1 = chance.floating({ min: 12.8, max: 13.1, fixed: 6 });\n  var lat_2 = chance.floating({ min: 12.8, max: 13.1, fixed: 6 });\n  var long_1 = chance.floating({ min: 77.5, max: 77.8, fixed: 6 });\n  var long_2 = chance.floating({ min: 77.5, max: 77.8, fixed: 6 });\n\n  var change = geolib.getDistance(\n    { latitude: lat_1, longitude: long_1 },\n    { latitude: lat_2, longitude: long_2 }\n  );\n\n  console.log(change)\n}\n",
           "receiver": "",
           "icon": "",
           "index": 0
@@ -66,6 +71,5 @@
       "setup": "",
       "teardown": ""
     }
-  },
-  "tags": {}
+  }
 }
