@@ -1,0 +1,73 @@
+{
+  "name": "Street Light",
+  "tags": {},
+  "labels": [],
+  "version": 1,
+  "definition": {
+    "protocol": "mqtt",
+    "clientId": "",
+    "additionalPackages": {},
+    "strategy": "Default",
+    "settings": {
+      "url": "mqtt://broker.hivemq.com:1883",
+      "topic": "/hello/",
+      "subscriptionTopics": [
+        "/hello",
+        "/world"
+      ],
+      "timeout": 10000,
+      "qos": 0,
+      "retain": false,
+      "keepalive": 10000,
+      "reconnectPeriod": 60000,
+      "connectTimeout": 60000,
+      "username": "",
+      "password": "",
+      "identity": "",
+      "psk": "",
+      "key": "",
+      "cert": "",
+      "ca": ""
+    },
+    "model": {
+      "currentState": "Init",
+      "stateMap": {
+        "Init": {
+          "name": "Init",
+          "isEnabled": true,
+          "sender": "{\n  var API_Key = 'AIzaSyDioUPwWwuWRQew9R_mrfyzvgz8TwHLJZ4'\n\n  state.smart_city = false\n\n  state.r_latitude = chance.floating({ min: 12.8, max: 13.1, fixed: 6 });\n  state.r_longitude = chance.floating({ min: 77.5, max: 77.8, fixed: 6 });\n\n  var url = 'https://roads.googleapis.com/v1/nearestRoads?points=' + state.r_latitude + \",\" + state.r_longitude + '&key=' + API_Key\n\n  var res = rest.get(url)\n\n  state.location = res.snappedPoints[0].location.latitude + ',' + res.snappedPoints[0].location.longitude\n\n  state.status = 'off'\n  state.energy_produced = 0\n  state.energy_consumed = 0\n\n  next('Active')\n}",
+          "receiver": "",
+          "icon": "",
+          "index": 0
+        },
+        "Day": {
+          "name": "Day",
+          "isEnabled": true,
+          "sender": "{\n  let currentHour = dayjs().hour()\n\n  if (currentHour > 7 && currentHour < 20) {\n\n    state.status = 'off'\n    var output = chance.integer({ min: 1, max: 6 })\n    state.energy_produced += output\n\n    var message = {\n      device: \"street_light\" + client(),\n      location:state.location,\n      status: state.status,\n      energy_produced: state.energy_produced,\n      energy_consumed: state.energy_consumed,\n    }\n\n    if (state.smart_city == true) {\n      mailbox.post('trash_can_' + client(), message)\n    }\n    else {\n      return JSON.stringify(message, null, 2);\n    }\n  }\n  else {\n    next('Night')\n  }\n}",
+          "receiver": "",
+          "icon": "",
+          "index": 1
+        },
+        "Night": {
+          "name": "Night",
+          "isEnabled": true,
+          "sender": "{\n  let currentHour = dayjs().hour()\n\n  if (currentHour < 7 || currentHour > 20) {\n\n    state.status = 'on'\n    var consumption = chance.integer({ min: 1, max: 6 })\n    state.energy_consumed += consumption\n\n    var message = {\n      device: \"street_light\" + client(),\n      location: state.location,\n      status: state.status,\n      energy_produced: state.energy_produced,\n      energy_consumed: state.energy_consumed,\n    }\n\n    if (state.smart_city == true) {\n      mailbox.post('trash_can_' + client(), message)\n    }\n    else {\n      return JSON.stringify(message, null, 2);\n    }\n  }\n  else {\n    next('Night')\n  }\n}",
+          "receiver": "",
+          "index": 2,
+          "icon": ""
+        },
+        "Finished": {
+          "name": "Finished",
+          "isEnabled": true,
+          "sender": "",
+          "receiver": "",
+          "icon": "",
+          "index": 3
+        }
+      },
+      "setup": "",
+      "teardown": ""
+    }
+  },
+  "workspaceId": "6246fbe2fdee1fd07c3bb327"
+}
