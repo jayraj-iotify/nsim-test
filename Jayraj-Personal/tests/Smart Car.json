@@ -1,0 +1,89 @@
+{
+  "name": "Smart Car",
+  "tags": {},
+  "labels": [],
+  "version": 1,
+  "definition": {
+    "protocol": "mqtt",
+    "clientId": "",
+    "additionalPackages": {},
+    "strategy": "Default",
+    "settings": {
+      "url": "mqtt://broker.hivemq.com:1883",
+      "topic": "/hello/",
+      "subscriptionTopics": [
+        "/hello",
+        "/world"
+      ],
+      "timeout": 10000,
+      "qos": 0,
+      "retain": false,
+      "keepalive": 10000,
+      "reconnectPeriod": 60000,
+      "connectTimeout": 60000,
+      "username": "",
+      "password": "",
+      "identity": "",
+      "psk": "",
+      "key": "",
+      "cert": "",
+      "ca": ""
+    },
+    "model": {
+      "currentState": "Init",
+      "stateMap": {
+        "Init": {
+          "name": "Init",
+          "isEnabled": true,
+          "sender": "{\n\n  state.status = \"driving_dest\"\n\n  state.id = chance.integer({ min: 1000, max: 9999 });\n  state.license = 'ZH ' + chance.string({ length: 6, pool: '0123456789' });\n\n  state.make = \"Porsche\";\n  state.model = \"Taycan\";\n\n  state.latitude = chance.latitude({ min: 47.4, max: 47.8 });\n  state.longitude = chance.longitude({ min: 8.4, max: 8.8 });\n\n  state.battery_capacity = 84;\n  state.battery_level = 80;\n  state.max_range = 39000;  //390000\n  state.available_range = 39000;\n  state.avg_usage = 20;\n  state.connector_type = \"CCS\";\n\n  state.dest_latitude = chance.latitude({ min: 47.4, max: 47.8 });\n  state.dest_longitude = chance.longitude({ min: 8.4, max: 8.8 });\n  state.charging = false;\n\n  state.charger = 0;\n  state.charge_lat = 12.1222121;\n  state.charge_long = 12.4432222;\n\n  state.distance = 0;\n\n  state.start_point = state.latitude + \",\" + state.longitude;\n  next('Driving_Dest')\n}",
+          "receiver": "",
+          "icon": "",
+          "index": 0
+        },
+        "Running": {
+          "name": "Running",
+          "isEnabled": true,
+          "sender": "{\n  function setCoordinates() {\n    state.dest_latitude = chance.latitude({ min: 47.4, max: 47.8 });\n    state.dest_longitude = chance.longitude({ min: 8.4, max: 8.8 });\n  }\n\n  function setPosition(latitude, longitude) {\n    state.latitude = latitude;\n    state.longitude = longitude;\n\n    payload.latitude = latitude;\n    payload.longitude = longitude;\n  }\n\n  function getDistance(lat_1, long_1, lat_2, long_2) {\n    var change = geolib.getDistance(\n      { latitude: lat_1, longitude: long_1 },\n      { latitude: lat_2, longitude: long_2 }\n    );\n    state.distance = state.distance + change;\n    state.available_range = state.available_range - change;\n  }\n\n  function batteryPercentage() {\n    state.battery_level = Math.ceil((state.available_range / state.max_range) * 100);\n  }\n\n  var payload = {};\n\n  payload.id = state.id;\n  payload.license = state.license;\n  payload.make = state.make;\n  payload.model = state.model;\n  payload.battery_capacity = state.battery_capacity;\n  payload.battery_level = state.battery_level;\n  payload.available_range = state.available_range;\n  payload.avg_usage = state.avg_usage;\n  payload.connector_type = state.connector_type;\n  payload.dest_latitude = state.dest_latitude;\n  payload.dest_longitude = state.dest_longitude;\n  payload.charging = state.charging;\n\n  if (state.status == \"driving_dest\") {\n    state.charging = false;\n\n    end_point = state.dest_latitude + \",\" + state.dest_longitude;\n    state.location = drive({ start: state.start_point, end: end_point });\n\n    var myglob = glob.get(\"vehicle_\" + state.id + \"_cmd\");\n\n    if (myglob.isSet !== false) {\n      state.charger = myglob.charger;\n      state.charge_lat = myglob.latitude;\n      state.charge_long = myglob.longitude;\n\n      state.current_location = \"\" + state.location.latitude + \",\" + state.location.longitude;\n      state.status = \"driving_charger\";\n    }\n\n    getDistance(state.latitude, state.longitude, state.location.latitude, state.location.longitude);\n    batteryPercentage();\n    setPosition(state.location.latitude, state.location.longitude);\n\n    if (state.location.finished) {\n      console.log(\"We have reached the current destination, but the journey is not yet over.\")\n      state.start_point = state.latitude + \",\" + state.longitude;\n      setCoordinates();\n      state.status = \"driving_dest\"\n    }\n  }\n\n  else if (state.status == \"driving_charger\") {\n    charger_location = \"\" + state.charge_lat + \",\" + state.charge_long;\n    state.location = drive({ start: state.current_location, end: charger_location });\n\n    if (state.location.finished) {\n      glob.set(\"vehicle_\" + state.id + \"_cmd\", { isSet: false });\n      state.status = \"charger\";\n    }\n\n    getDistance(state.latitude, state.longitude, state.location.latitude, state.location.longitude);\n    batteryPercentage();\n    setPosition(state.location.latitude, state.location.longitude);\n\n  }\n\n  else if (state.status == \"charger\") {\n    state.charging = true;\n    //state.location.finished=false;\n\n    state.available_range = state.available_range + (state.max_range / 25);\n    batteryPercentage();\n\n    if (state.available_range >= state.max_range) {\n      state.start_point = \"\" + state.charge_lat + \",\" + state.charge_long;\n      state.status = \"driving_dest\";\n    }\n\n    state.latitude = state.charge_lat;\n    state.longitude = state.charge_long;\n\n  }\n\n  var map_payload = payload;\n\n  map_payload.lat = payload.latitude;\n  map_payload.lng = payload.longitude;\n  map_payload.client = payload.id\n  map_payload.car_status = state.status;\n\n  // var codesandbox = glob.get('codesandbox');\n\n\n  // rest.post({url: codesandbox, json: map_payload});\n\n  return JSON.stringify(map_payload, null, 2);\n}",
+          "receiver": "",
+          "icon": "",
+          "index": 1
+        },
+        "Driving_Dest": {
+          "name": "Driving_Dest",
+          "isEnabled": true,
+          "sender": "{\n  function setCoordinates() {\n    state.dest_latitude = chance.latitude({ min: 47.4, max: 47.8 });\n    state.dest_longitude = chance.longitude({ min: 8.4, max: 8.8 });\n  }\n\n  function setPosition(latitude, longitude) {\n    state.latitude = latitude;\n    state.longitude = longitude;\n\n    payload.latitude = latitude;\n    payload.longitude = longitude;\n  }\n\n  function getDistance(lat_1, long_1, lat_2, long_2) {\n    var change = geolib.getDistance(\n      { latitude: lat_1, longitude: long_1 },\n      { latitude: lat_2, longitude: long_2 }\n    );\n    state.distance = state.distance + change;\n    state.available_range = state.available_range - change;\n  }\n\n  function batteryPercentage() {\n    state.battery_level = Math.ceil(\n      (state.available_range / state.max_range) * 100\n    );\n  }\n\n  var payload = {};\n\n  payload.id = state.id;\n  payload.license = state.license;\n  payload.make = state.make;\n  payload.model = state.model;\n  payload.battery_capacity = state.battery_capacity;\n  payload.battery_level = state.battery_level;\n  payload.available_range = state.available_range;\n  payload.avg_usage = state.avg_usage;\n  payload.connector_type = state.connector_type;\n  payload.dest_latitude = state.dest_latitude;\n  payload.dest_longitude = state.dest_longitude;\n  payload.charging = state.charging;\n\n  state.charging = false;\n\n  end_point = state.dest_latitude + \",\" + state.dest_longitude;\n  state.location = drive({ start: state.start_point, end: end_point });\n\n  var myglob = glob.get(\"vehicle_\" + state.id + \"_cmd\");\n\n  if (myglob.isSet !== false) {\n    state.charger = myglob.charger;\n    state.charge_lat = myglob.latitude;\n    state.charge_long = myglob.longitude;\n\n    state.current_location =\n      \"\" + state.location.latitude + \",\" + state.location.longitude;\n    state.status = \"driving_charger\";\n  }\n\n  getDistance(\n    state.latitude,\n    state.longitude,\n    state.location.latitude,\n    state.location.longitude\n  );\n  batteryPercentage();\n  setPosition(state.location.latitude, state.location.longitude);\n\n  if (state.location.finished) {\n    console.log(\n      \"We have reached the current destination, but the journey is not yet over.\"\n    );\n    state.start_point = state.latitude + \",\" + state.longitude;\n    setCoordinates();\n    state.status = \"driving_dest\";\n  }\n\n  var map_payload = payload;\n\n  map_payload.lat = payload.latitude;\n  map_payload.lng = payload.longitude;\n  map_payload.client = payload.id;\n  map_payload.car_status = state.status;\n\n  // var codesandbox = glob.get('codesandbox');\n\n  // rest.post({url: codesandbox, json: map_payload});\n\n  return JSON.stringify(map_payload, null, 2);\n}\n",
+          "receiver": "",
+          "index": 2,
+          "icon": ""
+        },
+        "Driving_Charger": {
+          "name": "Driving_Charger",
+          "isEnabled": true,
+          "sender": "\n{\n  // Please provide your logic here.\n\n  // The device model state could be transitioned by calling next()\n  // To transition to a specific state pass state name as argument e.g.\n  // next('Running');\n\n}\n",
+          "receiver": "",
+          "index": 3,
+          "icon": ""
+        },
+        "Charging": {
+          "name": "Charging",
+          "isEnabled": true,
+          "sender": "\n{\n  // Please provide your logic here.\n\n  // The device model state could be transitioned by calling next()\n  // To transition to a specific state pass state name as argument e.g.\n  // next('Running');\n\n}\n",
+          "receiver": "",
+          "index": 4,
+          "icon": ""
+        },
+        "Finished": {
+          "name": "Finished",
+          "isEnabled": true,
+          "sender": "",
+          "receiver": "",
+          "icon": "",
+          "index": 5
+        }
+      },
+      "setup": "",
+      "teardown": ""
+    }
+  },
+  "workspaceId": "6246fbe2fdee1fd07c3bb327"
+}
