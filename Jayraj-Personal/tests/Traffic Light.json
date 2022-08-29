@@ -1,0 +1,65 @@
+{
+  "name": "Traffic Light",
+  "tags": {},
+  "labels": [],
+  "version": 1,
+  "definition": {
+    "protocol": "mqtt",
+    "clientId": "",
+    "additionalPackages": {},
+    "strategy": "Default",
+    "settings": {
+      "url": "mqtt://broker.hivemq.com:1883",
+      "topic": "/hello/",
+      "subscriptionTopics": [
+        "/hello",
+        "/world"
+      ],
+      "timeout": 10000,
+      "qos": 0,
+      "retain": false,
+      "keepalive": 10000,
+      "reconnectPeriod": 60000,
+      "connectTimeout": 60000,
+      "username": "",
+      "password": "",
+      "identity": "",
+      "psk": "",
+      "key": "",
+      "cert": "",
+      "ca": ""
+    },
+    "model": {
+      "currentState": "Init",
+      "stateMap": {
+        "Init": {
+          "name": "Init",
+          "isEnabled": true,
+          "sender": "{\n  var API_Key = 'AIzaSyDioUPwWwuWRQew9R_mrfyzvgz8TwHLJZ4'\n  \n  state.smart_city = false\n\n  state.r_latitude = chance.floating({ min: 12.8, max: 13.1, fixed: 6 });\n  state.r_longitude = chance.floating({ min: 77.5, max: 77.8, fixed: 6 });\n\n  var url = 'https://roads.googleapis.com/v1/nearestRoads?points=' + state.r_latitude + \",\" + state.r_longitude + '&key=' + API_Key\n\n  var res = rest.get(url)\n\n  state.location = res.snappedPoints[0].location.latitude + ',' + res.snappedPoints[0].location.longitude\n\n  state.current_light = chance.pickone(['green', 'yellow', 'red']);\n\n  next('Active')\n}",
+          "receiver": "",
+          "icon": "",
+          "index": 0
+        },
+        "Active": {
+          "name": "Active",
+          "isEnabled": true,
+          "sender": "\n{\n  if (state.timer_active == true) {\n    state.current_timer -= 10\n    if (state.current_timer < 0) {\n      state.timer_active = false\n      if (state.current_light == 'green') {\n        state.current_light == 'yellow'\n      }\n      else if (state.current_light == 'yellow') {\n        state.current_light == 'red'\n      }\n      else if (state.current_light == 'red') {\n        state.current_light == 'green'\n      }\n    }\n  }\n  \n  else {\n    if (state.current_light != 'yellow') {\n      state.current_timer = chance.integer({ min: 0, max: 20 })\n      state.timer_active = true\n    }\n    else {\n      state.current_timer = chance.integer({ min: 0, max: 200 })\n      state.timer_active = true\n    }\n  }\n\n  var message = {\n    device: \"traffic_light\" + client(),\n    location: state.location,\n    current_state: state.current_light,\n    current_wait: state.state.current_timer,\n    status: \"active\",\n  }\n\n  if (state.smart_city == true) {\n    mailbox.post('trash_can_' + client(), message)\n  }\n  else {\n    return JSON.stringify(message, null, 2);\n  }\n}\n",
+          "receiver": "",
+          "index": 1,
+          "icon": ""
+        },
+        "Finished": {
+          "name": "Finished",
+          "isEnabled": true,
+          "sender": "",
+          "receiver": "",
+          "icon": "",
+          "index": 3
+        }
+      },
+      "setup": "",
+      "teardown": ""
+    }
+  },
+  "workspaceId": "6246fbe2fdee1fd07c3bb327"
+}
