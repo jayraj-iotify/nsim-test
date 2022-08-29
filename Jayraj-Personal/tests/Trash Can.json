@@ -1,0 +1,81 @@
+{
+  "name": "Trash Can",
+  "tags": {},
+  "labels": [],
+  "version": 1,
+  "definition": {
+    "protocol": "mqtt",
+    "clientId": "",
+    "additionalPackages": {},
+    "strategy": "Default",
+    "settings": {
+      "url": "mqtt://broker.hivemq.com:1883",
+      "topic": "/hello/",
+      "subscriptionTopics": [
+        "/hello",
+        "/world"
+      ],
+      "timeout": 10000,
+      "qos": 0,
+      "retain": false,
+      "keepalive": 10000,
+      "reconnectPeriod": 60000,
+      "connectTimeout": 60000,
+      "username": "",
+      "password": "",
+      "identity": "",
+      "psk": "",
+      "key": "",
+      "cert": "",
+      "ca": ""
+    },
+    "model": {
+      "currentState": "Init",
+      "stateMap": {
+        "Init": {
+          "name": "Init",
+          "isEnabled": true,
+          "sender": "{\n  state.smart_city = false\n\n  state.latitude = chance.floating({ min: 12.8, max: 13.1, fixed: 6 });\n  state.longitude = chance.floating({ min: 77.5, max: 77.8, fixed: 6 });\n\n  state.fill = 0\n  state.fill_alert = false\n\n  next('Day')\n}",
+          "receiver": "",
+          "icon": "",
+          "index": 0
+        },
+        "Day": {
+          "name": "Day",
+          "isEnabled": true,
+          "sender": "{\n  let currentHour = dayjs().hour()\n  \n  if (state.fill_alert = true) {\n    if (chance.bool({ likelihood: 30 })) {\n      state.cleaning_trash_can = true\n      \n      next(\"Cleaning\")\n    }\n  }\n\n  if (currentHour > 7 && currentHour < 20) \n  {\n    var trash = chance.integer({ min: 1, max: 5 })\n    state.fill += trash\n\n    if (state.fill >= 90) {\n      state.fill_alert = true\n    }\n\n    var message = {\n      device: \"trash_can_\"+client(),\n      location: state.latitude+\",\"+state.longitude,\n      fill: state.fill,\n      alert: state.fill_alert,\n      status: \"active\",\n    }\n    \n    if (state.smart_city == true) {\n      mailbox.post('trash_can_'+client(), message)\n    }\n    else {\n      return JSON.stringify(message, null, 2);\n    }\n  }\n  else {\n    next('Night')\n  }\n}",
+          "receiver": "",
+          "icon": "",
+          "index": 1
+        },
+        "Night": {
+          "name": "Night",
+          "isEnabled": true,
+          "sender": "{\n  let currentHour = dayjs().hour()\n\n  if (state.fill_alert = true) {\n    if (chance.bool({ likelihood: 30 })) {\n      state.cleaning_trash_can = true\n      \n      next(\"Cleaning\")\n    }\n  }\n\n  if (currentHour < 7 || currentHour > 20) \n  {\n    var trash = chance.integer({ min: 1, max: 3 })\n    state.fill += trash\n\n    if (state.fill >= 90) {\n      state.fill_alert = true\n    }\n\n    var message = {\n      device: \"trash_can_\" + client(),\n      location: state.latitude + \",\" + state.longitude,\n      fill: state.fill,\n      alert: state.fill_alert,\n      status: \"active\",\n    }\n\n    if (state.smart_city == true) {\n      mailbox.post('trash_can_' + client(), message)\n    }\n    else {\n      return JSON.stringify(message, null, 2);\n    }\n  }\n  else {\n    next('Night')\n  }\n}",
+          "receiver": "",
+          "index": 2,
+          "icon": ""
+        },
+        "Cleaning": {
+          "name": "Cleaning",
+          "isEnabled": true,
+          "sender": "\n{\n  let currentHour = dayjs().hour()\n  \n  if (state.cleaning_trash_can = true) {\n    console.log(\"Emptying trash can\")\n    if (state.fill > 20) {\n      state.fill -= 20\n    }\n    else {\n      state.fill = 0\n      state.fill_alert = false\n      state.cleaning_trash_can = false\n\n      if (currentHour > 7 && currentHour < 20) {\n        next('Day')\n      }\n      else {\n        next('Night')\n      }\n    }\n\n    var message = {\n      device: \"trash_can_\" + client(),\n      location: state.latitude + \",\" + state.longitude,\n      fill: state.fill,\n      alert: state.fill_alert,\n      status: \"cleaning\",\n    }\n\n    if (state.smart_city == true) {\n      mailbox.post('trash_can_' + client(), message)\n    }\n    else {\n      return JSON.stringify(message, null, 2);\n    }\n  }\n}\n",
+          "receiver": "",
+          "index": 3,
+          "icon": ""
+        },
+        "Finished": {
+          "name": "Finished",
+          "isEnabled": true,
+          "sender": "",
+          "receiver": "",
+          "icon": "",
+          "index": 4
+        }
+      },
+      "setup": "",
+      "teardown": ""
+    }
+  },
+  "workspaceId": "6246fbe2fdee1fd07c3bb327"
+}
