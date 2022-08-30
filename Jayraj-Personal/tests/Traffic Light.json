@@ -1,8 +1,13 @@
 {
+  "id": "630c9fdbf1203707c9d93de4",
   "name": "Traffic Light",
   "tags": {},
   "labels": [],
+  "workspaceId": "6246fbe2fdee1fd07c3bb327",
   "version": 1,
+  "createdBy": "6246fbe2fdee1fd07c3bb324",
+  "lastUpdateBy": "6246fbe2fdee1fd07c3bb324",
+  "lastUpdatedOn": "2022-08-29T11:15:39.831Z",
   "definition": {
     "protocol": "mqtt",
     "clientId": "",
@@ -35,7 +40,7 @@
         "Init": {
           "name": "Init",
           "isEnabled": true,
-          "sender": "{\n  var API_Key = 'AIzaSyDioUPwWwuWRQew9R_mrfyzvgz8TwHLJZ4'\n  \n  state.smart_city = false\n\n  state.r_latitude = chance.floating({ min: 12.8, max: 13.1, fixed: 6 });\n  state.r_longitude = chance.floating({ min: 77.5, max: 77.8, fixed: 6 });\n\n  var url = 'https://roads.googleapis.com/v1/nearestRoads?points=' + state.r_latitude + \",\" + state.r_longitude + '&key=' + API_Key\n\n  var res = rest.get(url)\n\n  state.location = res.snappedPoints[0].location.latitude + ',' + res.snappedPoints[0].location.longitude\n\n  state.current_light = chance.pickone(['green', 'yellow', 'red']);\n\n  next('Active')\n}",
+          "sender": "{\n  \n\n  var API_Key = glob.get('API_Key')\n\n  state.smart_city = false\n\n  state.r_latitude = chance.floating({ min: 12.8, max: 13.1, fixed: 6 });\n  state.r_longitude = chance.floating({ min: 77.5, max: 77.8, fixed: 6 });\n\n  var url = 'https://roads.googleapis.com/v1/nearestRoads?points=' + state.r_latitude + \",\" + state.r_longitude + '&key=' + API_Key\n\n  var res = rest.get(url)\n\n  state.location = res.snappedPoints[0].location.latitude + ',' + res.snappedPoints[0].location.longitude\n\n  state.current_light = chance.pickone(['green', 'yellow', 'red']);\n\n  next('Active')\n}",
           "receiver": "",
           "icon": "",
           "index": 0
@@ -60,6 +65,5 @@
       "setup": "",
       "teardown": ""
     }
-  },
-  "workspaceId": "6246fbe2fdee1fd07c3bb327"
+  }
 }
