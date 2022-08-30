@@ -2,7 +2,7 @@
   "name": "Plant Sensor",
   "tags": {
     "description": "Plant Sensor Template",
-    "icon": "",
+    "icon": "https://raw.githubusercontent.com/iotify/nsim-samples/main/Images/Plant%20Sensor.png",
     "attribution": "public"
   },
   "labels": [
