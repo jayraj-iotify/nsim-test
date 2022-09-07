@@ -33,7 +33,9 @@
       "key": "",
       "cert": "",
       "ca": "",
-      "headers": {},
+      "headers": {
+        "Content-Type": "application/json"
+      },
       "method": "POST"
     },
     "model": {
