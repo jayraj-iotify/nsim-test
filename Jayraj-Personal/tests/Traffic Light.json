@@ -7,20 +7,20 @@
   "version": 1,
   "createdBy": "6246fbe2fdee1fd07c3bb324",
   "lastUpdateBy": "6246fbe2fdee1fd07c3bb324",
-  "lastUpdatedOn": "2022-08-29T11:15:39.831Z",
+  "lastUpdatedOn": "2022-08-30T09:46:47.542Z",
   "definition": {
-    "protocol": "mqtt",
+    "protocol": "http",
     "clientId": "",
     "additionalPackages": {},
     "strategy": "Default",
     "settings": {
-      "url": "mqtt://broker.hivemq.com:1883",
+      "url": "https://5hex2r.sse.codesandbox.io/endpoint",
       "topic": "/hello/",
       "subscriptionTopics": [
         "/hello",
         "/world"
       ],
-      "timeout": 10000,
+      "timeout": 100,
       "qos": 0,
       "retain": false,
       "keepalive": 10000,
@@ -32,7 +32,11 @@
       "psk": "",
       "key": "",
       "cert": "",
-      "ca": ""
+      "ca": "",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "method": "POST"
     },
     "model": {
       "currentState": "Init",
