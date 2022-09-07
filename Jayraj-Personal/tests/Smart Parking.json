@@ -7,7 +7,7 @@
   "version": 1,
   "createdBy": "6246fbe2fdee1fd07c3bb324",
   "lastUpdateBy": "6246fbe2fdee1fd07c3bb324",
-  "lastUpdatedOn": "2022-08-29T11:15:32.120Z",
+  "lastUpdatedOn": "2022-08-30T09:46:59.024Z",
   "definition": {
     "protocol": "mqtt",
     "clientId": "",
@@ -48,7 +48,7 @@
         "Day": {
           "name": "Day",
           "isEnabled": true,
-          "sender": "{\n  let currentHour = dayjs().hour()\n\n  if (currentHour > 7 && currentHour < 20) {\n\n    state.status = 'off'\n    var output = chance.integer({ min: 1, max: 6 })\n    state.energy_produced += output\n\n    var message = {\n      device: \"street_light\" + client(),\n      location:state.location,\n      status: state.status,\n      energy_produced: state.energy_produced,\n      energy_consumed: state.energy_consumed,\n    }\n\n    if (state.smart_city == true) {\n      mailbox.post('trash_can_' + client(), message)\n    }\n    else {\n      return JSON.stringify(message, null, 2);\n    }\n  }\n  else {\n    next('Night')\n  }\n}",
+          "sender": "{\n  let currentHour = dayjs().hour()\n\n  if (currentHour > 7 && currentHour < 20) {\n\n    state.status = 'off'\n    var output = chance.integer({ min: 1, max: 6 })\n    state.energy_produced += output\n\n    var message = {\n      device: \"street_light\",\n      id: client(),\n      latitude: state.latitude,\n      longitude: state.longitude,      status: state.status,\n      energy_produced: state.energy_produced,\n      energy_consumed: state.energy_consumed,\n    }\n\n    if (state.smart_city == true) {\n      mailbox.post('trash_can_' + client(), message)\n    }\n    else {\n      return JSON.stringify(message, null, 2);\n    }\n  }\n  else {\n    next('Night')\n  }\n}",
           "receiver": "",
           "icon": "",
           "index": 1
