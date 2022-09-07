@@ -7,7 +7,7 @@
   "version": 1,
   "createdBy": "6246fbe2fdee1fd07c3bb324",
   "lastUpdateBy": "6246fbe2fdee1fd07c3bb324",
-  "lastUpdatedOn": "2022-09-07T10:57:16.521Z",
+  "lastUpdatedOn": "2022-09-07T11:10:15.459Z",
   "definition": {
     "protocol": "http",
     "clientId": "",
@@ -20,7 +20,7 @@
         "/hello",
         "/world"
       ],
-      "timeout": 1000,
+      "timeout": 100,
       "qos": 0,
       "retain": false,
       "keepalive": 10000,
