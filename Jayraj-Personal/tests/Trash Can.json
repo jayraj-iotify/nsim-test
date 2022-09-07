@@ -33,9 +33,7 @@
       "key": "",
       "cert": "",
       "ca": "",
-      "headers": {
-        "accept": "application/json"
-      },
+      "headers": {},
       "method": "POST"
     },
     "model": {
