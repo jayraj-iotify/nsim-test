@@ -48,18 +48,10 @@
         "Day": {
           "name": "Day",
           "isEnabled": true,
-          "sender": "{\n  let currentHour = dayjs().hour()\n\n  if (currentHour > 7 && currentHour < 20) {\n\n    state.status = 'off'\n    var max_spots = chance.integer({ min: 1, max: 40 })\n    state.free_spots = volatile({min: 0, max: max_spots, delta: 0.1, key: 'parking_spots'})\n\n\n    var message = {\n      device: \"smart_parking\",\n      id: client(),\n      latitude: state.latitude,\n      longitude: state.longitude,      status: state.status,\n      energy_produced: state.energy_produced,\n      energy_consumed: state.energy_consumed,\n    }\n\n    if (state.smart_city == true) {\n      mailbox.post('trash_can_' + client(), message)\n    }\n    else {\n      return JSON.stringify(message, null, 2);\n    }\n  }\n  else {\n    next('Night')\n  }\n}",
+          "sender": "{\n\n\n    state.status = 'off'\n    var max_spots = chance.integer({ min: 1, max: 40 })\n    state.free_spots = volatile({min: 0, max: max_spots, delta: 0.1, key: 'parking_spots'})\n\n\n    var message = {\n      device: \"smart_parking\",\n      id: client(),\n      latitude: state.latitude,\n      longitude: state.longitude,\n      free_spots: Math.ceil(state.free_spots),\n    }\n\n    if (state.smart_city == true) {\n      mailbox.post('trash_can_' + client(), message)\n    }\n    else {\n      return JSON.stringify(message, null, 2);\n    }\n\n}",
           "receiver": "",
           "icon": "",
           "index": 1
-        },
-        "Night": {
-          "name": "Night",
-          "isEnabled": true,
-          "sender": "{\n  let currentHour = dayjs().hour()\n\n  if (currentHour < 7 || currentHour > 20) {\n\n    state.status = 'on'\n    var consumption = chance.integer({ min: 1, max: 6 })\n    state.energy_consumed += consumption\n\n    var message = {\n      device: \"street_light\",\n      id: client(),\n      latitude: state.latitude,\n      longitude: state.longitude,      status: state.status,\n      energy_produced: state.energy_produced,\n      energy_consumed: state.energy_consumed,\n    }\n\n    if (state.smart_city == true) {\n      mailbox.post('trash_can_' + client(), message)\n    }\n    else {\n      return JSON.stringify(message, null, 2);\n    }\n  }\n  else {\n    next('Night')\n  }\n}",
-          "receiver": "",
-          "index": 2,
-          "icon": ""
         },
         "Finished": {
           "name": "Finished",
