@@ -40,13 +40,13 @@
         "Init": {
           "name": "Init",
           "isEnabled": true,
-          "sender": "{\n  var API_Key = glob.get('API_Key')\n\n  state.smart_city = false\n\n  state.r_latitude = chance.floating({ min: 12.8, max: 13.1, fixed: 6 });\n  state.r_longitude = chance.floating({ min: 77.5, max: 77.8, fixed: 6 });\n\n  var url = 'https://roads.googleapis.com/v1/nearestRoads?points=' + state.r_latitude + \",\" + state.r_longitude + '&key=' + API_Key\n\n  var res = rest.get(url)\n\n  state.location = res.snappedPoints[0].location.latitude + ',' + res.snappedPoints[0].location.longitude\n\n  state.status = 'off'\n  state.energy_produced = 0\n  state.energy_consumed = 0\n\n  next('Active')\n}",
+          "sender": "{\n  var API_Key = glob.get('API_Key')\n\n  state.smart_city = false\n\n  state.r_latitude = chance.floating({ min: 12.8, max: 13.1, fixed: 6 });\n  state.r_longitude = chance.floating({ min: 77.5, max: 77.8, fixed: 6 });\n\n  var url = 'https://roads.googleapis.com/v1/nearestRoads?points=' + state.r_latitude + \",\" + state.r_longitude + '&key=' + API_Key\n\n  var res = rest.get(url)\n\n  state.location = res.snappedPoints[0].location.latitude + ',' + res.snappedPoints[0].location.longitude\n\n  state.free_spots = 0\n\n  next('Active')\n}",
           "receiver": "",
           "icon": "",
           "index": 0
         },
-        "Day": {
-          "name": "Day",
+        "Active": {
+          "name": "Active",
           "isEnabled": true,
           "sender": "{\n  var max_spots = chance.integer({ min: 1, max: 40 });\n  state.free_spots = volatile({\n    min: 0,\n    max: max_spots,\n    delta: 0.1,\n    key: \"parking_spots\",\n  });\n\n  var message = {\n    device: \"smart_parking\",\n    id: client(),\n    latitude: state.latitude,\n    longitude: state.longitude,\n    free_spots: Math.ceil(state.free_spots),\n  };\n\n  if (state.smart_city == true) {\n    mailbox.post(\"smart_parking\" + client(), message);\n  } else {\n    return JSON.stringify(message, null, 2);\n  }\n}\n",
           "receiver": "",
