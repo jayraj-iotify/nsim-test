@@ -20,7 +20,7 @@
         "/hello",
         "/world"
       ],
-      "timeout": 10000,
+      "timeout": 1000,
       "qos": 0,
       "retain": false,
       "keepalive": 10000,
