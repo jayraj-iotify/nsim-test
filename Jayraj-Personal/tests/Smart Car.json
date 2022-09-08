@@ -14,13 +14,13 @@
     "additionalPackages": {},
     "strategy": "Default",
     "settings": {
-      "url": "mqtt://broker.hivemq.com:1883",
+      "url": "https://5hex2r.sse.codesandbox.io/endpoint",
       "topic": "/hello/",
       "subscriptionTopics": [
         "/hello",
         "/world"
       ],
-      "timeout": 10000,
+      "timeout": 100,
       "qos": 0,
       "retain": false,
       "keepalive": 10000,
@@ -34,9 +34,9 @@
       "cert": "",
       "ca": "",
       "headers": {
-        "accept": "application/json"
+        "Content-Type": "application/json"
       },
-      "method": "GET"
+      "method": "POST"
     },
     "model": {
       "currentState": "Init",
