@@ -1,10 +1,15 @@
 {
+  "id": "630c9fcff1203707c9d93dde",
   "name": "Smart Car",
   "tags": {},
   "labels": [],
+  "workspaceId": "6246fbe2fdee1fd07c3bb327",
   "version": 1,
+  "createdBy": "6246fbe2fdee1fd07c3bb324",
+  "lastUpdateBy": "6246fbe2fdee1fd07c3bb324",
+  "lastUpdatedOn": "2022-08-29T11:15:27.658Z",
   "definition": {
-    "protocol": "mqtt",
+    "protocol": "http",
     "clientId": "",
     "additionalPackages": {},
     "strategy": "Default",
@@ -27,7 +32,11 @@
       "psk": "",
       "key": "",
       "cert": "",
-      "ca": ""
+      "ca": "",
+      "headers": {
+        "accept": "application/json"
+      },
+      "method": "GET"
     },
     "model": {
       "currentState": "Init",
@@ -84,6 +93,5 @@
       "setup": "",
       "teardown": ""
     }
-  },
-  "workspaceId": "6246fbe2fdee1fd07c3bb327"
+  }
 }
