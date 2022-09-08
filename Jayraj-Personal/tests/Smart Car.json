@@ -68,7 +68,7 @@
         "Charging": {
           "name": "Charging",
           "isEnabled": true,
-          "sender": "\n{\n  state.charging = true;\n  //state.location.finished=false;\n\n  state.available_range = state.available_range + (state.max_range / 25);\n  batteryPercentage();\n\n  if (state.available_range >= state.max_range) {\n    state.start_point = \"\" + state.charge_lat + \",\" + state.charge_long;\n    state.status = \"driving_dest\";\n  }\n\n  state.latitude = state.charge_lat;\n  state.longitude = state.charge_long;\n}\n",
+          "sender": "\n{\n  var message = {\n    device: \"ev_car\",\n    id: state.id,\n    license: state.license,\n    make: state.make,\n    model: state.model,\n    battery_capacity: state.battery_capacity,\n    battery_level: state.battery_level,\n    available_range: state.available_range,\n    avg_usage: state.avg_usage,\n    connector_type: state.connector_type,\n    dest_latitude: state.dest_latitude,\n    dest_longitude: state.dest_longitude,\n    charging: state.charging,\n  };\n\n  state.charging = true;\n\n  state.available_range = state.available_range + (state.max_range / 25);\n\n  state.battery_level = Math.ceil(\n    (state.available_range / state.max_range) * 100\n  );\n  if (state.available_range >= state.max_range) {\n    state.start_point = \"\" + state.charge_lat + \",\" + state.charge_long;\n    next(\"driving_dest\");\n  }\n\n  state.latitude = state.charge_lat;\n  state.longitude = state.charge_long;\n}\n",
           "receiver": "",
           "index": 4,
           "icon": ""
