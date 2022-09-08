@@ -7,11 +7,17 @@
   "version": 1,
   "createdBy": "6246fbe2fdee1fd07c3bb324",
   "lastUpdateBy": "6246fbe2fdee1fd07c3bb324",
-  "lastUpdatedOn": "2022-09-08T09:47:23.903Z",
+  "lastUpdatedOn": "2022-09-08T10:14:18.063Z",
   "definition": {
     "protocol": "http",
     "clientId": "",
-    "additionalPackages": {},
+    "additionalPackages": {
+      "geolib": {
+        "content": "geolib",
+        "name": "geolib",
+        "type": "npm"
+      }
+    },
     "strategy": "Default",
     "settings": {
       "url": "https://5hex2r.sse.codesandbox.io/endpoint",
