@@ -1,8 +1,13 @@
 {
-  "version": 1,
-  "workspaceId": "6246fbe2fdee1fd07c3bb327",
-  "id": "",
+  "id": "6319c286171e32c6f4e30c79",
   "name": "afraid-wrennie",
+  "tags": {},
+  "labels": [],
+  "workspaceId": "6246fbe2fdee1fd07c3bb327",
+  "version": 1,
+  "createdBy": "6246fbe2fdee1fd07c3bb324",
+  "lastUpdateBy": "6246fbe2fdee1fd07c3bb324",
+  "lastUpdatedOn": "2022-09-08T10:23:02.241Z",
   "definition": {
     "protocol": "mqtt",
     "clientId": "",
@@ -35,7 +40,7 @@
         "Init": {
           "name": "Init",
           "isEnabled": true,
-          "sender": "\n{\n  state.latitude = chance.latitude({ min: 12.8, max: 13.1 });\n  state.longitude = chance.latitude({ min: 12.8, max: 13.1 });\n  state.start_point = state.latitude + \",\" + state.longitude;\n\n  state.dest_latitude = chance.latitude({ min: 12.8, max: 13.1 });\n  state.dest_longitude = chance.latitude({ min: 12.8, max: 13.1 });\n\n  var end_point = state.dest_latitude + \",\" + state.dest_longitude;\n  state.location = drive({ start: state.current_location, end: state.charger_location, key: state.API_Key });\n  console.log(state.location)\n  if (state.location.finished) {\n    console.log(\n      \"We have reached the current destination, but the journey is not yet over.\"\n    );\n  }\n  next(\"Init\")\n}\n",
+          "sender": "{\n  state.API_Key = glob.get(\"API_Key\");\n\n  state.latitude = chance.latitude({ min: 12.8, max: 13.1 });\n  state.longitude = chance.latitude({ min: 12.8, max: 13.1 });\n  state.start_point = state.latitude + \",\" + state.longitude;\n\n  state.dest_latitude = chance.latitude({ min: 12.8, max: 13.1 });\n  state.dest_longitude = chance.latitude({ min: 12.8, max: 13.1 });\n\n  var end_point = state.dest_latitude + \",\" + state.dest_longitude;\n  state.location = drive({\n    start: state.start_point,\n    end: state.end_point,\n    key: state.API_Key,\n  });\n  console.log(state.location);\n  if (state.location.finished) {\n    console.log(\n      \"We have reached the current destination, but the journey is not yet over.\"\n    );\n  }\n  next(\"Init\");\n}\n",
           "receiver": "",
           "icon": "",
           "index": 0
@@ -60,6 +65,5 @@
       "setup": "",
       "teardown": ""
     }
-  },
-  "tags": {}
+  }
 }
