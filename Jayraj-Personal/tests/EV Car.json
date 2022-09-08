@@ -1,0 +1,89 @@
+{
+  "id": "630c9fcff1203707c9d93dde",
+  "name": "EV Car",
+  "tags": {},
+  "labels": [],
+  "workspaceId": "6246fbe2fdee1fd07c3bb327",
+  "version": 1,
+  "createdBy": "6246fbe2fdee1fd07c3bb324",
+  "lastUpdateBy": "6246fbe2fdee1fd07c3bb324",
+  "lastUpdatedOn": "2022-09-08T09:47:23.903Z",
+  "definition": {
+    "protocol": "http",
+    "clientId": "",
+    "additionalPackages": {},
+    "strategy": "Default",
+    "settings": {
+      "url": "https://5hex2r.sse.codesandbox.io/endpoint",
+      "topic": "/hello/",
+      "subscriptionTopics": [
+        "/hello",
+        "/world"
+      ],
+      "timeout": 100,
+      "qos": 0,
+      "retain": false,
+      "keepalive": 10000,
+      "reconnectPeriod": 60000,
+      "connectTimeout": 60000,
+      "username": "",
+      "password": "",
+      "identity": "",
+      "psk": "",
+      "key": "",
+      "cert": "",
+      "ca": "",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "method": "POST"
+    },
+    "model": {
+      "currentState": "Init",
+      "stateMap": {
+        "Init": {
+          "name": "Init",
+          "isEnabled": true,
+          "sender": "{\n  state.smart_city = glob.get('Enable_Smart_City')\n\n  state.status = \"Idle\"\n\n  state.id = chance.integer({ min: 1000, max: 9999 });\n  state.license = 'ZH ' + chance.string({ length: 6, pool: '0123456789' });\n\n  state.make = \"Porsche\";\n  state.model = \"Taycan\";\n\n  state.latitude = chance.latitude({ min: 12.8, max: 13.1});\n  state.longitude = chance.latitude({ min: 12.8, max: 13.1 });\n\n  state.battery_threshold = chance.integer({ min: 1, max: 30 });\n  state.battery_capacity = 84;\n  state.battery_level = 80;\n  state.max_range = 39000;  //390000\n  state.available_range = 39000;\n  state.avg_usage = 20;\n  state.connector_type = \"CCS\";\n\n  state.dest_latitude = chance.latitude({ min: 12.8, max: 13.1 });\n  state.dest_longitude = chance.latitude({ min: 12.8, max: 13.1 });\n  state.charging = false;\n\n  state.charger = 0;\n  state.charge_lat = chance.latitude({ min: 12.8, max: 13.1 });\n  state.charge_long = chance.latitude({ min: 12.8, max: 13.1 });\n\n  state.distance = 0;\n\n  state.start_point = state.latitude + \",\" + state.longitude;\n  next('Driving_Dest')\n}",
+          "receiver": "",
+          "icon": "",
+          "index": 0
+        },
+        "Driving_Dest": {
+          "name": "Driving_Dest",
+          "isEnabled": true,
+          "sender": "{\n\n  var message = {\n    device: \"ev_car\",\n    id: state.id,\n    license: state.license,\n    make: state.make,\n    model: state.model,\n    battery_capacity: state.battery_capacity,\n    battery_level: state.battery_level,\n    available_range: state.available_range,\n    avg_usage: state.avg_usage,\n    connector_type: state.connector_type,\n    dest_latitude: state.dest_latitude,\n    dest_longitude: state.dest_longitude,\n    charging: state.charging,\n  };\n  \n  var end_point = state.dest_latitude + \",\" + state.dest_longitude;\n  state.location = drive({ start: state.start_point, end: end_point });\n\n  var change = geolib.getDistance(\n    { latitude: state.latitude, longitude: state.longitude },\n    { latitude: state.location.latitude, longitude: state.location.longitude }\n  );\n  state.distance = state.distance + change;\n  state.available_range = state.available_range - change;\n\n  state.battery_level = Math.ceil(\n    (state.available_range / state.max_range) * 100\n  );\n  state.latitude = state.location.latitude;\n  state.longitude = state.location.longitude;\n\n  if (state.location.finished) {\n    console.log(\n      \"We have reached the current destination, but the journey is not yet over.\"\n    );\n    state.start_point = state.latitude + \",\" + state.longitude;\n\n    state.dest_latitude = chance.latitude({ min: 47.4, max: 47.8 });\n    state.dest_longitude = chance.longitude({ min: 8.4, max: 8.8 });\n\n    next(\"Driving_dest\")\n  }\n\n  if (state.battery_level < state.battery_threshold) {\n    console.log(\"Battery is low, Driving to charger\")\n    state.current_location = \"\" + state.location.latitude + \",\" + state.location.longitude;\n\n    state.charge_lat = chance.latitude({ min: 12.8, max: 13.1 });\n    state.charge_long = chance.latitude({ min: 12.8, max: 13.1 });\n    state.charger_location = \"\" + state.charge_lat + \",\" + state.charge_long;\n    \n    next(\"Driving_Charger\")\n  }\n\n  if (state.smart_city == true) {\n    mailbox.post('ev_car_' + client(), message)\n  }\n  else {\n    return JSON.stringify(message, null, 2);\n  }\n}\n",
+          "receiver": "",
+          "index": 2,
+          "icon": ""
+        },
+        "Driving_Charger": {
+          "name": "Driving_Charger",
+          "isEnabled": true,
+          "sender": "{\n\n  var message = {\n    device: \"ev_car\",\n    id: state.id,\n    license: state.license,\n    make: state.make,\n    model: state.model,\n    battery_capacity: state.battery_capacity,\n    battery_level: state.battery_level,\n    available_range: state.available_range,\n    avg_usage: state.avg_usage,\n    connector_type: state.connector_type,\n    dest_latitude: state.dest_latitude,\n    dest_longitude: state.dest_longitude,\n    charging: state.charging,\n  };\n\n  var end_point = state.dest_latitude + \",\" + state.dest_longitude;\n  state.location = drive({ start: state.current_location, end: state.charger_location });\n\n  var change = geolib.getDistance(\n    { latitude: state.latitude, longitude: state.longitude },\n    { latitude: state.location.latitude, longitude: state.location.longitude }\n  );\n  state.distance = state.distance + change;\n  state.available_range = state.available_range - change;\n\n  state.battery_level = Math.ceil(\n    (state.available_range / state.max_range) * 100\n  );\n  \n  state.latitude = state.location.latitude;\n  state.longitude = state.location.longitude;\n\n  if (state.location.finished) {\n    console.log(\n      \"We have reached the charger, Charging now.\"\n    );\n    state.start_point = state.latitude + \",\" + state.longitude;\n\n    state.dest_latitude = chance.latitude({ min: 47.4, max: 47.8 });\n    state.dest_longitude = chance.longitude({ min: 8.4, max: 8.8 });\n\n    next(\"Charging\")\n  }\n\n  if (state.smart_city == true) {\n    mailbox.post('ev_car_' + client(), message)\n  }\n  else {\n    return JSON.stringify(message, null, 2);\n  }\n}\n",
+          "receiver": "",
+          "index": 3,
+          "icon": ""
+        },
+        "Charging": {
+          "name": "Charging",
+          "isEnabled": true,
+          "sender": "\n{\n  var message = {\n    device: \"ev_car\",\n    id: state.id,\n    license: state.license,\n    make: state.make,\n    model: state.model,\n    battery_capacity: state.battery_capacity,\n    battery_level: state.battery_level,\n    available_range: state.available_range,\n    avg_usage: state.avg_usage,\n    connector_type: state.connector_type,\n    dest_latitude: state.dest_latitude,\n    dest_longitude: state.dest_longitude,\n    charging: state.charging,\n  };\n\n  state.charging = true;\n\n  state.available_range = state.available_range + (state.max_range / 25);\n\n  state.battery_level = Math.ceil(\n    (state.available_range / state.max_range) * 100\n  );\n\n  if (state.available_range >= state.max_range) {\n    state.start_point = \"\" + state.charge_lat + \",\" + state.charge_long;\n    next(\"driving_dest\");\n  }\n\n  state.latitude = state.charge_lat;\n  state.longitude = state.charge_long;\n  \n  if (state.smart_city == true) {\n    mailbox.post('ev_car_' + client(), message)\n  }\n  else {\n    return JSON.stringify(message, null, 2);\n  }\n}\n",
+          "receiver": "",
+          "index": 4,
+          "icon": ""
+        },
+        "Finished": {
+          "name": "Finished",
+          "isEnabled": true,
+          "sender": "",
+          "receiver": "",
+          "icon": "",
+          "index": 5
+        }
+      },
+      "setup": "",
+      "teardown": ""
+    }
+  }
+}
