@@ -7,7 +7,7 @@
   "version": 1,
   "createdBy": "6246fbe2fdee1fd07c3bb324",
   "lastUpdateBy": "6246fbe2fdee1fd07c3bb324",
-  "lastUpdatedOn": "2022-09-07T12:22:12.495Z",
+  "lastUpdatedOn": "2022-09-09T12:15:31.678Z",
   "definition": {
     "protocol": "http",
     "clientId": "",
@@ -52,7 +52,7 @@
         "Day": {
           "name": "Day",
           "isEnabled": true,
-          "sender": "{\n  let currentHour = dayjs().hour()\n\n  if (currentHour > 7 && currentHour < 20) {\n\n    state.status = 'off'\n    var output = chance.integer({ min: 1, max: 6 })\n    state.energy_produced += output\n\n    var message = {\n      device: \"street_light\",\n      id: client(),\n      latitude: state.latitude,\n      longitude: state.longitude,\n      status: state.status,\n      energy_produced: state.energy_produced,\n      energy_consumed: state.energy_consumed,\n    }\n\n    if (state.smart_city == true) {\n      mailbox.post('trash_can_' + client(), message)\n    }\n    else {\n      return JSON.stringify(message, null, 2);\n    }\n  }\n  else {\n    next('Night')\n  }\n}",
+          "sender": "{\n  let currentHour = dayjs().hour()\n\n  if (currentHour > 7 && currentHour < 20) {\n\n    state.status = 'off'\n    var output = chance.integer({ min: 1, max: 6 })\n    state.energy_produced += output\n\n    var message = {\n      device: \"street_light\",\n      id: client(),\n      latitude: state.latitude,\n      longitude: state.longitude,\n      status: state.status,\n      energy_produced: state.energy_produced,\n      energy_consumed: state.energy_consumed,\n    }\n\n    if (state.smart_city == true) {\n      mailbox.post('trash_can_' + client(), message)\n      return JSON.stringify(message, null, 2);\n\n    }\n    else {\n      return JSON.stringify(message, null, 2);\n    }\n  }\n  else {\n    next('Night')\n  }\n}",
           "receiver": "",
           "icon": "",
           "index": 1
@@ -60,7 +60,7 @@
         "Night": {
           "name": "Night",
           "isEnabled": true,
-          "sender": "{\n  let currentHour = dayjs().hour()\n\n  if (currentHour < 7 || currentHour > 20) {\n\n    state.status = 'on'\n    var consumption = chance.integer({ min: 1, max: 6 })\n    state.energy_consumed += consumption\n\n    var message = {\n      device: \"street_light\",\n      id: client(),\n      latitude: state.latitude,\n      longitude: state.longitude,\n      status: state.status,\n      energy_produced: state.energy_produced,\n      energy_consumed: state.energy_consumed,\n    }\n\n    if (state.smart_city == true) {\n      mailbox.post('trash_can_' + client(), message)\n    }\n    else {\n      return JSON.stringify(message, null, 2);\n    }\n  }\n  else {\n    next('Night')\n  }\n}",
+          "sender": "{\n  let currentHour = dayjs().hour()\n\n  if (currentHour < 7 || currentHour > 20) {\n\n    state.status = 'on'\n    var consumption = chance.integer({ min: 1, max: 6 })\n    state.energy_consumed += consumption\n\n    var message = {\n      device: \"street_light\",\n      id: client(),\n      latitude: state.latitude,\n      longitude: state.longitude,\n      status: state.status,\n      energy_produced: state.energy_produced,\n      energy_consumed: state.energy_consumed,\n    }\n\n    if (state.smart_city == true) {\n      mailbox.post('trash_can_' + client(), message)\n      return JSON.stringify(message, null, 2);\n\n    }\n    else {\n      return JSON.stringify(message, null, 2);\n    }\n  }\n  else {\n    next('Night')\n  }\n}",
           "receiver": "",
           "index": 2,
           "icon": ""
