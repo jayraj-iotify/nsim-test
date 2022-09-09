@@ -88,7 +88,7 @@
         "Parking": {
           "name": "Parking",
           "isEnabled": true,
-          "sender": "\n{\n  if (chance.bool({ likelihood: 10 })) {\n    next('Driving_Dest')\n  }\n  else {\n      next('Parking')\n  }\n}\n",
+          "sender": "\n{\n  var message = {\n    device: \"ev_car\",\n    id: client(),\n    license: state.license,\n    make: state.make,\n    model: state.model,\n    battery_capacity: state.battery_capacity,\n    battery_level: state.battery_level,\n    available_range: state.available_range,\n    connector_type: state.connector_type,\n    dest_latitude: state.dest_latitude,\n    dest_longitude: state.dest_longitude,\n    current_latitude: state.latitude,\n    current_longitude: state.longitude,\n    charging: state.charging,\n    status: \"Parked\",\n  };\n  \n  if (chance.bool({ likelihood: 10 })) {\n    next('Driving_Dest')\n  }\n  else {\n    next('Parking')\n  }\n\n  if (state.smart_city == true) {\n    mailbox.post('ev_car_' + client(), message)\n    return JSON.stringify(message, null, 2);\n  }\n  else {\n    return JSON.stringify(message, null, 2);\n  }\n\n}\n",
           "receiver": "",
           "index": 4,
           "icon": ""
