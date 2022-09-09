@@ -88,7 +88,7 @@
         "Parking": {
           "name": "Parking",
           "isEnabled": true,
-          "sender": "\n{\n  if (chance.bool({ likelihood: 10 })) {\n    next('Resting')\n  }\n  else {\n      next('Running')\n  }\n}\n",
+          "sender": "\n{\n  if (chance.bool({ likelihood: 10 })) {\n    next('Driving_Dest')\n  }\n  else {\n      next('Parking')\n  }\n}\n",
           "receiver": "",
           "index": 4,
           "icon": ""
