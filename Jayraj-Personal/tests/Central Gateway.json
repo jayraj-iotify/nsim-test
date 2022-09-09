@@ -1,8 +1,13 @@
 {
-  "version": 1,
-  "workspaceId": "6246fbe2fdee1fd07c3bb327",
-  "id": "",
+  "id": "631b2bfde6eb71ee800da317",
   "name": "Central Gateway",
+  "tags": {},
+  "labels": [],
+  "workspaceId": "6246fbe2fdee1fd07c3bb327",
+  "version": 1,
+  "createdBy": "6246fbe2fdee1fd07c3bb324",
+  "lastUpdateBy": "6246fbe2fdee1fd07c3bb324",
+  "lastUpdatedOn": "2022-09-09T12:05:17.566Z",
   "definition": {
     "protocol": "mqtt",
     "clientId": "",
@@ -35,7 +40,7 @@
         "Init": {
           "name": "Init",
           "isEnabled": true,
-          "sender": "\n{\n  // Please provide your logic here.\n\n  // The device model state could be transitioned by calling next()\n  // To transition to a specific state pass state name as argument e.g.\n  // next('Running');\n\n}\n",
+          "sender": "\n{\n\n  next('Running')\n}\n",
           "receiver": "",
           "icon": "",
           "index": 0
@@ -43,7 +48,7 @@
         "Running": {
           "name": "Running",
           "isEnabled": true,
-          "sender": "",
+          "sender": "\n{\n  let smart_parkings = {}\n\n  let count = mailbox.count(\"smart_parking_tx\");\n  if (count > 0) {\n    let mailbox_message = mailbox.pop(\"smart_parking_tx\");\n    let smart_parking = mailbox_message;\n    \n    if (!smart_parkings[smart_parking.id]) {\n      console.log(\"New parking spot added\", smart_parking);\n    }\n    smart_parkings[smart_parking.id] = smart_parking;\n  }\n\n}\n",
           "receiver": "",
           "icon": "",
           "index": 1
@@ -60,6 +65,5 @@
       "setup": "",
       "teardown": ""
     }
-  },
-  "tags": {}
+  }
 }
