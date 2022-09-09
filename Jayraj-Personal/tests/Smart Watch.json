@@ -1,13 +1,17 @@
 {
-  "id": "62eba5fc6d2a5e93299928c8",
   "name": "Smart Watch",
-  "tags": {},
-  "labels": [],
-  "workspaceId": "6246fbe2fdee1fd07c3bb327",
+  "tags": {
+    "description": "Smart Watch Template",
+    "icon": "https://raw.githubusercontent.com/iotify/nsim-samples/main/Images/Smart%20Watch.png",
+    "attribution": "public"
+  },
+  "labels": [
+    "smartdevice",
+    "advanced",
+    "watch",
+    "wearable"
+  ],
   "version": 1,
-  "createdBy": "6246fbe2fdee1fd07c3bb324",
-  "lastUpdateBy": "6246fbe2fdee1fd07c3bb324",
-  "lastUpdatedOn": "2022-08-04T11:57:14.109Z",
   "definition": {
     "protocol": "mqtt",
     "clientId": "",
@@ -81,5 +85,6 @@
       "setup": "",
       "teardown": ""
     }
-  }
+  },
+  "workspaceId": "6246fbe2fdee1fd07c3bb327"
 }
