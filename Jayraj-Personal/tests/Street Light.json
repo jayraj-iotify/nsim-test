@@ -7,7 +7,7 @@
   "version": 1,
   "createdBy": "6246fbe2fdee1fd07c3bb324",
   "lastUpdateBy": "6246fbe2fdee1fd07c3bb324",
-  "lastUpdatedOn": "2022-09-07T11:10:15.459Z",
+  "lastUpdatedOn": "2022-09-07T12:22:12.495Z",
   "definition": {
     "protocol": "http",
     "clientId": "",
@@ -44,7 +44,7 @@
         "Init": {
           "name": "Init",
           "isEnabled": true,
-          "sender": "{\n  var API_Key = glob.get('API_Key')\n\n  state.smart_city = false\n\n  state.r_latitude = chance.floating({ min: 12.8, max: 13.1, fixed: 6 });\n  state.r_longitude = chance.floating({ min: 77.5, max: 77.8, fixed: 6 });\n\n  var url = 'https://roads.googleapis.com/v1/nearestRoads?points=' + state.r_latitude + \",\" + state.r_longitude + '&key=' + API_Key\n\n  var res = rest.get(url)\n\n  state.latitude = res.snappedPoints[0].location.latitude\n  state.longitude = res.snappedPoints[0].location.longitude\n\n  state.status = 'off'\n  state.energy_produced = 0\n  state.energy_consumed = 0\n\n  next('Day')\n}",
+          "sender": "{\n  var API_Key = glob.get('API_Key')\n\n  state.smart_city = glob.get('Enable_Smart_City')\n\n  state.r_latitude = chance.floating({ min: 12.8, max: 13.1, fixed: 6 });\n  state.r_longitude = chance.floating({ min: 77.5, max: 77.8, fixed: 6 });\n\n  var url = 'https://roads.googleapis.com/v1/nearestRoads?points=' + state.r_latitude + \",\" + state.r_longitude + '&key=' + API_Key\n\n  var res = rest.get(url)\n\n  state.latitude = res.snappedPoints[0].location.latitude\n  state.longitude = res.snappedPoints[0].location.longitude\n\n  state.status = 'off'\n  state.energy_produced = 0\n  state.energy_consumed = 0\n\n  next('Day')\n}",
           "receiver": "",
           "icon": "",
           "index": 0
