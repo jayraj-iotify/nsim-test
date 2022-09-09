@@ -1,13 +1,17 @@
 {
-  "id": "62fb7bfacd6226ee9a1eae9d",
   "name": "Smart Washing Machine",
-  "tags": {},
-  "labels": [],
-  "workspaceId": "6246fbe2fdee1fd07c3bb327",
+  "tags": {
+    "description": "Smart Washing Machine Template",
+    "icon": "https://raw.githubusercontent.com/iotify/nsim-samples/main/Images/Smart%20Washing%20Machine.png",
+    "attribution": "public"
+  },
+  "labels": [
+    "smarthome",
+    "washing machine",
+    "appliance",
+    "home"
+  ],
   "version": 1,
-  "createdBy": "6246fbe2fdee1fd07c3bb324",
-  "lastUpdateBy": "6246fbe2fdee1fd07c3bb324",
-  "lastUpdatedOn": "2022-08-16T11:27:58.750Z",
   "definition": {
     "protocol": "mqtt",
     "clientId": "",
@@ -81,5 +85,6 @@
       "setup": "",
       "teardown": ""
     }
-  }
+  },
+  "workspaceId": "6246fbe2fdee1fd07c3bb327"
 }
