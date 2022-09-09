@@ -7,7 +7,7 @@
   "version": 1,
   "createdBy": "6246fbe2fdee1fd07c3bb324",
   "lastUpdateBy": "6246fbe2fdee1fd07c3bb324",
-  "lastUpdatedOn": "2022-09-09T12:15:05.437Z",
+  "lastUpdatedOn": "2022-09-09T12:26:11.309Z",
   "definition": {
     "protocol": "http",
     "clientId": "",
@@ -52,7 +52,7 @@
         "Active": {
           "name": "Active",
           "isEnabled": true,
-          "sender": "{\n  var max_spots = chance.integer({ min: 1, max: 40 });\n  state.free_spots = volatile({\n    min: 0,\n    max: max_spots,\n    delta: 0.1,\n    key: \"parking_spots\",\n  });\n\n  var message = {\n    device: \"smart_parking\",\n    id: client(),\n    latitude: state.latitude,\n    longitude: state.longitude,\n    free_spots: Math.ceil(state.free_spots),\n  };\n\n  if (state.smart_city == true) {\n    mailbox.post(\"smart_parking_tx\", message);\n\n    return JSON.stringify(message, null, 2);\n  } else {\n    return JSON.stringify(message, null, 2);\n  }\n}\n",
+          "sender": "{\n  var max_spots = chance.integer({ min: 1, max: 40 });\n\n  var message = {\n    device: \"smart_parking\",\n    id: client(),\n    latitude: state.latitude,\n    longitude: state.longitude,\n    free_spots: Math.ceil(state.free_spots),\n  };\n\n  if (state.smart_city == true) {\n    mailbox.post(\"smart_parking_tx\", message);\n\n    return JSON.stringify(message, null, 2);\n  } else {\n    return JSON.stringify(message, null, 2);\n  }\n}\n",
           "receiver": "",
           "icon": "",
           "index": 1
