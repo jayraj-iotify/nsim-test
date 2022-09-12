@@ -7,7 +7,7 @@
   "version": 1,
   "createdBy": "6246fbe2fdee1fd07c3bb324",
   "lastUpdateBy": "6246fbe2fdee1fd07c3bb324",
-  "lastUpdatedOn": "2022-09-12T19:07:39.879Z",
+  "lastUpdatedOn": "2022-09-12T19:18:55.297Z",
   "definition": {
     "protocol": "http",
     "clientId": "",
@@ -56,7 +56,7 @@
         "Init": {
           "name": "Init",
           "isEnabled": true,
-          "sender": "{\n  state.API_Key = glob.get('API_Key')\n  state.smart_city = glob.get('Enable_Smart_City')\n\n  state.status = \"Idle\"\n\n  state.id = chance.integer({ min: 1000, max: 9999 });\n  state.license = 'KA05 ' + chance.string({ length: 6, casing: 'upper', alpha: true, numeric: true });;\n\n  state.make = \"Porsche\";\n  state.model = \"Taycan\";\n\n  state.latitude = chance.floating({ min: 12.8, max: 13.1, fixed: 6 });\n  state.longitude = chance.floating({ min: 77.5, max: 77.8, fixed: 6 });\n\n  state.battery_threshold = chance.integer({ min: 10, max: 30 });\n  state.battery_capacity = 84;\n  state.battery_level = 80;\n  state.max_range = 39000;  //390000\n  state.available_range = 39000;\n  state.avg_usage = 20;\n  state.connector_type = \"CCS\";\n\n  state.dest_latitude = chance.floating({ min: 12.8, max: 13.1, fixed: 6 });\n  state.dest_longitude = chance.floating({ min: 77.5, max: 77.8, fixed: 6 });\n  state.charging = false;\n\n  state.charger = 0;\n  state.charge_lat = chance.floating({ min: 12.8, max: 13.1, fixed: 6 });\n  state.charge_long = chance.floating({ min: 77.5, max: 77.8, fixed: 6 });\n\n  state.search_parking = false\n  state.parking_latitude = chance.floating({ min: 12.8, max: 13.1, fixed: 6 });\n  state.parking_longitude = chance.floating({ min: 77.5, max: 77.8, fixed: 6 });\n\n  state.distance = 0;\n\n  state.start_point = state.latitude + \",\" + state.longitude;\n  next('Driving_Dest')\n}",
+          "sender": "{\n  state.API_Key = glob.get('API_Key')\n  state.smart_city = glob.get('Enable_Smart_City')\n\n  state.status = \"Idle\"\n\n  state.id = chance.integer({ min: 1000, max: 9999 });\n  state.license = 'KA05 ' + chance.string({ length:2 , casing: 'upper', alpha: true }) + chance.string({ length: 4, numeric: true });\n\n  state.make = \"Porsche\";\n  state.model = \"Taycan\";\n\n  state.latitude = chance.floating({ min: 12.8, max: 13.1, fixed: 6 });\n  state.longitude = chance.floating({ min: 77.5, max: 77.8, fixed: 6 });\n\n  state.battery_threshold = chance.integer({ min: 10, max: 30 });\n  state.battery_capacity = 84;\n  state.battery_level = 80;\n  state.max_range = 39000;  //390000\n  state.available_range = 39000;\n  state.avg_usage = 20;\n  state.connector_type = \"CCS\";\n\n  state.dest_latitude = chance.floating({ min: 12.8, max: 13.1, fixed: 6 });\n  state.dest_longitude = chance.floating({ min: 77.5, max: 77.8, fixed: 6 });\n  state.charging = false;\n\n  state.charger = 0;\n  state.charge_lat = chance.floating({ min: 12.8, max: 13.1, fixed: 6 });\n  state.charge_long = chance.floating({ min: 77.5, max: 77.8, fixed: 6 });\n\n  state.search_parking = false\n  state.parking_latitude = chance.floating({ min: 12.8, max: 13.1, fixed: 6 });\n  state.parking_longitude = chance.floating({ min: 77.5, max: 77.8, fixed: 6 });\n\n  state.distance = 0;\n\n  state.start_point = state.latitude + \",\" + state.longitude;\n  next('Driving_Dest')\n}",
           "receiver": "",
           "icon": "",
           "index": 0
