@@ -7,7 +7,7 @@
   "version": 1,
   "createdBy": "6246fbe2fdee1fd07c3bb324",
   "lastUpdateBy": "6246fbe2fdee1fd07c3bb324",
-  "lastUpdatedOn": "2022-09-12T19:08:07.675Z",
+  "lastUpdatedOn": "2022-09-12T19:26:33.377Z",
   "definition": {
     "protocol": "http",
     "clientId": "",
@@ -44,7 +44,7 @@
         "Init": {
           "name": "Init",
           "isEnabled": true,
-          "sender": "{\n  var API_Key = glob.get('API_Key')\n\n  state.smart_city = glob.get('Enable_Smart_City')\n\n  state.r_latitude = chance.floating({ min: 12.8, max: 13.1, fixed: 6 });\n  state.r_longitude = chance.floating({ min: 77.5, max: 77.8, fixed: 6 });\n\n  var url = 'https://roads.googleapis.com/v1/nearestRoads?points=' + state.r_latitude + \",\" + state.r_longitude + '&key=' + API_Key\n\n  var res = rest.get(url)\n\n  state.latitude = res.snappedPoints[0].location.latitude\n  state.longitude = res.snappedPoints[0].location.longitude\n\n  state.parking_available = chance.integer({ min: 5, max: 40 });\n\n  next('Active')\n}",
+          "sender": "{\n  var API_Key = glob.get('API_Key')\n\n  state.smart_city = glob.get('Enable_Smart_City')\n\n  state.r_latitude = chance.floating({ min: 12.8, max: 13.1, fixed: 6 });\n  state.r_longitude = chance.floating({ min: 77.5, max: 77.8, fixed: 6 });\n\n  var url = 'https://roads.googleapis.com/v1/nearestRoads?points=' + state.r_latitude + \",\" + state.r_longitude + '&key=' + API_Key\n\n  var res = rest.get(url)\n\n  state.latitude = res.snappedPoints[0].location.latitude\n  state.longitude = res.snappedPoints[0].location.longitude\n\n  state.capacity = state.parking_available = chance.integer({ min: 5, max: 40 });\n\n  next('Active')\n}",
           "receiver": "",
           "icon": "",
           "index": 0
@@ -52,7 +52,7 @@
         "Active": {
           "name": "Active",
           "isEnabled": true,
-          "sender": "{\n  \n  var message = {\n    device: \"smart_parking\",\n    id: client(),\n    latitude: state.latitude,\n    longitude: state.longitude,\n    free_spots: state.parking_available,\n  };\n\n  for (let i = 0; i < 50; ++i) {\n    let count = mailbox.count(\"smart_parking_\" + client() + \"_rx\");\n    if (count > 0) {\n      let mailbox_message = mailbox.pop(\"smart_parking_\" + client() + \"_rx\");\n      if (mailbox_message.id == client()) {\n        state.parking_available--\n      }\n    }\n  }\n\n  if (state.smart_city == true) {\n    mailbox.post(\"smart_parking_tx\", message);\n\n    return JSON.stringify(message, null, 2);\n  } else {\n    return JSON.stringify(message, null, 2);\n  }\n}\n",
+          "sender": "{\n  var message = {\n    device: \"smart_parking\",\n    id: client(),\n    latitude: state.latitude,\n    longitude: state.longitude,\n    free_spots: state.parking_available,\n  };\n\n  if (state.smart_city == true) {\n    for (let i = 0; i < 50; ++i) {\n      let count = mailbox.count(\"smart_parking_\" + client() + \"_rx\");\n      if (count > 0) {\n        let mailbox_message = mailbox.pop(\"smart_parking_\" + client() + \"_rx\");\n        if (mailbox_message.id == client()) {\n          state.parking_available--;\n        }\n      }\n    }\n  }\n  else {\n    if (chance.bool({ likelihood: 10 })) {\n      if ()\n      state.parking_available--;\n    } else {\n      next(\"Parking\");\n    }\n  }\n\n  if (state.smart_city == true) {\n    mailbox.post(\"smart_parking_tx\", message);\n  }\n  return JSON.stringify(message, null, 2);\n}\n",
           "receiver": "",
           "icon": "",
           "index": 1
