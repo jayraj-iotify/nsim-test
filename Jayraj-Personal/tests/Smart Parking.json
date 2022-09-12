@@ -7,7 +7,7 @@
   "version": 1,
   "createdBy": "6246fbe2fdee1fd07c3bb324",
   "lastUpdateBy": "6246fbe2fdee1fd07c3bb324",
-  "lastUpdatedOn": "2022-09-09T13:04:17.899Z",
+  "lastUpdatedOn": "2022-09-12T13:00:11.750Z",
   "definition": {
     "protocol": "http",
     "clientId": "",
@@ -52,7 +52,7 @@
         "Active": {
           "name": "Active",
           "isEnabled": true,
-          "sender": "{\n  \n\n  var message = {\n    device: \"smart_parking\",\n    id: client(),\n    latitude: state.latitude,\n    longitude: state.longitude,\n    free_spots: state.parking_available,\n  };\n\n  if (state.smart_city == true) {\n    mailbox.post(\"smart_parking_tx\", message);\n\n    return JSON.stringify(message, null, 2);\n  } else {\n    return JSON.stringify(message, null, 2);\n  }\n}\n",
+          "sender": "{\n  \n\n  var message = {\n    device: \"smart_parking\",\n    id: client(),\n    latitude: state.latitude,\n    longitude: state.longitude,\n    free_spots: state.parking_available,\n  };\n\n  for (let i = 0; i < 50; ++i) {\n    let count = mailbox.count(\"smart_parking\" + client() + \"_rx\");\n    if (count > 0) {\n      let mailbox_message = mailbox.pop(\"ev_car_\" + client() + \"_rx\");\n      if (mailbox_message.id == client()) {\n        state.parking_available--\n      }\n    }\n  }\n\n  if (state.smart_city == true) {\n    mailbox.post(\"smart_parking_tx\", message);\n\n    return JSON.stringify(message, null, 2);\n  } else {\n    return JSON.stringify(message, null, 2);\n  }\n}\n",
           "receiver": "",
           "icon": "",
           "index": 1
