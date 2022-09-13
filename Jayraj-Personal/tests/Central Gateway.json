@@ -7,7 +7,7 @@
   "version": 1,
   "createdBy": "6246fbe2fdee1fd07c3bb324",
   "lastUpdateBy": "6246fbe2fdee1fd07c3bb324",
-  "lastUpdatedOn": "2022-09-12T18:33:24.204Z",
+  "lastUpdatedOn": "2022-09-12T19:27:11.985Z",
   "definition": {
     "protocol": "none",
     "clientId": "",
@@ -40,7 +40,7 @@
         "Init": {
           "name": "Init",
           "isEnabled": true,
-          "sender": "\n{\n  state.smart_parkings = {}\n\n  next('Running')\n}\n",
+          "sender": "\n{\n  state.smart_parkings = {}\n  state.garbage_trucks = {}\n\n  next('Running')\n}\n",
           "receiver": "",
           "icon": "",
           "index": 0
