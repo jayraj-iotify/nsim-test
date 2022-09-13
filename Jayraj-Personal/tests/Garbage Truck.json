@@ -1,5 +1,5 @@
 {
-  "id": "63204f2c1272724fdc5c4f52",
+  "id": "63204ffa1272724fdc5c4f5d",
   "name": "Garbage Truck",
   "tags": {},
   "labels": [],
@@ -7,7 +7,7 @@
   "version": 1,
   "createdBy": "6246fbe2fdee1fd07c3bb324",
   "lastUpdateBy": "6246fbe2fdee1fd07c3bb324",
-  "lastUpdatedOn": "2022-09-13T09:36:44.720Z",
+  "lastUpdatedOn": "2022-09-13T09:40:10.887Z",
   "definition": {
     "protocol": "http",
     "clientId": "",
@@ -56,31 +56,39 @@
         "Init": {
           "name": "Init",
           "isEnabled": true,
-          "sender": "{\n  state.API_Key = glob.get('API_Key')\n  state.smart_city = glob.get('Enable_Smart_City')\n\n  state.license = 'KA05 ' + chance.string({ length:2 , casing: 'upper', alpha: true }) + chance.string({ length: 4, numeric: true });\n\n  state.latitude = chance.floating({ min: 12.8, max: 13.1, fixed: 6 });\n  state.longitude = chance.floating({ min: 77.5, max: 77.8, fixed: 6 });\n\n  state.start_point = state.latitude + \",\" + state.longitude;\n  next('Driving_Dest')\n}",
+          "sender": "{\n  state.API_Key = glob.get('API_Key')\n  state.smart_city = glob.get('Enable_Smart_City')\n\n  state.r_latitude = chance.floating({ min: 12.8, max: 13.1, fixed: 6 });\n  state.r_longitude = chance.floating({ min: 77.5, max: 77.8, fixed: 6 });\n\n  var url = 'https://roads.googleapis.com/v1/nearestRoads?points=' + state.r_latitude + \",\" + state.r_longitude + '&key=' + API_Key\n\n  var res = rest.get(url)\n\n  state.latitude = state.base_latitude = res.snappedPoints[0].location.latitude\n  state.longitude = state.base_longitude = res.snappedPoints[0].location.longitude\n\n  state.dest_latitude = state.latitude\n  state.dest_longitude = state.longitude\n\n  state.land_fill_latitude = chance.floating({ min: 12.8, max: 13.1, fixed: 6 });\n  state.land_fill_longitude = chance.floating({ min: 77.5, max: 77.8, fixed: 6 });\n\n  next('Idle')\n}",
           "receiver": "",
           "icon": "",
           "index": 0
         },
-        "Driving_Dest": {
-          "name": "Driving_Dest",
+        "Idle": {
+          "name": "Idle",
           "isEnabled": true,
-          "sender": "{\n  var message = {\n    device: \"ev_car\",\n    id: client(),\n    license: state.license,\n    make: state.make,\n    model: state.model,\n    battery_capacity: state.battery_capacity,\n    battery_level: state.battery_level,\n    available_range: state.available_range,\n    connector_type: state.connector_type,\n    dest_latitude: state.dest_latitude,\n    dest_longitude: state.dest_longitude,\n    current_latitude: state.latitude,\n    current_longitude: state.longitude,\n    charging: state.charging,\n    status: \"Driving to Destination\",\n  };\n\n  if (state.smart_city == true) {\n    for (let i = 0; i < 50; ++i) {\n      let count = mailbox.count(\"ev_car_\" + client() + \"_rx\");\n      if (count > 0) {\n        let mailbox_message = mailbox.pop(\"ev_car_\" + client() + \"_rx\");\n        let smart_parking = mailbox_message;\n        state.search_parking = false;\n        state.parking_latitude = state.dest_latitude = smart_parking.latitude;\n        state.parking_longitude = state.dest_longitude =\n          smart_parking.longitude;\n        console.log(\"Parking found driving to parking spot\");\n\n        state.current_location = \"\" + state.latitude + \",\" + state.longitude;\n        state.parking_location =\n          \"\" + state.parking_latitude + \",\" + state.parking_longitude;\n\n        next(\"Driving_Parking\");\n      }\n    }\n  }\n\n  state.end_point = state.dest_latitude + \",\" + state.dest_longitude;\n\n  state.location = drive({\n    start: state.start_point,\n    end: state.end_point,\n    key: state.API_Key,\n  });\n  console.log(state.location);\n\n  var change = geolib.getDistance(\n    { latitude: state.latitude, longitude: state.longitude },\n    { latitude: state.location.latitude, longitude: state.location.longitude }\n  );\n  state.distance = state.distance + change;\n  state.available_range = state.available_range - change;\n\n  state.battery_level = Math.ceil(\n    (state.available_range / state.max_range) * 100\n  );\n  state.latitude = state.location.latitude;\n  state.longitude = state.location.longitude;\n\n  if (state.location.finished) {\n    console.log(\n      \"We have reached the current destination, Going to the nearest parking.\"\n    );\n    state.search_parking = true;\n  }\n\n  if (\n    state.search_parking == true ||\n    state.battery_level < state.battery_threshold\n  ) {\n    console.log(\"Currently searching for the nearest parking.\");\n\n    if (state.smart_city == true) {\n      mailbox.post(\"ev_car_\" + client() + \"_parking\", message);\n    } else {\n      state.parking_latitude = state.dest_latitude = chance.floating({\n        min: 12.8,\n        max: 13.1,\n        fixed: 6,\n      });\n      state.parking_longitude = state.dest_longitude = chance.floating({\n        min: 77.5,\n        max: 77.8,\n        fixed: 6,\n      });\n      console.log(\"Parking found driving to parking spot\");\n\n      state.current_location = \"\" + state.latitude + \",\" + state.longitude;\n      state.parking_location =\n        \"\" + state.parking_latitude + \",\" + state.parking_longitude;\n\n      next(\"Driving_Parking\");\n    }\n  }\n\n  if (state.smart_city == true) {\n    mailbox.post(\"ev_car_\" + client() + \"_tx\", message);\n  }\n  return JSON.stringify(message, null, 2);\n}\n",
+          "sender": "{\n  var message = {\n    device: \"garbage_truck\",\n    id: client(),\n    dest_latitude: state.dest_latitude,\n    dest_longitude: state.dest_longitude,\n    current_latitude: state.latitude,\n    current_longitude: state.longitude,\n    status: \"Idle\",\n  };\n\n  if (state.smart_city == true) {\n    for (let i = 0; i < 50; ++i) {\n      let count = mailbox.count(\"garbage_truck_\" + client() + \"_rx\");\n      if (count > 0) {\n        let mailbox_message = mailbox.pop(\"garbage_truck_\" + client() + \"_rx\");\n        let trash_can = mailbox_message;\n\n        state.trash_can_id = trash_can.id;\n        state.trash_can_latitude = state.dest_latitude = trash_can.latitude;\n        state.trash_can_longitude = state.dest_longitude =\n          trash_can.longitude;\n        console.log(\"Trash can filled, going to empty\");\n\n        state.current_location = \"\" + state.latitude + \",\" + state.longitude;\n        state.trash_can_location =\n          \"\" + state.trash_can_latitude + \",\" + state.trash_can_longitude;\n\n        next(\"Driving_TC\");\n      }\n    }\n  }\n  else {\n    state.trash_can_latitude = state.dest_latitude = chance.floating({ min: 12.8, max: 13.1, fixed: 6 });\n    state.trash_can_longitude = state.dest_longitude = chance.floating({ min: 77.5, max: 77.8, fixed: 6 });\n\n    console.log(\"Trash can filled, going to empty\");\n\n    state.current_location = \"\" + state.latitude + \",\" + state.longitude;\n    state.trash_can_location =\n      \"\" + state.trash_can_latitude + \",\" + state.trash_can_longitude;\n\n    next(\"Driving_TC\");\n  }\n\n  if (state.smart_city == true) {\n    mailbox.post(\"garbage_truck_\" + client() + \"_tx\", message);\n  }\n  return JSON.stringify(message, null, 2);\n}\n",
           "receiver": "",
           "index": 1,
           "icon": ""
         },
-        "Driving_Parking": {
-          "name": "Driving_Parking",
+        "Driving_TC": {
+          "name": "Driving_TC",
           "isEnabled": true,
-          "sender": "{\n  var message = {\n    device: \"ev_car\",\n    id: client(),\n    license: state.license,\n    make: state.make,\n    model: state.model,\n    battery_capacity: state.battery_capacity,\n    battery_level: state.battery_level,\n    available_range: state.available_range,\n    connector_type: state.connector_type,\n    dest_latitude: state.dest_latitude,\n    dest_longitude: state.dest_longitude,\n    current_latitude: state.latitude,\n    current_longitude: state.longitude,\n    charging: state.charging,\n    status: \"Driving to Parking\",\n  };\n\n  state.location = drive({\n    start: state.current_location,\n    end: state.parking_location,\n    key: state.API_Key,\n  });\n\n  var change = geolib.getDistance(\n    { latitude: state.latitude, longitude: state.longitude },\n    { latitude: state.location.latitude, longitude: state.location.longitude }\n  );\n  state.distance = state.distance + change;\n  state.available_range = state.available_range - change;\n\n  state.battery_level = Math.ceil(\n    (state.available_range / state.max_range) * 100\n  );\n\n  state.latitude = state.location.latitude;\n  state.longitude = state.location.longitude;\n\n  if (state.location.finished) {\n    console.log(\"We have reached the parking spot.\");\n    state.start_point = state.latitude + \",\" + state.longitude;\n\n    next(\"Parking\");\n  }\n\n  if (state.smart_city == true) {\n    mailbox.post(\"ev_car_\" + client() + \"_tx\", message);\n  }\n\n  return JSON.stringify(message, null, 2);\n}\n",
+          "sender": "{\n  var message = {\n    device: \"garbage_truck\",\n    id: client(),\n    dest_latitude: state.dest_latitude,\n    dest_longitude: state.dest_longitude,\n    current_latitude: state.latitude,\n    current_longitude: state.longitude,\n    status: \"Driving to trash can\",\n  };\n\n  state.location = drive({\n    start: state.current_location,\n    end: state.trash_can_location,\n    key: state.API_Key,\n  });\n\n  state.latitude = state.location.latitude;\n  state.longitude = state.location.longitude;\n\n  if (state.location.finished) {\n    console.log(\"We have reached the trash can; cleaning\");\n    state.current_location = state.latitude + \",\" + state.longitude;\n    if (state.smart_city == true) {\n      mailbox.post(\"trash_can_\" + state.trash_can_id + \"_rx\", message);\n    }\n    state.dest_latitude = state.land_fill_latitude;\n    state.dest_longitude = state.land_fill_longitude;\n    state.land_fill_location =\n      \"\" + state.land_fill_latitude + \",\" + state.land_fill_longitude;\n\n    next(\"Driving_LF\");\n  }\n\n  if (state.smart_city == true) {\n    mailbox.post(\"garbage_truck_\" + client() + \"_tx\", message);\n  }\n\n  return JSON.stringify(message, null, 2);\n}\n",
+          "receiver": "",
+          "index": 2,
+          "icon": ""
+        },
+        "Driving_LF": {
+          "name": "Driving_LF",
+          "isEnabled": true,
+          "sender": "{\n  var message = {\n    device: \"garbage_truck\",\n    id: client(),\n    dest_latitude: state.dest_latitude,\n    dest_longitude: state.dest_longitude,\n    current_latitude: state.latitude,\n    current_longitude: state.longitude,\n    status: \"Driving to land fill\",\n  };\n\n  state.location = drive({\n    start: state.current_location,\n    end: state.land_fill_location,\n    key: state.API_Key,\n  });\n\n  state.latitude = state.location.latitude;\n  state.longitude = state.location.longitude;\n\n  if (state.location.finished) {\n    console.log(\"We have reached the land fill; Emptying garbage\");\n    state.current_location = state.latitude + \",\" + state.longitude;\n\n    state.dest_latitude = state.base_latitude;\n    state.dest_longitude = state.base_longitude;\n\n    state.base_location = \"\" + state.base_latitude + \",\" + state.base_longitude;\n\n    next(\"Driving_Base\");\n  }\n\n  if (state.smart_city == true) {\n    mailbox.post(\"garbage_truck_\" + client() + \"_tx\", message);\n  }\n\n  return JSON.stringify(message, null, 2);\n}\n",
           "receiver": "",
           "index": 3,
           "icon": ""
         },
-        "Parking": {
-          "name": "Parking",
+        "Driving_Base": {
+          "name": "Driving_Base",
           "isEnabled": true,
-          "sender": "{\n  var message = {\n    device: \"ev_car\",\n    id: client(),\n    license: state.license,\n    make: state.make,\n    model: state.model,\n    battery_capacity: state.battery_capacity,\n    battery_level: state.battery_level,\n    available_range: state.available_range,\n    connector_type: state.connector_type,\n    dest_latitude: state.dest_latitude,\n    dest_longitude: state.dest_longitude,\n    current_latitude: state.latitude,\n    current_longitude: state.longitude,\n    charging: state.charging,\n    status: \"Parked\",\n  };\n\n  state.charging = true;\n\n  state.available_range = state.available_range + state.max_range / 25;\n\n  state.battery_level = Math.ceil(\n    (state.available_range / state.max_range) * 100\n  );\n\n  console.log(\"Currently parked; Battery charging\");\n\n  if (chance.bool({ likelihood: 30 }) || state.available_range >= state.max_range) {\n    state.start_point = state.parking_location;\n    state.dest_latitude = chance.floating({ min: 12.8, max: 13.1, fixed: 6 });\n    state.dest_longitude = chance.floating({ min: 77.5, max: 77.8, fixed: 6 });\n    next(\"Driving_Dest\");\n  } else {\n    next(\"Parking\");\n  }\n\n  if (state.smart_city == true) {\n    mailbox.post(\"ev_car_\" + client() + \"_tx\", message);\n  }\n\n  return JSON.stringify(message, null, 2);\n}\n",
+          "sender": "{\n  var message = {\n    device: \"garbage_truck\",\n    id: client(),\n    dest_latitude: state.dest_latitude,\n    dest_longitude: state.dest_longitude,\n    current_latitude: state.latitude,\n    current_longitude: state.longitude,\n    status: \"Driving to land fill\",\n  };\n\n  state.location = drive({\n    start: state.current_location,\n    end: state.base_location,\n    key: state.API_Key,\n  });\n\n  state.latitude = state.location.latitude;\n  state.longitude = state.location.longitude;\n\n  if (state.location.finished) {\n    console.log(\"We have reached the base station, waiting for next alert\");\n    state.current_location = state.latitude + \",\" + state.longitude;\n\n    state.dest_latitude = state.base_latitude;\n    state.dest_longitude = state.base_longitude;\n\n    state.base_location = \"\" + state.base_latitude + \",\" + state.base_longitude;\n\n    next(\"Idle\");\n  }\n\n  if (state.smart_city == true) {\n    mailbox.post(\"garbage_truck_\" + client() + \"_tx\", message);\n  }\n\n  return JSON.stringify(message, null, 2);\n}\n",
           "receiver": "",
           "index": 4,
           "icon": ""
@@ -91,7 +99,7 @@
           "sender": "",
           "receiver": "",
           "icon": "",
-          "index": 6
+          "index": 5
         }
       },
       "setup": "",
