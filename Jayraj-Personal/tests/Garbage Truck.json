@@ -7,7 +7,7 @@
   "version": 1,
   "createdBy": "6246fbe2fdee1fd07c3bb324",
   "lastUpdateBy": "6246fbe2fdee1fd07c3bb324",
-  "lastUpdatedOn": "2022-09-13T09:40:10.887Z",
+  "lastUpdatedOn": "2022-09-13T10:14:18.613Z",
   "definition": {
     "protocol": "http",
     "clientId": "",
@@ -56,7 +56,7 @@
         "Init": {
           "name": "Init",
           "isEnabled": true,
-          "sender": "{\n  state.API_Key = glob.get('API_Key')\n  state.smart_city = glob.get('Enable_Smart_City')\n\n  state.r_latitude = chance.floating({ min: 12.8, max: 13.1, fixed: 6 });\n  state.r_longitude = chance.floating({ min: 77.5, max: 77.8, fixed: 6 });\n\n  var url = 'https://roads.googleapis.com/v1/nearestRoads?points=' + state.r_latitude + \",\" + state.r_longitude + '&key=' + API_Key\n\n  var res = rest.get(url)\n\n  state.latitude = state.base_latitude = res.snappedPoints[0].location.latitude\n  state.longitude = state.base_longitude = res.snappedPoints[0].location.longitude\n\n  state.dest_latitude = state.latitude\n  state.dest_longitude = state.longitude\n\n  state.land_fill_latitude = chance.floating({ min: 12.8, max: 13.1, fixed: 6 });\n  state.land_fill_longitude = chance.floating({ min: 77.5, max: 77.8, fixed: 6 });\n\n  next('Idle')\n}",
+          "sender": "{\n  state.API_Key = glob.get('API_Key')\n  state.smart_city = glob.get('Enable_Smart_City')\n\n  state.r_latitude = chance.floating({ min: 12.8, max: 13.1, fixed: 6 });\n  state.r_longitude = chance.floating({ min: 77.5, max: 77.8, fixed: 6 });\n\n  var url = 'https://roads.googleapis.com/v1/nearestRoads?points=' + state.r_latitude + \",\" + state.r_longitude + '&key=' + state.API_Key\n\n  var res = rest.get(url)\n\n  state.latitude = state.base_latitude = res.snappedPoints[0].location.latitude\n  state.longitude = state.base_longitude = res.snappedPoints[0].location.longitude\n\n  state.dest_latitude = state.latitude\n  state.dest_longitude = state.longitude\n\n  state.land_fill_latitude = chance.floating({ min: 12.8, max: 13.1, fixed: 6 });\n  state.land_fill_longitude = chance.floating({ min: 77.5, max: 77.8, fixed: 6 });\n\n  next('Idle')\n}",
           "receiver": "",
           "icon": "",
           "index": 0
