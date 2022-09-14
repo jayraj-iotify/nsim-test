@@ -7,7 +7,7 @@
   "version": 1,
   "createdBy": "6246fbe2fdee1fd07c3bb324",
   "lastUpdateBy": "6246fbe2fdee1fd07c3bb324",
-  "lastUpdatedOn": "2022-09-14T08:32:19.138Z",
+  "lastUpdatedOn": "2022-09-14T08:45:29.529Z",
   "definition": {
     "protocol": "http",
     "clientId": "",
@@ -52,7 +52,7 @@
         "Day": {
           "name": "Day",
           "isEnabled": true,
-          "sender": "{\n  let currentHour = dayjs().hour();\n\n  // if ((state.fill_alert = true)) {\n  //   if (chance.bool({ likelihood: 30 })) {\n  //     state.cleaning_trash_can = true;\n\n  //     next(\"Cleaning\");\n  //   }\n  // }\n  if (state.smart_city == true) {\n    for (let i = 0; i < 50; ++i) {\n      let count = mailbox.count(\"trash_can_\" + client() + \"_rx\");\n      if (count > 0) {\n        let mailbox_message = mailbox.pop(\"trash_can_\" + client() + \"_rx\");\n        let garbage_truck = mailbox_message;\n\n        if (garbage_truck.device == \"garbage_truck\") next(\"Cleaning\");\n      }\n    }\n  }\n  console.log(\"Currently it's: \" + currentHour)\n\n  if (currentHour => 7 && currentHour < 20) {\n    if (state.fill < 100) {\n      var trash = chance.integer({ min: 1, max: 25 });\n      state.fill += trash;\n    }\n\n    if (state.fill >= 80 && state.alerted == false) {\n      state.fill_alert = true;\n      mailbox.post(\"trash_can_\" + client() + \"_tx\", message);\n      state.alerted = true;\n    }\n\n    var message = {\n      device: \"trash_can\",\n      id: client(),\n      latitude: state.latitude,\n      longitude: state.longitude,\n      fill: state.fill,\n      alert: state.fill_alert,\n      status: \"active\",\n    };\n\n    if (state.smart_city == true) {\n      mailbox.post(\"trash_can_\" + client(), message);\n    }\n    return JSON.stringify(message, null, 2);\n  } else {\n    next(\"Night\");\n  }\n}\n",
+          "sender": "{\n  let currentHour = dayjs().hour();\n\n  // if ((state.fill_alert = true)) {\n  //   if (chance.bool({ likelihood: 30 })) {\n  //     state.cleaning_trash_can = true;\n\n  //     next(\"Cleaning\");\n  //   }\n  // }\n  var message = {\n    device: \"trash_can\",\n    id: client(),\n    latitude: state.latitude,\n    longitude: state.longitude,\n    fill: state.fill,\n    alert: state.fill_alert,\n    status: \"active\",\n  };\n  \n  if (state.smart_city == true) {\n    for (let i = 0; i < 50; ++i) {\n      let count = mailbox.count(\"trash_can_\" + client() + \"_rx\");\n      if (count > 0) {\n        let mailbox_message = mailbox.pop(\"trash_can_\" + client() + \"_rx\");\n        let garbage_truck = mailbox_message;\n\n        if (garbage_truck.device == \"garbage_truck\") next(\"Cleaning\");\n      }\n    }\n  }\n  console.log(\"Currently it's: \" + currentHour)\n\n  if (currentHour => 7 && currentHour < 20) {\n    if (state.fill < 100) {\n      var trash = chance.integer({ min: 1, max: 25 });\n      state.fill += trash;\n    }\n\n    if (state.fill >= 80 && state.alerted == false) {\n      state.fill_alert = true;\n      mailbox.post(\"trash_can_\" + client() + \"_tx\", message);\n      state.alerted = true;\n    }\n\n    if (state.smart_city == true) {\n      mailbox.post(\"trash_can_\" + client(), message);\n    }\n    return JSON.stringify(message, null, 2);\n  } else {\n    next(\"Night\");\n  }\n}\n",
           "receiver": "",
           "icon": "",
           "index": 1
