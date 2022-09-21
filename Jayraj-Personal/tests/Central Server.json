@@ -1,0 +1,81 @@
+{
+  "id": "631b2bfde6eb71ee800da317",
+  "name": "Central Server",
+  "tags": {},
+  "labels": [],
+  "workspaceId": "6246fbe2fdee1fd07c3bb327",
+  "version": 1,
+  "createdBy": "6246fbe2fdee1fd07c3bb324",
+  "lastUpdateBy": "6246fbe2fdee1fd07c3bb324",
+  "lastUpdatedOn": "2022-09-14T09:02:54.813Z",
+  "definition": {
+    "protocol": "none",
+    "clientId": "",
+    "additionalPackages": {
+      "geolib": {
+        "content": "geolib",
+        "name": "geolib",
+        "type": "npm",
+        "isLoading": false,
+        "errorMessage": "",
+        "validity": {
+          "isImportNameValid": true,
+          "isContentValid": true
+        }
+      }
+    },
+    "strategy": "Default",
+    "settings": {
+      "url": "mqtt://broker.hivemq.com:1883",
+      "topic": "/hello/",
+      "subscriptionTopics": [
+        "/hello",
+        "/world"
+      ],
+      "timeout": 10000,
+      "qos": 0,
+      "retain": false,
+      "keepalive": 10000,
+      "reconnectPeriod": 60000,
+      "connectTimeout": 60000,
+      "username": "",
+      "password": "",
+      "identity": "",
+      "psk": "",
+      "key": "",
+      "cert": "",
+      "ca": ""
+    },
+    "model": {
+      "currentState": "Init",
+      "stateMap": {
+        "Init": {
+          "name": "Init",
+          "isEnabled": true,
+          "sender": "\n{\n  state.smart_parkings = {}\n  state.garbage_trucks = {}\n\n  next('Running')\n}\n",
+          "receiver": "",
+          "icon": "",
+          "index": 0
+        },
+        "Running": {
+          "name": "Running",
+          "isEnabled": true,
+          "sender": "{\n  for (let i = 0; i < 50; ++i) {\n    let count = mailbox.count(\"smart_parking_tx\");\n    if (count > 0) {\n      let mailbox_message = mailbox.pop(\"smart_parking_tx\");\n      let smart_parking = mailbox_message;\n\n      if (!state.smart_parkings[smart_parking.id]) {\n        console.log(\"New parking spot added\", smart_parking);\n      }\n      state.smart_parkings[smart_parking.id] = smart_parking;\n    }\n\n    let countGT = mailbox.count(\"garbage_truck_tx\");\n    if (countGT > 0) {\n      let gt_mailbox_message = mailbox.pop(\"garbage_truck_tx\");\n      let garbage_truck = gt_mailbox_message;\n\n      if (!state.garbage_trucks[garbage_truck.id]) {\n        console.log(\"New garbage truck added\", garbage_truck);\n      }\n      state.garbage_trucks[garbage_truck.id] = garbage_truck;\n    }\n\n    let countEV = mailbox.count(\"ev_car_\" + i + \"_parking\");\n    if (countEV > 0) {\n      let ev_mailbox_message = mailbox.pop(\"ev_car_\" + i + \"_parking\");\n\n      let nearestParking = null;\n      let minDistance = 1000000;\n      for (let parkingID in state.smart_parkings) {\n        let distance = geolib.getDistance(\n          {\n            latitude: ev_mailbox_message.current_latitude,\n            longitude: ev_mailbox_message.current_longitude,\n          },\n          {\n            latitude: state.smart_parkings[parkingID].latitude,\n            longitude: state.smart_parkings[parkingID].longitude,\n          }\n        );\n        if (distance < minDistance && state.smart_parkings[parkingID].free_spots>0) {\n          minDistance = distance;\n          nearestParking = state.smart_parkings[parkingID];\n        }\n      }\n\n      if (nearestParking) {\n        console.log(\"Found nearest parking with id: \" + nearestParking.id)\n        mailbox.post(\"ev_car_\" + i +\"_rx\", nearestParking);\n        mailbox.post(\"smart_parking_\" + nearestParking.id +\"_rx\", nearestParking);\n      }\n    }\n\n    let countTC = mailbox.count(\"trash_can_\" + i + \"_tx\");\n    if (countTC > 0) {\n      let tc_mailbox_message = mailbox.pop(\"trash_can_\" + i + \"_tx\");\n      console.log(\"Message from mailbox: \" + JSON.stringify(tc_mailbox_message))\n      let nearestGT = null;\n      let minDistance = 1000000;\n      for (let truckID in state.garbage_trucks) {\n        console.log(\"Current Truck: \" + JSON.stringify(state.garbage_trucks[truckID]))\n        let distance = geolib.getDistance(\n          {\n            latitude: tc_mailbox_message.latitude,\n            longitude: tc_mailbox_message.longitude,\n          },\n          {\n            latitude: state.garbage_trucks[truckID].current_latitude,\n            longitude: state.garbage_trucks[truckID].current_longitude,\n          }\n        );\n        if (distance < minDistance && state.garbage_trucks[truckID].status == \"Idle\") {\n          minDistance = distance;\n          nearestGT = state.garbage_trucks[truckID];\n        }\n      }\n\n      if (nearestGT) {\n        console.log(\"Found nearest garbage truck with id: \" + nearestGT.id)\n        mailbox.post(\"garbage_truck_\" + nearestGT.id + \"_rx\", tc_mailbox_message);\n      }\n    }\n    mailbox.pop(\"ev_car_\"+i+\"_tx\")\n    mailbox.pop(\"trash_can_\"+i)\n    mailbox.pop(\"street_light_\"+i)\n  }\n\n}\n",
+          "receiver": "",
+          "icon": "",
+          "index": 1
+        },
+        "Finished": {
+          "name": "Finished",
+          "isEnabled": true,
+          "sender": "",
+          "receiver": "",
+          "icon": "",
+          "index": 2
+        }
+      },
+      "setup": "",
+      "teardown": ""
+    }
+  }
+}
