@@ -1,8 +1,13 @@
 {
-  "version": 1,
-  "workspaceId": "6246fbe2fdee1fd07c3bb327",
-  "id": "",
+  "id": "632c6dbc7fd460555964e1a1",
   "name": "maximum-lea",
+  "tags": {},
+  "labels": [],
+  "workspaceId": "6246fbe2fdee1fd07c3bb327",
+  "version": 1,
+  "createdBy": "6246fbe2fdee1fd07c3bb324",
+  "lastUpdateBy": "6246fbe2fdee1fd07c3bb324",
+  "lastUpdatedOn": "2022-09-22T14:14:20.723Z",
   "definition": {
     "protocol": "http",
     "clientId": "",
@@ -40,7 +45,7 @@
           "name": "Init",
           "isEnabled": true,
           "sender": "\n{\n  // Please provide your logic here.\n\n  // The device model state could be transitioned by calling next()\n  // To transition to a specific state pass state name as argument e.g.\n  // next('Running');\nconsole.log(\"In Init\")\n}\n",
-          "receiver": "",
+          "receiver": "\n{\n  // Please provide your logic here.\n  console.log(response)\n  // The device model state could be transitioned by calling next()\n  // To transition to a specific state pass state name as argument e.g.\n  // next('Running');\n\n}\n",
           "icon": "",
           "index": 0
         },
@@ -64,6 +69,5 @@
       "setup": "",
       "teardown": ""
     }
-  },
-  "tags": {}
+  }
 }
