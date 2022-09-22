@@ -45,7 +45,7 @@
           "name": "Init",
           "isEnabled": true,
           "sender": "\n{\n  // Please provide your logic here.\n\n  // The device model state could be transitioned by calling next()\n  // To transition to a specific state pass state name as argument e.g.\n  // next('Running');\nconsole.log(\"In Init\")\n}\n",
-          "receiver": "\n{\n  // Please provide your logic here.\n  console.log(response.header)\n  // The device model state could be transitioned by calling next()\n  // To transition to a specific state pass state name as argument e.g.\n  // next('Running');\n\n}\n",
+          "receiver": "\n{\n  // Please provide your logic here.\n  console.log(response)\n  // The device model state could be transitioned by calling next()\n  // To transition to a specific state pass state name as argument e.g.\n  // next('Running');\n\n}\n",
           "icon": "",
           "index": 0
         },
