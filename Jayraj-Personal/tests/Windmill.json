@@ -1,13 +1,15 @@
 {
-  "id": "62ff67dab1ba9b9d9d2a8fe3",
   "name": "Windmill",
-  "tags": {},
-  "labels": [],
-  "workspaceId": "6246fbe2fdee1fd07c3bb327",
+  "tags": {
+    "description": "Windmill Simulation",
+    "icon": "https://raw.githubusercontent.com/iotify/nsim-samples/main/Images/Windmill.png",
+    "attribution": "public"
+  },
+  "labels": [
+    "utility",
+    "electricity"
+  ],
   "version": 1,
-  "createdBy": "6246fbe2fdee1fd07c3bb324",
-  "lastUpdateBy": "6246fbe2fdee1fd07c3bb324",
-  "lastUpdatedOn": "2022-08-19T12:36:02.913Z",
   "definition": {
     "protocol": "mqtt",
     "clientId": "",
@@ -81,5 +83,6 @@
       "setup": "",
       "teardown": ""
     }
-  }
+  },
+  "workspaceId": "6246fbe2fdee1fd07c3bb327"
 }
