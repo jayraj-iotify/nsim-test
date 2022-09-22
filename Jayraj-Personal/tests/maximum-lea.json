@@ -1,0 +1,69 @@
+{
+  "version": 1,
+  "workspaceId": "6246fbe2fdee1fd07c3bb327",
+  "id": "",
+  "name": "maximum-lea",
+  "definition": {
+    "protocol": "http",
+    "clientId": "",
+    "additionalPackages": {},
+    "strategy": "Default",
+    "settings": {
+      "url": "https://httpbin.org/post",
+      "topic": "/hello/",
+      "subscriptionTopics": [
+        "/hello",
+        "/world"
+      ],
+      "timeout": 10000,
+      "qos": 0,
+      "retain": false,
+      "keepalive": 10000,
+      "reconnectPeriod": 60000,
+      "connectTimeout": 60000,
+      "username": "",
+      "password": "",
+      "identity": "",
+      "psk": "",
+      "key": "",
+      "cert": "",
+      "ca": "",
+      "headers": {
+        "accept": "application/json"
+      },
+      "method": "GET"
+    },
+    "model": {
+      "currentState": "Init",
+      "stateMap": {
+        "Init": {
+          "name": "Init",
+          "isEnabled": true,
+          "sender": "\n{\n  // Please provide your logic here.\n\n  // The device model state could be transitioned by calling next()\n  // To transition to a specific state pass state name as argument e.g.\n  // next('Running');\nconsole.log(\"In Init\")\n}\n",
+          "receiver": "",
+          "icon": "",
+          "index": 0
+        },
+        "Running": {
+          "name": "Running",
+          "isEnabled": true,
+          "sender": "",
+          "receiver": "",
+          "icon": "",
+          "index": 1
+        },
+        "Finished": {
+          "name": "Finished",
+          "isEnabled": true,
+          "sender": "",
+          "receiver": "",
+          "icon": "",
+          "index": 2
+        }
+      },
+      "setup": "",
+      "teardown": ""
+    }
+  },
+  "tags": {}
+}
