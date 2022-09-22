@@ -7,7 +7,7 @@
   "version": 1,
   "createdBy": "6246fbe2fdee1fd07c3bb324",
   "lastUpdateBy": "6246fbe2fdee1fd07c3bb324",
-  "lastUpdatedOn": "2022-09-22T14:14:20.723Z",
+  "lastUpdatedOn": "2022-09-22T14:16:09.447Z",
   "definition": {
     "protocol": "http",
     "clientId": "",
@@ -45,7 +45,7 @@
           "name": "Init",
           "isEnabled": true,
           "sender": "\n{\n  // Please provide your logic here.\n\n  // The device model state could be transitioned by calling next()\n  // To transition to a specific state pass state name as argument e.g.\n  // next('Running');\nconsole.log(\"In Init\")\n}\n",
-          "receiver": "\n{\n  // Please provide your logic here.\n  console.log(response)\n  // The device model state could be transitioned by calling next()\n  // To transition to a specific state pass state name as argument e.g.\n  // next('Running');\n\n}\n",
+          "receiver": "\n{\n  // Please provide your logic here.\n  console.log(response.header)\n  // The device model state could be transitioned by calling next()\n  // To transition to a specific state pass state name as argument e.g.\n  // next('Running');\n\n}\n",
           "icon": "",
           "index": 0
         },
