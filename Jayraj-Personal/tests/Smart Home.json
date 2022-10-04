@@ -1,13 +1,16 @@
 {
-  "id": "62e3b6769cb1e2dd6d582052",
   "name": "Smart Home",
-  "tags": {},
-  "labels": [],
-  "workspaceId": "6246fbe2fdee1fd07c3bb327",
+  "tags": {
+    "description": "Smart Home Simulation",
+    "icon": "https://raw.githubusercontent.com/iotify/nsim-samples/main/Images/Smart%20Home.png",
+    "attribution": "public"
+  },
+  "labels": [
+    "smarthome",
+    "advanced",
+    "lights"
+  ],
   "version": 1,
-  "createdBy": "6246fbe2fdee1fd07c3bb324",
-  "lastUpdateBy": "6246fbe2fdee1fd07c3bb324",
-  "lastUpdatedOn": "2022-08-02T10:45:16.496Z",
   "definition": {
     "protocol": "mqtt",
     "clientId": "",
@@ -73,5 +76,8 @@
       "setup": "",
       "teardown": ""
     }
-  }
+  },
+  "path": "Smart Home.json",
+  "index": "smarthome",
+  "workspaceId": "6246fbe2fdee1fd07c3bb327"
 }
