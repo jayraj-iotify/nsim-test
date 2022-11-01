@@ -1,13 +1,15 @@
 {
-  "id": "631b2bfde6eb71ee800da317",
   "name": "Central Server",
-  "tags": {},
-  "labels": [],
-  "workspaceId": "6246fbe2fdee1fd07c3bb327",
+  "tags": {
+    "description": "Central Server to orchestrate smart city devices",
+    "icon": "https://raw.githubusercontent.com/iotify/nsim-samples/main/Images/Central%20Server.png",
+    "attribution": "public"
+  },
+  "labels": [
+    "#SmartCity",
+    "server"
+  ],
   "version": 1,
-  "createdBy": "6246fbe2fdee1fd07c3bb324",
-  "lastUpdateBy": "6246fbe2fdee1fd07c3bb324",
-  "lastUpdatedOn": "2022-09-21T11:30:04.437Z",
   "definition": {
     "protocol": "none",
     "clientId": "",
@@ -77,5 +79,8 @@
       "setup": "",
       "teardown": ""
     }
-  }
+  },
+  "path": "Central Server.json",
+  "index": "centralserver",
+  "workspaceId": "6246fbe2fdee1fd07c3bb327"
 }
