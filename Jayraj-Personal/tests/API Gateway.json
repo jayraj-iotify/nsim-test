@@ -1,13 +1,13 @@
 {
-  "id": "6320e8591272724fdc5c5145",
+  "id": "6360bab28ef594fa16ff22c8",
   "name": "API Gateway",
   "tags": {},
   "labels": [],
   "workspaceId": "6246fbe2fdee1fd07c3bb327",
   "version": 1,
-  "createdBy": "6246fbe2fdee1fd07c3bb324",
-  "lastUpdateBy": "6246fbe2fdee1fd07c3bb324",
-  "lastUpdatedOn": "2022-09-13T20:30:17.077Z",
+  "createdBy": "623a3780ec96edb3934b2273",
+  "lastUpdateBy": "623a3780ec96edb3934b2273",
+  "lastUpdatedOn": "2022-11-01T06:20:34.287Z",
   "definition": {
     "protocol": "mqtt",
     "clientId": "",
@@ -40,7 +40,7 @@
         "Init": {
           "name": "Init",
           "isEnabled": true,
-          "sender": "\n{\n  // Please provide your logic here.\n  console.log(\"Hello\")\n  // The device model state could be transitioned by calling next()\n  // To transition to a specific state pass state name as argument e.g.\n  // next('Running');\n\n}\n",
+          "sender": "\n{\n  // Please provide your logic here.\n\n  // The device model state could be transitioned by calling next()\n  // To transition to a specific state pass state name as argument e.g.\n  // next('Running');\n\n}\n",
           "receiver": "",
           "icon": "",
           "index": 0
