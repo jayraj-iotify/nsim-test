@@ -1,8 +1,13 @@
 {
-  "version": 1,
-  "workspaceId": "6246fbe2fdee1fd07c3bb327",
-  "id": "",
+  "id": "6360badf8ef594fa16ff22d0",
   "name": "Provisioning",
+  "tags": {},
+  "labels": [],
+  "workspaceId": "6246fbe2fdee1fd07c3bb327",
+  "version": 1,
+  "createdBy": "623a3780ec96edb3934b2273",
+  "lastUpdateBy": "623a3780ec96edb3934b2273",
+  "lastUpdatedOn": "2022-11-01T06:21:19.295Z",
   "definition": {
     "protocol": "mqtt",
     "clientId": "",
@@ -60,6 +65,5 @@
       "setup": "",
       "teardown": ""
     }
-  },
-  "tags": {}
+  }
 }
